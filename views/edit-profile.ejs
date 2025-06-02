@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Edit Profil</title>
+    <link rel="stylesheet" href="/css/edit-profile.css" />
+  </head>
+  <body>
+    <div class="edit-container">
+      <h1>Edit Profil</h1>
+      <form
+        action="/profile/update"
+        method="POST"
+        enctype="multipart/form-data"
+      >
+        <div class="img-preview">
+          <img
+            src="/<%= user.foto_profile || 'images/user_icon.png' %>"
+            alt="Foto"
+          />
+        </div>
+
+        <label for="nama">Name</label>
+        <input
+          type="text"
+          id="nama"
+          name="nama"
+          value="<%= user.nama %>"
+          required
+        />
+
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value="<%= user.email %>"
+          required
+        />
+
+        <label for="no_telepon">No. Telp</label>
+        <input
+          type="text"
+          id="no_telepon"
+          name="no_telepon"
+          value="<%= user.no_telepon %>"
+          required
+        />
+
+        <label for="alamat">Alamat</label>
+        <input
+          type="text"
+          id="alamat"
+          name="alamat"
+          value="<%= user.alamat %>"
+          required
+        />
+
+        <label for="foto_profile">Foto Profile</label>
+        <input
+          type="file"
+          id="foto_profile"
+          name="foto_profile"
+          accept="image/*"
+        />
+
+        <div class="form-footer">
+          <a href="/profile" class="back-link">Back</a>
+          <button type="submit" class="submit-btn">Update</button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

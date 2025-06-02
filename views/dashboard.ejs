@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/css/dashboard.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <!-- Include Sidebar -->
+      <%- include('partials/sidebar') %>
+      <!-- Ini menyertakan sidebar.ejs -->
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <div class="top-bar">
+          <button
+            class="create-report"
+            onclick="window.location.href='/laporan';"
+          >
+            Buat Laporan Baru
+          </button>
+
+          <div class="filter-group">
+            <button class="filter active">All</button>
+            <button class="filter">Laporan Kehilangan</button>
+            <button class="filter">Laporan Penemuan</button>
+            <button class="filter">Filter ⌄</button>
+          </div>
+        </div>
+
+        <div class="search-bar">
+          <input type="text" placeholder="Search" />
+          <button class="search-btn">🔍</button>
+        </div>
+
+        <div class="card-grid">
+          <% if (reports && reports.length > 0) { %> <%
+          reports.forEach(function(report) { %>
+          <div class="card">
+            <div class="card-image">
+              <img
+                src="/<%= report.foto_barang %>"
+                alt="gambar barang"
+                class="card-image"
+              />
+            </div>
+            <h3><%= report.nama_barang %></h3>
+            <p><strong><%= report.jenis_laporan %></strong></p>
+            <p>Lokasi: <%= report.lokasi %></p>
+            <p>Tanggal: <%= report.tanggal_kejadian %></p>
+            <span
+              class="badge <%= report.status.toLowerCase().replace(/\s+/g, '-') %>"
+            >
+              <%= report.status %>
+            </span>
+            <!-- Buttons container -->
+            <div class="buttons">
+              <button class="detail-btn">See Detail</button>
+              <button class="claim-btn">Claim</button>
+            </div>
+          </div>
+          <% }) %> <% } else { %>
+          <p>No reports available.</p>
+          <% } %>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

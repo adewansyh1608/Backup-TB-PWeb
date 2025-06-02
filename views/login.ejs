@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Login</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="left-panel">
+        <div class="logo-bar">
+          <img src="/images/unand.png" alt="Logo Unand" class="logo-img" />
+          <span class="logo-text">Universitas Andalas</span>
+        </div>
+        <video src="/videos/unand.mp4" autoplay loop muted></video>
+      </div>
+
+      <div class="right-panel">
+        <div class="login-wrapper">
+          <h1 class="main-title">
+            Sistem Pelaporan Kehilangan dan Penemuan Barang Hilang
+          </h1>
+
+          <div class="card">
+            <h2>Sign in to your account</h2>
+            <form action="/login" method="POST">
+              <div class="form-group">
+                <input type="email" name="email" placeholder="Email" required />
+              </div>
+
+              <div class="form-group password-field">
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="Password"
+                  required
+                />
+                <img
+                  src="/images/view.png"
+                  class="toggle-password"
+                  onclick="toggleVisibility('password', this)"
+                />
+              </div>
+
+              <p class="forgot"><a href="#">Forgot Password?</a></p>
+              <button type="submit">Sign In</button>
+            </form>
+            <p class="switch">
+              Belum punya akun? <a href="/signup">Sign Up Here</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/javascript/toggle-password.js"></script>
+  </body>
+</html>

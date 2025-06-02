@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Laporan Saya</title>
+    <link rel="stylesheet" href="/css/my-report.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <!-- Include Sidebar -->
+      <%- include('partials/sidebar') %>
+      <!-- Ini menyertakan sidebar.ejs -->
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <div class="top-bar">
+          <button
+            class="create-report"
+            onclick="window.location.href='/laporan';"
+          >
+            Buat Laporan Baru
+          </button>
+
+          <div class="filter-group">
+            <button class="filter active">All</button>
+            <button class="filter">Laporan Kehilangan</button>
+            <button class="filter">Laporan Penemuan</button>
+            <button class="filter">Filter ⌄</button>
+          </div>
+        </div>
+
+        <div class="card-grid">
+          <% reports.forEach((report) => { %>
+          <div class="card">
+            <div class="card-header">
+              <img
+                src="/<%= report.foto_barang %>"
+                alt="Foto Barang"
+                class="card-image"
+              />
+              <h3><%= report.nama_barang %></h3>
+            </div>
+
+            <div class="card-body">
+              <p><strong><%= report.jenis_laporan %></strong></p>
+              <p>Lokasi: <%= report.lokasi %></p>
+              <p>Tanggal Kejadian: <%= report.tanggal_kejadian %></p>
+              <p>Deskripsi: <%= report.deskripsi %></p>
+
+              <!-- Status placed below report details -->
+              <p
+                class="status = <%= report.status.toLowerCase().replace(/\s+/g, '-') %>"
+              >
+                <%= report.status %>
+              </p>
+            </div>
+
+            <div class="card-footer">
+              <!-- Wrap Done and See Claimer buttons together -->
+                <div class="action-buttons">
+                <!-- Add disabled attribute when status is not 'Claimed' -->
+                <button class="done-btn" <%= report.status !== 'Claimed' ? 'disabled' : '' %>>Done</button>
+                <button class="seeclaimer-btn" <%= report.status !== 'Claimed' ? 'disabled' : '' %>>See Claimer</button>
+            </div>
+
+              <!-- Other buttons remain as they are -->
+              <div class="edit-delete-action-buttons">
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Hapus</button>
+                <button class="resubmit-btn">Ajukan Ulang</button>
+              </div>
+            </div>
+          </div>
+          <% }) %>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

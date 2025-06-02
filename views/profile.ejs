@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Profil Saya</title>
+    <link rel="stylesheet" href="/css/profile.css" />
+  </head>
+  <body>
+    <div class="profile-container">
+      <header>
+        <h1>Profil Saya</h1>
+      </header>
+
+      <main class="profile-main">
+        <img
+          src="/<%= user.foto_profile || 'images/user_icon.png' %>"
+          alt="Foto Profil"
+          class="profile-img"
+        />
+        <div class="profile-details">
+          <h2><%= user.nama %></h2>
+          <p><img src="/images/email.png" class="icon" /> <%= user.email %></p>
+          <p>
+            <img src="/images/phone.png" class="icon" /> <%= user.no_telepon %>
+          </p>
+          <p><img src="/images/home.png" class="icon" /> <%= user.alamat %></p>
+          <a href="/profile/edit" class="edit-btn">Edit Profile</a>
+        </div>
+      </main>
+
+      <footer class="profile-footer">
+        <a href="/dashboard" class="back-link">Back</a>
+        <a href="/profile/change-password" class="change-password-link"
+          >Change Password
+        </a>
+      </footer>
+    </div>
+  </body>
+</html>

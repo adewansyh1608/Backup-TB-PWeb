@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <script>
+      function validateForm(event) {
+        const password = document.getElementById("password").value;
+        const confirmPassword =
+          document.getElementById("confirm_password").value;
+      }
+    </script>
+  </head>
+  <body>
+    <div class="center-container">
+      <div class="signup-card">
+        <h2>Sign Up</h2>
+        <form action="/signup" method="POST" onsubmit="validateForm(event)">
+          <div class="form-group">
+            <input type="email" name="email" placeholder="Email" required />
+          </div>
+
+          <div class="form-group">
+            <input
+              type="text"
+              name="nama"
+              placeholder="Nama Lengkap"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <input
+              type="text"
+              name="no_telepon"
+              placeholder="No. Telepon"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <input type="text" name="alamat" placeholder="Alamat" required />
+          </div>
+
+          <div class="form-group password-field">
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Password"
+              required
+            />
+            <img
+              src="/images/view.png"
+              class="toggle-password"
+              onclick="toggleVisibility('password', this)"
+            />
+          </div>
+
+          <div class="form-group password-field">
+            <input
+              type="password"
+              id="confirm_password"
+              name="confirm_password"
+              placeholder="Konfirmasi Password"
+              required
+            />
+            <img
+              src="/images/view.png"
+              class="toggle-password"
+              onclick="toggleVisibility('confirm_password', this)"
+            />
+          </div>
+
+          <button type="submit">Sign Up</button>
+        </form>
+        <p class="switch">Already have account? <a href="/login">Sign In</a></p>
+      </div>
+    </div>
+
+    <script src="/javascript/toggle-password.js"></script>
+  </body>
+</html>

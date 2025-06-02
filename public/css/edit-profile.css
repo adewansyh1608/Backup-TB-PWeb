@@ -1,0 +1,76 @@
+body {
+  background: #f1f5f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: sans-serif;
+}
+
+.edit-container {
+  background-color: #ffffff;
+  padding: 2rem 3rem;
+  border-radius: 16px;
+  max-width: 500px;
+  width: 100%;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #007f3f;
+}
+
+.img-preview {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.img-preview img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ccc;
+}
+
+label {
+  display: block;
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="file"] {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-top: 0.3rem;
+}
+
+.form-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+
+.back-link {
+  text-decoration: none;
+  font-weight: bold;
+  color: #555;
+}
+
+.submit-btn {
+  padding: 0.6rem 1.5rem;
+  background-color: #007f3f;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}

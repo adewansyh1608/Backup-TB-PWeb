@@ -2,83 +2,163 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign Up</title>
-    <link rel="stylesheet" href="/css/style.css" />
-    <script>
-      function validateForm(event) {
-        const password = document.getElementById("password").value;
-        const confirmPassword =
-          document.getElementById("confirm_password").value;
-      }
-    </script>
+    <link href="/stylesheets/output.css" rel="stylesheet" />
   </head>
-  <body>
-    <div class="center-container">
-      <div class="signup-card">
-        <h2>Sign Up</h2>
-        <form action="/signup" method="POST" onsubmit="validateForm(event)">
-          <div class="form-group">
-            <input type="email" name="email" placeholder="Email" required />
-          </div>
-
-          <div class="form-group">
-            <input
-              type="text"
-              name="nama"
-              placeholder="Nama Lengkap"
-              required
-            />
-          </div>
-
-          <div class="form-group">
-            <input
-              type="text"
-              name="no_telepon"
-              placeholder="No. Telepon"
-              required
-            />
-          </div>
-
-          <div class="form-group">
-            <input type="text" name="alamat" placeholder="Alamat" required />
-          </div>
-
-          <div class="form-group password-field">
-            <input
-              type="password"
-              id="password"
-              name="password"
-              placeholder="Password"
-              required
-            />
+  <body class="bg-gray-100 font-sans">
+    <div class="min-h-screen flex items-center justify-center">
+      <div
+        class="flex w-full max-w-3xl bg-white rounded-lg shadow-lg overflow-hidden"
+      >
+        <!-- Left Side: Form Section -->
+        <div class="w-full md:w-1/2 p-8">
+          <div class="flex justify-left mb-6">
             <img
-              src="/images/view.png"
-              class="toggle-password"
-              onclick="toggleVisibility('password', this)"
+              src="/images/unand.png"
+              alt="Logo"
+              class="object-contain"
+              style="width: 50px; height: 50px"
             />
           </div>
+          <h2 class="text-3xl font-semibold mb-6 text-gray-900">Sign Up</h2>
+          <form action="/signup" method="POST" onsubmit="validateForm(event)">
+            <div class="mb-4">
+              <label for="email" class="block text-gray-600 font-medium mb-2"
+                >Email address</label
+              >
+              <input
+                type="email"
+                name="email"
+                id="email"
+                class="w-full p-3 border border-gray-300 rounded-md"
+                placeholder="Enter your email"
+                required
+              />
+            </div>
 
-          <div class="form-group password-field">
-            <input
-              type="password"
-              id="confirm_password"
-              name="confirm_password"
-              placeholder="Konfirmasi Password"
-              required
-            />
-            <img
-              src="/images/view.png"
-              class="toggle-password"
-              onclick="toggleVisibility('confirm_password', this)"
-            />
+            <div class="mb-4">
+              <label for="nama" class="block text-gray-600 font-medium mb-2"
+                >Nama Lengkap</label
+              >
+              <input
+                type="text"
+                name="nama"
+                id="nama"
+                class="w-full p-3 border border-gray-300 rounded-md"
+                placeholder="Enter your full name"
+                required
+              />
+            </div>
+
+            <div class="mb-4">
+              <label
+                for="no_telepon"
+                class="block text-gray-600 font-medium mb-2"
+                >No. Telepon</label
+              >
+              <input
+                type="text"
+                name="no_telepon"
+                id="no_telepon"
+                class="w-full p-3 border border-gray-300 rounded-md"
+                placeholder="Enter your phone number"
+                required
+              />
+            </div>
+
+            <div class="mb-4">
+              <label for="alamat" class="block text-gray-600 font-medium mb-2"
+                >Alamat</label
+              >
+              <input
+                type="text"
+                name="alamat"
+                id="alamat"
+                class="w-full p-3 border border-gray-300 rounded-md"
+                placeholder="Enter your address"
+                required
+              />
+            </div>
+
+            <!-- Password Input with Eye Icon -->
+            <div class="mb-6 relative">
+              <label for="password" class="block text-gray-600 font-medium mb-2"
+                >Password</label
+              >
+              <div class="relative">
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  class="w-full p-3 border border-gray-300 rounded-md pr-10"
+                  placeholder="Enter your password"
+                  required
+                />
+                <img
+                  src="/images/view.png"
+                  class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 cursor-pointer"
+                  onclick="toggleVisibility('password', this)"
+                  alt="Toggle password visibility"
+                  id="eye-icon"
+                />
+              </div>
+            </div>
+
+            <!-- Confirm Password Input with Eye Icon -->
+            <div class="mb-6 relative">
+              <label
+                for="confirm_password"
+                class="block text-gray-600 font-medium mb-2"
+                >Konfirmasi Password</label
+              >
+              <div class="relative">
+                <input
+                  type="password"
+                  id="confirm_password"
+                  name="confirm_password"
+                  class="w-full p-3 border border-gray-300 rounded-md pr-10"
+                  placeholder="Confirm your password"
+                  required
+                />
+                <img
+                  src="/images/view.png"
+                  class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 cursor-pointer"
+                  onclick="toggleVisibility('confirm_password', this)"
+                  alt="Toggle password visibility"
+                  id="eye-icon"
+                />
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              class="w-full bg-blue-600 text-white p-3 rounded-md shadow-md hover:bg-blue-700"
+            >
+              Sign Up
+            </button>
+          </form>
+          <div class="mt-4 text-center">
+            <p class="text-gray-600">
+              Already have an account?
+              <a href="/login" class="text-blue-600 hover:text-blue-700"
+                >Sign In Here</a
+              >
+            </p>
           </div>
+        </div>
 
-          <button type="submit">Sign Up</button>
-        </form>
-        <p class="switch">Already have account? <a href="/login">Sign In</a></p>
+        <!-- Right Side: Image Section -->
+        <div class="md:flex md:w-1/2">
+          <img
+            src="/images/rektorat.jpg"
+            alt="Image"
+            class="w-full h-full object-cover rounded-lg border-0"
+          />
+        </div>
       </div>
     </div>
 
-    <script src="/javascript/toggle-password.js"></script>
+    <script src="/javascripts/toggle-password.js"></script>
   </body>
 </html>

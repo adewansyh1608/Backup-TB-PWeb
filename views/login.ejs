@@ -2,58 +2,105 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Login</title>
-    <link rel="stylesheet" href="/css/style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign In</title>
+    <link href="/stylesheets/output.css" rel="stylesheet" />
   </head>
-  <body>
-    <div class="container">
-      <div class="left-panel">
-        <div class="logo-bar">
-          <img src="/images/unand.png" alt="Logo Unand" class="logo-img" />
-          <span class="logo-text">Universitas Andalas</span>
-        </div>
-        <video src="/videos/unand.mp4" autoplay loop muted></video>
-      </div>
-
-      <div class="right-panel">
-        <div class="login-wrapper">
-          <h1 class="main-title">
-            Sistem Pelaporan Kehilangan dan Penemuan Barang Hilang
-          </h1>
-
-          <div class="card">
-            <h2>Sign in to your account</h2>
-            <form action="/login" method="POST">
-              <div class="form-group">
-                <input type="email" name="email" placeholder="Email" required />
-              </div>
-
-              <div class="form-group password-field">
+  <body class="bg-gray-100 font-sans">
+    <div class="min-h-screen flex items-center justify-center">
+      <div
+        class="flex w-full max-w-3xl bg-white rounded-lg shadow-lg overflow-hidden"
+      >
+        <!-- Left Side: Form Section -->
+        <div class="w-full md:w-1/2 p-8">
+          <div class="flex justify-left mb-6">
+            <img
+              src="/images/unand.png"
+              alt="Logo"
+              class="object-contain"
+              style="width: 50px; height: 50px"
+            />
+          </div>
+          <h2 class="text-3xl font-semibold mb-6 text-gray-900">
+            Sign in to your account
+          </h2>
+          <form action="/login" method="POST">
+            <div class="mb-4">
+              <label for="email" class="block text-gray-600 font-medium mb-2"
+                >Email address</label
+              >
+              <input
+                type="email"
+                name="email"
+                id="email"
+                class="w-full p-3 border border-gray-300 rounded-md"
+                required
+              />
+            </div>
+            <div class="mb-6 relative">
+              <label for="password" class="block text-gray-600 font-medium mb-2"
+                >Password</label
+              >
+              <div class="relative">
                 <input
                   type="password"
-                  id="password"
                   name="password"
-                  placeholder="Password"
+                  id="password"
+                  class="w-full p-3 border border-gray-300 rounded-md pr-10"
                   required
                 />
+                <!-- Eye Icon Positioned at the end of the password field -->
                 <img
+                  id="eye-icon"
                   src="/images/view.png"
-                  class="toggle-password"
-                  onclick="toggleVisibility('password', this)"
+                  alt="Toggle Password Visibility"
+                  class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 cursor-pointer"
+                  onclick="toggleVisibility()"
                 />
               </div>
-
-              <p class="forgot"><a href="#">Forgot Password?</a></p>
-              <button type="submit">Sign In</button>
-            </form>
-            <p class="switch">
-              Belum punya akun? <a href="/signup">Sign Up Here</a>
+            </div>
+            <div class="flex items-center justify-between mb-6">
+              <div class="flex items-center">
+                <input
+                  type="checkbox"
+                  name="remember"
+                  id="remember"
+                  class="mr-2"
+                />
+                <label for="remember" class="text-gray-600">Remember me</label>
+              </div>
+              <a
+                href="/forgot-password"
+                class="text-blue-600 hover:text-blue-700"
+                >Forgot password?</a
+              >
+            </div>
+            <button
+              type="submit"
+              class="w-full bg-blue-600 text-white p-3 rounded-md shadow-md hover:bg-blue-700"
+            >
+              Sign in
+            </button>
+          </form>
+          <div class="mt-4 text-center">
+            <p class="text-gray-600">
+              Not a member?
+              <a href="/signup" class="text-blue-600 hover:text-blue-700"
+                >SignUp Here</a
+              >
             </p>
           </div>
         </div>
+        <!-- Right Side: Image Section -->
+        <div class="md:flex md:w-1/2">
+          <img
+            src="/images/rektorat.jpg"
+            alt="Image"
+            class="w-full h-full object-cover rounded-lg border-0"
+          />
+        </div>
       </div>
     </div>
-
-    <script src="/javascript/toggle-password.js"></script>
+    <script src="/javascripts/toggle-password.js"></script>
   </body>
 </html>

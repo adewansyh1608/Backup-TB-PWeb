@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Laporan Saya</title>
+    <link rel="stylesheet" href="/css/confirm-post.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <!-- Include Sidebar -->
+      <%- include('partials/sidebar') %>
+      <!-- Ini menyertakan sidebar.ejs -->
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <div class="top-bar">
+          <div class="filter-group">
+            <button class="filter active">All</button>
+            <button class="filter">Unverified</button>
+            <button class="filter">Verifified</button>
+            <button class="filter">Filter ⌄</button>
+          </div>
+        </div>
+
+        <div class="card-grid">
+          <% if (reports && reports.length > 0) { %> <%
+          reports.forEach(function(report) { %>
+          <div class="card">
+            <div class="card-header">
+              <img
+                src="/<%= report.foto_barang %>"
+                alt="Foto Barang"
+                class="card-image"
+              />
+              <h3><%= report.nama_barang %></h3>
+            </div>
+
+            <div class="card-body">
+              <p><strong><%= report.jenis_laporan %></strong></p>
+              <p>Lokasi: <%= report.lokasi %></p>
+              <p>Tanggal Kejadian: <%= report.tanggal_kejadian %></p>
+              <p>Deskripsi: <%= report.deskripsi %></p>
+
+              <!-- Status placed below report details -->
+              <p
+                class="status = <%= report.status.toLowerCase().replace(/\s+/g, '-') %>"
+              >
+                <%= report.status %>
+              </p>
+            </div>
+
+            <div class="card-footer">
+              <!-- Wrap Done and See Claimer buttons together -->
+                <div class="action-buttons">
+                <!-- Add disabled attribute when status is not 'Claimed' -->
+                <form action="/approve-report/<%= report.id_laporan %>" method="POST">
+  <button class="approve-btn" 
+          <%= report.status !== 'Waiting for upload verification' && report.status !== 'Upload verification rejected' ? 'disabled' : '' %>>
+    Approve
+  </button>
+</form>
+                <form action="/denied-report/<%= report.id_laporan %>" method="POST">
+                <button class="denied-btn" <%= report.status !== 'Waiting for upload verification' && report.status !== 'On progress' ? 'disabled' : '' %>>Denied</button>
+            </form>
+
+              </div>
+
+              <!-- Other buttons remain as they are -->
+              <div class="details-buttons">
+                <button class="detail-btn">See Details</button>
+              </div>
+            </div>
+          </div>
+          <% }) %> <% } else { %>
+          <p>No reports available.</p>
+          <% } %>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

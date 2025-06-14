@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Edit Laporan</title>
+    <link rel="stylesheet" href="/css/report-form.css" />
+  </head>
+  <body>
+    <div class="form-container">
+      <h1>Edit Laporan</h1>
+      <form action="/laporan/edit/<%= report.id_laporan %>" method="POST" enctype="multipart/form-data">
+  <div class="form-group">
+    <label for="jenis_laporan">Jenis Laporan</label>
+    <select id="jenis_laporan" name="jenis_laporan" required>
+      <option value="Penemuan" <%= report.jenis_laporan === 'Penemuan' ? 'selected' : '' %>>Penemuan</option>
+      <option value="Kehilangan" <%= report.jenis_laporan === 'Kehilangan' ? 'selected' : '' %>>Kehilangan</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="nama_barang">Nama Barang</label>
+    <input type="text" id="nama_barang" name="nama_barang" value="<%= report.nama_barang %>" required />
+  </div>
+
+  <div class="form-group">
+    <label for="lokasi">Lokasi Kejadian</label>
+    <input type="text" id="lokasi" name="lokasi" value="<%= report.lokasi %>" required />
+  </div>
+
+  <div class="form-group">
+    <label for="tanggal_kejadian">Tanggal Kejadian</label>
+    <input type="date" id="tanggal_kejadian" name="tanggal_kejadian" value="<%= report.tanggal_kejadian %>" required />
+  </div>
+
+  <div class="form-group">
+    <label for="deskripsi">Deskripsi</label>
+    <textarea id="deskripsi" name="deskripsi" rows="4" required><%= report.deskripsi %></textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="foto_barang">Upload Foto Barang</label>
+    <input type="file" id="foto_barang" name="foto_barang" accept="image/*" />
+  </div>
+
+  <div class="form-footer">
+    <a href="/dashboard" class="back-link">Back</a>
+    <button type="submit">Simpan Perubahan</button>
+  </div>
+</form>
+
+    </div>
+  </body>
+</html>

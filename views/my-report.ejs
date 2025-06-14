@@ -65,8 +65,10 @@
 
               <!-- Other buttons remain as they are -->
               <div class="edit-delete-action-buttons">
-                <button class="edit-btn">Edit</button>
-                <button class="delete-btn">Hapus</button>
+                <button class="edit-btn" onclick="window.location.href='/laporan/edit/<%= report.id_laporan %>'">Edit</button>
+                <a href="#" onclick="if (confirm('Apakah Anda yakin ingin menghapus laporan ini?')) { window.location.href = '/laporan/delete/<%= report.id_laporan %>' }">
+  <button class="delete-btn">Hapus</button>
+</a>
                 <button class="resubmit-btn">Ajukan Ulang</button>
               </div>
             </div>

@@ -49,3 +49,4 @@ const saveLaporan = (req, res) => {
 };
 
 module.exports = { saveLaporan };
+

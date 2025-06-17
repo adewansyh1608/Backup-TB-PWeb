@@ -9,6 +9,7 @@
     <div class="form-container">
       <h1>Edit Laporan</h1>
       <form action="/laporan/edit/<%= report.id_laporan %>" method="POST" enctype="multipart/form-data">
+  <!-- Jenis Laporan -->
   <div class="form-group">
     <label for="jenis_laporan">Jenis Laporan</label>
     <select id="jenis_laporan" name="jenis_laporan" required>
@@ -17,36 +18,70 @@
     </select>
   </div>
 
+  <!-- Nama Barang -->
   <div class="form-group">
     <label for="nama_barang">Nama Barang</label>
     <input type="text" id="nama_barang" name="nama_barang" value="<%= report.nama_barang %>" required />
   </div>
 
+  <!-- Lokasi -->
   <div class="form-group">
     <label for="lokasi">Lokasi Kejadian</label>
     <input type="text" id="lokasi" name="lokasi" value="<%= report.lokasi %>" required />
   </div>
 
-  <div class="form-group">
-    <label for="tanggal_kejadian">Tanggal Kejadian</label>
-    <input type="date" id="tanggal_kejadian" name="tanggal_kejadian" value="<%= report.tanggal_kejadian %>" required />
-  </div>
-
+  <!-- Tanggal Kejadian -->
+ <div class="form-group">
+  <label for="tanggal_kejadian">Tanggal Kejadian</label>
+  <input 
+    type="date" 
+    id="tanggal_kejadian" 
+    name="tanggal_kejadian" 
+    value="<%= report.tanggal_kejadian ? report.tanggal_kejadian.toISOString().split('T')[0] : '' %>" 
+    required 
+  />
+</div>
+  <!-- Deskripsi -->
   <div class="form-group">
     <label for="deskripsi">Deskripsi</label>
     <textarea id="deskripsi" name="deskripsi" rows="4" required><%= report.deskripsi %></textarea>
   </div>
 
-  <div class="form-group">
-    <label for="foto_barang">Upload Foto Barang</label>
-    <input type="file" id="foto_barang" name="foto_barang" accept="image/*" />
-  </div>
+<!-- Foto Barang -->
+<div class="form-group">
+  <label for="foto_barang">Upload Foto Barang</label>
+  <input 
+    type="file" 
+    id="foto_barang" 
+    name="foto_barang" 
+    accept="image/*" 
+    onchange="displayFileName()" 
+  />
+  
+  <% if (report.foto_barang) { %>
+    <div>
+      <img src="/<%= report.foto_barang %>" alt="Foto Barang" style="max-width: 200px; max-height: 200px;" />
+    </div>
+    <input type="hidden" name="existing_foto_barang" value="<%= report.foto_barang %>" />
+  <% } %>
+
+</div>
+
+
+  <!-- Hidden Fields for unchanged data -->
+  <input type="hidden" name="email" value="<%= report.email %>" />
+  <input type="hidden" name="nama_penemu_penerima" value="<%= report.nama_penemu_penerima %>" />
+  <input type="hidden" name="nohp_penemu_penerima" value="<%= report.nohp_penemu_penerima %>" />
+  <input type="hidden" name="tanggal_penyerahan" value="<%= report.tanggal_penyerahan %>" />
+  <input type="hidden" name="foto_bukti" value="<%= report.foto_bukti %>" />
+  <input type="hidden" name="tanggal_laporan" value="<%= report.tanggal_laporan %>" />
 
   <div class="form-footer">
     <a href="/dashboard" class="back-link">Back</a>
     <button type="submit">Simpan Perubahan</button>
   </div>
 </form>
+
 
     </div>
   </body>

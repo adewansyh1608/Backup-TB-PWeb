@@ -41,6 +41,8 @@ app.use("/", myReportRoutes);
 app.use("/", confirmPostRoutes);
 app.use(editFormRoutes);
 app.use(deleteRoutes);
+app.use("/laporan", require("./routes/laporan"));
+
 
 // Menangani POST request untuk mengedit laporan
 app.post(

@@ -1,8 +1,15 @@
 const db = require("../config/db");
 
+// Simpan laporan baru
 const saveLaporan = (req, res) => {
-  const { jenis_laporan, nama_barang, lokasi, tanggal_kejadian, deskripsi } =
-    req.body;
+  const {
+    jenis_laporan,
+    nama_barang,
+    lokasi,
+    tanggal_kejadian,
+    deskripsi,
+  } = req.body;
+
   const foto_barang = req.file ? "uploads/" + req.file.filename : null;
   const status = "Waiting for upload verification";
   const userEmail = req.session.user.email;
@@ -11,9 +18,7 @@ const saveLaporan = (req, res) => {
   const nohp_penemu_penerima = null;
   const tanggal_penyerahan = null;
   const foto_bukti = null;
-
-  // Menambahkan tanggal saat ini untuk kolom tanggal_laporan dalam format YYYY-MM-DD
-  const tanggal_laporan = new Date().toISOString().slice(0, 10); // Format: YYYY-MM-DD
+  const tanggal_laporan = new Date().toISOString().slice(0, 10);
 
   const sql = `
     INSERT INTO laporan (jenis_laporan, nama_barang, lokasi, tanggal_kejadian, deskripsi, foto_barang, status, email,
@@ -36,26 +41,23 @@ const saveLaporan = (req, res) => {
       nohp_penemu_penerima,
       tanggal_penyerahan,
       foto_bukti,
-      tanggal_laporan, // Menyimpan tanggal laporan saat ini
+      tanggal_laporan,
     ],
     (err) => {
       if (err) {
         console.error("Error during report submission:", err);
         return res.send("Error submitting report.");
       }
-      res.redirect("/dashboard"); // Redirect ke halaman dashboard setelah laporan berhasil disimpan
+      res.redirect("/dashboard");
     }
   );
 };
 
-// Tampilkan detail laporan berdasarkan ID
-
-
+// Detail laporan
 const detailLaporan = (req, res) => {
   const idLaporan = req.params.id;
 
-  const sql = "SELECT * FROM laporan WHERE id_laporan = ?";
-  db.query(sql, [idLaporan], (err, results) => {
+  db.query("SELECT * FROM laporan WHERE id_laporan = ?", [idLaporan], (err, results) => {
     if (err) {
       console.error("Gagal mengambil detail laporan:", err);
       return res.status(500).send("Terjadi kesalahan");
@@ -70,11 +72,43 @@ const detailLaporan = (req, res) => {
   });
 };
 
+// Statistik laporan
+const getStatistikLaporan = (req, res) => {
+  const userEmail = req.session.user.email;
+
+  db.query(
+    `
+    SELECT 
+      COUNT(*) AS total,
+      SUM(status = 'Done') AS selesai,
+      SUM(status = 'Upload verification rejected') AS ditolak,
+      SUM(status = 'Waiting for upload verification') AS menunggu,
+      SUM(status = 'On progress') AS on_progress,
+      SUM(status != 'Waiting for upload verification') AS terverifikasi,
+      SUM(jenis_laporan = 'Kehilangan') AS kehilangan,
+      SUM(jenis_laporan = 'Penemuan') AS penemuan
+    FROM laporan
+    WHERE email = ?
+    `,
+    [userEmail],
+    (err, results) => {
+      if (err) {
+        console.error("Gagal ambil statistik:", err);
+        return res.status(500).send("Terjadi kesalahan saat mengambil statistik.");
+      }
+
+      const data = results[0];
+
+      res.render("statistik-laporan", {
+        statistik: data,
+        activeMenu: "statistik-laporan",
+        user: req.session.user, // ✅ Tambahkan ini agar sidebar bisa akses `user`
+      });
+    }
+  );
+};
 module.exports = {
   saveLaporan,
   detailLaporan,
+  getStatistikLaporan,
 };
-
-
-
-

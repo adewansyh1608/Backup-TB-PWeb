@@ -19,7 +19,10 @@
       >Laporan Saya</a
     >
     <a href="#">Laporan Saya Claim</a>
-    <a href="#">Statistik Laporan Saya</a>
+    <a
+  href="/statistik-laporan"
+  class="<%= activeMenu === 'statistik-laporan' ? 'active' : '' %>"
+>Statistik Laporan Saya</a>
     <a href="#">Riwayat Saya</a>
 
     <% if (user.role === 'admin') { %>

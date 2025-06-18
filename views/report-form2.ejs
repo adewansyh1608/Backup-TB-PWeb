@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Form Laporan</title>
+    <link rel="stylesheet" href="/css/report-form.css" />
+  </head>
+  <body>
+    <div class="form-container">
+      <h1>Form Laporan</h1>
+      <form action="/laporan" method="POST" enctype="multipart/form-data">
+        <!-- Jenis Laporan -->
+        <div class="form-group">
+          <label for="jenis_laporan">Jenis Laporan</label>
+          <select id="jenis_laporan" name="jenis_laporan" required>
+            <option value="Penemuan">Penemuan</option>
+            <option value="Kehilangan">Kehilangan</option>
+          </select>
+        </div>
+
+        <!-- Nama Barang -->
+        <div class="form-group">
+          <label for="nama_barang">Nama Barang</label>
+          <input type="text" id="nama_barang" name="nama_barang" required />
+        </div>
+
+        <!-- Lokasi Kejadian -->
+        <div class="form-group">
+          <label for="lokasi">Lokasi Kejadian</label>
+          <input type="text" id="lokasi" name="lokasi" required />
+        </div>
+
+        <!-- Tanggal Kejadian -->
+        <div class="form-group">
+          <label for="tanggal_kejadian">Tanggal Kejadian</label>
+          <input
+            type="date"
+            id="tanggal_kejadian"
+            name="tanggal_kejadian"
+            required
+          />
+        </div>
+
+        <!-- Deskripsi -->
+        <div class="form-group">
+          <label for="deskripsi">Deskripsi</label>
+          <textarea
+            id="deskripsi"
+            name="deskripsi"
+            rows="4"
+            required
+          ></textarea>
+        </div>
+
+        <!-- Upload Foto Barang -->
+        <div class="form-group">
+          <label for="foto_barang">Upload Foto Barang</label>
+          <input
+            type="file"
+            id="foto_barang"
+            name="foto_barang"
+            accept="image/*"
+            required
+          />
+        </div>
+
+        <div class="form-footer">
+          <a href="/dashboard" class="back-link">Back</a>
+          <button type="submit">Kirim Laporan</button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

@@ -324,3 +324,23 @@ a.user-link:hover {
   display: block;
   margin-bottom: 10px;
 }
+
+.download-btn {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.download-btn a {
+  color: white;
+  text-decoration: none;
+}
+
+.download-btn:hover {
+  background-color: #218838;
+}

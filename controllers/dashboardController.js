@@ -26,4 +26,27 @@ const dashboardController = (req, res) => {
   });
 };
 
+const saveClaim = (req, res) => {
+  if (!req.session.user) {
+    return res.status(401).send("Unauthorized. Please log in.");
+  }
+
+  const { id_laporan } = req.body;
+  if (!id_laporan) {
+    return res.status(400).send("Missing report ID.");
+  }
+
+  const email = req.session.user.email;
+  const tanggal_claim = new Date().toISOString().slice(0, 10);
+
+  const sql = "INSERT INTO claim (id_laporan, email, tanggal_claim) VALUES (?, ?, ?)";
+  db.query(sql, [id_laporan, email, tanggal_claim], (err) => {
+    if (err) {
+      console.error("Error inserting claim:", err);
+      return res.status(500).send("Claim failed.");
+    }
+    res.redirect("/dashboard");
+  });
+};
+
 module.exports = { dashboardController };

@@ -49,4 +49,4 @@ const saveClaim = (req, res) => {
   });
 };
 
-module.exports = { dashboardController };
+module.exports = { dashboardController, saveClaim };

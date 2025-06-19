@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "build": "npx @tailwindcss/cli -i ./public/stylesheets/input.css -o ./public/stylesheets/output.css --watch"
   },
   "dependencies": {
     "@tailwindcss/cli": "^4.1.8",
@@ -20,6 +21,7 @@
     "multer": "^2.0.1",
     "mysql2": "^3.14.1",
     "nodemon": "^3.1.10",
+    "pdfkit": "^0.17.1",
     "router": "^2.2.0",
     "tailwindcss": "^4.1.8"
   }

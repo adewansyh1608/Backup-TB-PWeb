@@ -57,7 +57,11 @@
             <!-- Buttons container -->
             <div class="buttons">
               <button class="detail-btn">See Detail</button>
-              <button class="claim-btn">Claim</button>
+              <form action="/claim/<%= report.id_laporan %>" method="GET">
+                <button type="submit" class="claim-btn">Claim</button>
+              </form>
+
+
             </div>
           </div>
           <% }) %> <% } else { %>

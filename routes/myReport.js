@@ -7,4 +7,10 @@ const myReportController = require("../controllers/myReportController"); // Meng
 // Route untuk menampilkan laporan pengguna yang sedang login
 router.get("/my-report", requireLogin, myReportController.getUserReports); // Panggil fungsi controller
 
+router.get(
+  "/my-report/download/:id",
+  requireLogin,
+  myReportController.generateReportPdf
+);
+
 module.exports = router;

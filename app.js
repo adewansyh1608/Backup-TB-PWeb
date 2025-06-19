@@ -13,6 +13,8 @@ const editFormRoutes = require("./routes/edit-form");
 const deleteRoutes = require("./routes/delete");
 const confirmPostRoutes = require("./routes/confirmPost");
 const editController = require("./controllers/editController"); // Pastikan path ini benar
+const claimRoutes = require("./routes/claim");
+const riwayatRoutes = require("./routes/riwayat");
 
 const upload = multer({ dest: "uploads/" }); // pastikan destinasi upload benar
 
@@ -41,6 +43,8 @@ app.use("/", myReportRoutes);
 app.use("/", confirmPostRoutes);
 app.use(editFormRoutes);
 app.use(deleteRoutes);
+app.use("/", claimRoutes);
+app.use("/", riwayatRoutes);
 
 // Menangani POST request untuk mengedit laporan
 app.post(

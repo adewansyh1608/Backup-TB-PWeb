@@ -1,7 +1,7 @@
 <aside class="sidebar">
   <div class="user-info">
     <img
-      src="<%= user.foto_profile ? '/' + user.foto_profile : '/images/user_icon.png' %>"
+      src="<%= user && user.foto_profile ? '/' + user.foto_profile : '/images/user_icon.png' %>"
       alt="User Icon"
       class="user-icon"
     />
@@ -18,9 +18,15 @@
       class="<%= activeMenu === 'my-report' ? 'active' : '' %>"
       >Laporan Saya</a
     >
-    <a href="#">Laporan Saya Claim</a>
+    <a href="/my-claimed-report"
+    class="<%= activeMenu === 'my-claimed-report' ? 'active' : '' %>"
+    >Laporan Saya Claim</a
+    >
+
     <a href="#">Statistik Laporan Saya</a>
-    <a href="#">Riwayat Saya</a>
+    <a href="/riwayat-saya"
+    class="<%= activeMenu === 'riwayat-saya' ? 'active' : '' %>"
+    >Riwayat Saya</a>
 
     <% if (user.role === 'admin') { %>
     <div class="menu-separator"></div>

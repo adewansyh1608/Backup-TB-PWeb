@@ -48,5 +48,33 @@ const saveLaporan = (req, res) => {
   );
 };
 
-module.exports = { saveLaporan };
+// Tampilkan detail laporan berdasarkan ID
+
+
+const detailLaporan = (req, res) => {
+  const idLaporan = req.params.id;
+
+  const sql = "SELECT * FROM laporan WHERE id_laporan = ?";
+  db.query(sql, [idLaporan], (err, results) => {
+    if (err) {
+      console.error("Gagal mengambil detail laporan:", err);
+      return res.status(500).send("Terjadi kesalahan");
+    }
+
+    if (results.length === 0) {
+      return res.status(404).send("Laporan tidak ditemukan");
+    }
+
+    const laporan = results[0];
+    res.render("detail-laporan", { laporan });
+  });
+};
+
+module.exports = {
+  saveLaporan,
+  detailLaporan,
+};
+
+
+
 

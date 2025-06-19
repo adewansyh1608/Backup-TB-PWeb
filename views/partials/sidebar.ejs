@@ -40,7 +40,11 @@
         <a href="#">Verifikasi Laporan Selesai</a>
       </div>
     </div>
-    <a href="#">Statistik Laporan</a>
+    <% if (user.role === 'admin') { %>
+  
+    <a href="/statistik-laporanadmin" class="sidebar-link">Statistik Laporan</a>
+  
+<% } %>
     <a href="#">Management User</a>
     <% } %>
   </nav>

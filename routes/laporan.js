@@ -18,11 +18,8 @@ router.post(
   validateLaporanType,
   laporanController.saveLaporan
 );
-
+router.get('/', laporanController.getLaporan);
 // Menampilkan detail laporan
 router.get("/laporan/detail/:id", requireLogin, laporanController.detailLaporan);
-
-// Statistik laporan
-router.get('/statistik-laporan', requireLogin, laporanController.getStatistikLaporan);
 
 module.exports = router;

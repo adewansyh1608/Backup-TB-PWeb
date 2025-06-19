@@ -106,6 +106,21 @@ CREATE TABLE `riwayat` (
   `tanggal_aktivitas` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+CREATE TABLE simpan (
+    id_simpan INT(11) AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL,
+    id_laporan INT(11) NOT NULL,
+    FOREIGN KEY (email) REFERENCES pengguna(email),
+    FOREIGN KEY (id_laporan) REFERENCES laporan(id_laporan)
+);
+
+CREATE TABLE saran (
+    id_saran INT(11) AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL,
+    deskripsi_saran TEXT NOT NULL,
+    tanggal_saran DATE NOT NULL,
+    FOREIGN KEY (email) REFERENCES pengguna(email)
+);
 --
 -- Indexes for dumped tables
 --

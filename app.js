@@ -14,6 +14,8 @@ const deleteRoutes = require("./routes/delete");
 const confirmPostRoutes = require("./routes/confirmPost");
 const editController = require("./controllers/editController"); // Pastikan path ini benar
 
+const statistikRoutes = require("./routes/statistik");
+
 const upload = multer({ dest: "uploads/" }); // pastikan destinasi upload benar
 
 const app = express();
@@ -42,6 +44,8 @@ app.use("/", confirmPostRoutes);
 app.use(editFormRoutes);
 app.use(deleteRoutes);
 app.use("/laporan", require("./routes/laporan"));
+app.use("/", require("./routes/statistik"));
+
 
 
 // Menangani POST request untuk mengedit laporan

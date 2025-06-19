@@ -48,7 +48,8 @@
             <h3><%= report.nama_barang %></h3>
             <p><strong><%= report.jenis_laporan %></strong></p>
             <p>Lokasi: <%= report.lokasi %></p>
-            <p>Tanggal: <%= report.tanggal_kejadian %></p>
+            <p>Tanggal kejadian: <%= report.tanggal_kejadian %></p>
+            <p>Tanggal laporan: <%= report.tanggal_laporan %></p>
             <span
               class="badge <%= report.status.toLowerCase().replace(/\s+/g, '-') %>"
             >

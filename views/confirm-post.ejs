@@ -1,81 +1,164 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Laporan Saya</title>
-    <link rel="stylesheet" href="/css/confirm-post.css" />
+    <title>Verifikasi Upload Laporan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/css/dashboard.css" />
   </head>
-  <body>
-    <div class="layout">
-      <!-- Include Sidebar -->
+  <body class="bg-gray-50">
+    <div class="flex min-h-screen">
       <%- include('partials/sidebar') %>
-      <!-- Ini menyertakan sidebar.ejs -->
 
-      <!-- Main Content -->
-      <main class="main-content">
-        <div class="top-bar">
-          <div class="filter-group">
-            <button class="filter active">All</button>
-            <button class="filter">Unverified</button>
-            <button class="filter">Verifified</button>
-            <button class="filter">Filter ⌄</button>
-          </div>
-        </div>
+      <main class="flex-1 p-6">
+        <h1 class="text-2xl font-bold mb-6">Verifikasi Upload Laporan</h1>
 
-        <div class="card-grid">
-          <% if (reports && reports.length > 0) { %> <%
-          reports.forEach(function(report) { %>
-          <div class="card">
-            <div class="card-header">
-              <img
-                src="/<%= report.foto_barang %>"
-                alt="Foto Barang"
-                class="card-image"
-              />
-              <h3><%= report.nama_barang %></h3>
-            </div>
 
-            <div class="card-body">
-              <p><strong><%= report.jenis_laporan %></strong></p>
-              <p>Lokasi: <%= report.lokasi %></p>
-              <p>Tanggal Kejadian: <%= report.tanggal_kejadian %></p>
-              <p>Deskripsi: <%= report.deskripsi %></p>
-
-              <!-- Status placed below report details -->
-              <p
-                class="status = <%= report.status.toLowerCase().replace(/\s+/g, '-') %>"
-              >
-                <%= report.status %>
-              </p>
-            </div>
-
-            <div class="card-footer">
-              <!-- Wrap Done and See Claimer buttons together -->
-                <div class="action-buttons">
-                <!-- Add disabled attribute when status is not 'Claimed' -->
-                <form action="/approve-report/<%= report.id_laporan %>" method="POST">
-  <button class="approve-btn" 
-          <%= report.status !== 'Waiting for upload verification' && report.status !== 'Upload verification rejected' ? 'disabled' : '' %>>
-    Approve
-  </button>
+        <form method="GET" action="/confirm-post" class="mb-4">
+  <input 
+    type="text" 
+    name="search" 
+    placeholder="Cari nama barang..." 
+    value="<%= searchQuery || '' %>"
+    class="px-4 py-2 border border-gray-300 rounded w-64"
+  />
+  <button 
+    type="submit" 
+    class="px-4 py-2 ml-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+  >Cari</button>
 </form>
-                <form action="/denied-report/<%= report.id_laporan %>" method="POST">
-                <button class="denied-btn" <%= report.status !== 'Waiting for upload verification' && report.status !== 'On progress' ? 'disabled' : '' %>>Denied</button>
-            </form>
 
-              </div>
 
-              <!-- Other buttons remain as they are -->
-              <a href="/laporan/detail/<%= report.id_laporan %>">
-                <button class="detail-btn">See Details</button>
-              </a>
+        <div class="flex gap-2 mb-4">
+          <a href="/confirm-post">
+            <button class="px-4 py-2 border border-gray-300 rounded hover:bg-gray-100 <%= activeFilter === 'all' ? 'bg-black text-white' : '' %>">All</button>
+          </a>
+          
+          <a href="/confirm-post/unverified">
+            <button class="px-4 py-2 border border-gray-300 rounded hover:bg-gray-100 <%= activeFilter === 'unverified' ? 'bg-black text-white' : '' %>">Unverified</button>
+          </a>
+
+          <a href="/confirm-post/verified">
+            <button class="px-4 py-2 border border-gray-300 rounded hover:bg-gray-100 <%= activeFilter === 'verified' ? 'bg-black text-white' : '' %>">Verified</button>
+          </a>
+
+
+          <<!-- Dropdown Filter -->
+<div class="relative ml-auto">
+  <button id="dropdownButton" class="px-4 py-2 border border-gray-300 rounded hover:bg-gray-100">
+    Filter ⌄
+  </button>
+  <div id="dropdownMenu" class="hidden absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded shadow z-10">
+    <a href="/confirm-post?<%= activeFilter ? 'filter=' + activeFilter + '&' : '' %>dropdown=lost">
+      <button class="block w-full text-left px-4 py-2 hover:bg-gray-100 <%= currentDropdown === 'lost' ? 'bg-gray-200' : '' %>">Laporan Kehilangan</button>
+    </a>
+    <a href="/confirm-post?<%= activeFilter ? 'filter=' + activeFilter + '&' : '' %>dropdown=found">
+      <button class="block w-full text-left px-4 py-2 hover:bg-gray-100 <%= currentDropdown === 'found' ? 'bg-gray-200' : '' %>">Laporan Penemuan</button>
+    </a>
+    <a href="/confirm-post?<%= activeFilter ? 'filter=' + activeFilter + '&' : '' %>dropdown=approved">
+      <button class="block w-full text-left px-4 py-2 hover:bg-gray-100 <%= currentDropdown === 'approved' ? 'bg-gray-200' : '' %>">Approved</button>
+    </a>
+    <a href="/confirm-post?<%= activeFilter ? 'filter=' + activeFilter + '&' : '' %>dropdown=denied">
+      <button class="block w-full text-left px-4 py-2 hover:bg-gray-100 <%= currentDropdown === 'denied' ? 'bg-gray-200' : '' %>">Denied</button>
+    </a>
+  </div>
+</div>
+</div>
+
+        <div class="grid gap-4">
+  <% if (searchQuery) { %>
+    <% if (laporanGabungan && laporanGabungan.length > 0) { %>
+      <% laporanGabungan.forEach(function(report) { %>
+        <!-- Kartu laporan hasil pencarian -->
+        <div class="shadow-md rounded-xl p-4 flex flex-col md:flex-row md:justify-between <%= report.status === 'Waiting for upload verification' ? 'bg-yellow-50 border-2 border-yellow-500' : 'bg-white' %>">
+          <div class="flex gap-4">
+            <img src="/<%= report.foto_barang %>" alt="Foto Barang" class="w-32 h-32 object-cover rounded-md" />
+            <div>
+              <h3 class="text-lg font-semibold mb-1"><%= report.nama_barang %></h3>
+              <p class="text-sm"><strong><%= report.jenis_laporan %></strong></p>
+              <p class="text-sm text-gray-600">Lokasi: <%= report.lokasi %></p>
+              <p class="text-sm text-gray-600">Tanggal Kejadian: <%= report.tanggal_kejadian %></p>
+              <p class="text-sm text-gray-600 mb-2">Deskripsi: <%= report.deskripsi %></p>
+              <% if (report.status === 'Waiting for upload verification') { %>
+                <span class="inline-block text-xs px-2 py-1 bg-yellow-400 text-white rounded-full">Waiting for upload verification</span>
+              <% } else if (report.status === 'Upload verification rejected') { %>
+                <span class="inline-block text-xs px-2 py-1 bg-red-400 text-white rounded-full">Rejected</span>
+              <% } else { %>
+                <span class="inline-block text-xs px-2 py-1 bg-green-400 text-white rounded-full">On Progress</span>
+              <% } %>
             </div>
           </div>
-          <% }) %> <% } else { %>
-          <p>No reports available.</p>
-          <% } %>
+          <div class="flex flex-col gap-2 mt-4 md:mt-0 md:items-end">
+            <div class="flex gap-2">
+              <form action="/approve-report/<%= report.id_laporan %>" method="POST">
+                <button type="submit" class="px-3 py-1 rounded text-white <%= report.verifikasi_action === 'approved' ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-500 hover:bg-green-600' %>" <%= report.verifikasi_action === 'approved' ? 'disabled' : '' %>>Approve</button>
+              </form>
+              <form action="/denied-report/<%= report.id_laporan %>" method="POST">
+                <button type="submit" class="px-3 py-1 rounded text-white <%= report.verifikasi_action === 'denied' ? 'bg-gray-400 cursor-not-allowed' : 'bg-red-500 hover:bg-red-600' %>" <%= report.verifikasi_action === 'denied' ? 'disabled' : '' %>>Denied</button>
+              </form>
+            </div>
+            <a href="/laporan/detail/<%= report.id_laporan %>">
+              <button class="mt-2 px-3 py-1 border border-gray-400 rounded hover:bg-gray-100">See Details</button>
+            </a>
+          </div>
         </div>
+      <% }) %>
+    <% } else { %>
+      <p class="text-red-500 font-semibold">Tidak ada laporan atas nama barang tersebut.</p>
+    <% } %>
+  <% } else { %>
+    <!-- Tampilkan berdasarkan tombol filter/dropdown -->
+    <% if (activeFilter === 'all' && !currentDropdown) { %>
+      <% if (laporanBaru && laporanBaru.length > 0) { %>
+        <h2 class="text-lg font-semibold mb-2">Unverified</h2>
+        <% laporanBaru.forEach(function(report) { %>
+          <!-- Kartu laporan baru (kode sebelumnya tetap) -->
+          ... (tetap isi kamu yang sebelumnya, jangan dihapus)
+        <% }) %>
+      <% } %>
+
+      <% if (laporanLama && laporanLama.length > 0) { %>
+        <hr class="my-6 border-t-2 border-gray-300">
+        <h2 class="text-lg font-semibold mb-2">Verified</h2>
+        <% laporanLama.forEach(function(report) { %>
+          <!-- Kartu laporan lama (kode sebelumnya tetap) -->
+          ... (tetap isi kamu yang sebelumnya, jangan dihapus)
+        <% }) %>
+      <% } %>
+
+      <% if (laporanBaru.length === 0 && laporanLama.length === 0) { %>
+        <p class="text-gray-500">Tidak Ada Laporan Terbaru.</p>
+      <% } %>
+    <% } else { %>
+      <% if (laporanGabungan && laporanGabungan.length > 0) { %>
+        <% laporanGabungan.forEach(function(report) { %>
+          <!-- Kartu laporan gabungan filter (kode sebelumnya tetap) -->
+          ... (tetap isi kamu yang sebelumnya, jangan dihapus)
+        <% }) %>
+      <% } else { %>
+        <p class="text-gray-500">Tidak ada laporan ditemukan.</p>
+      <% } %>
+    <% } %>
+  <% } %>
+</div>
+
       </main>
     </div>
+    <script>
+      document.getElementById("dropdownButton").addEventListener("click", function () {
+        const menu = document.getElementById("dropdownMenu");
+        menu.classList.toggle("hidden");
+      });
+      window.addEventListener("click", function (e) {
+        const button = document.getElementById("dropdownButton");
+        const menu = document.getElementById("dropdownMenu");
+        if (!button.contains(e.target) && !menu.contains(e.target)) {
+          menu.classList.add("hidden");
+        }
+      });
+    </script>
   </body>
 </html>

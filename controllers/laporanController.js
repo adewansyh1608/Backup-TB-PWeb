@@ -1,4 +1,5 @@
 const db = require("../config/db");
+const { unclaimReport } = require("./claimController");
 
 const saveLaporan = (req, res) => {
   const { jenis_laporan, nama_barang, lokasi, tanggal_kejadian, deskripsi } =
@@ -73,6 +74,7 @@ const detailLaporan = (req, res) => {
 module.exports = {
   saveLaporan,
   detailLaporan,
+  unclaimReport
 };
 
 

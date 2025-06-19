@@ -55,21 +55,30 @@
                     <p>No HP: <span class="font-medium"><%= report.nohp_penemu_penerima || '-' %></span></p>
                   </div>
 
-                  <!-- Tombol -->
-                  <div class="flex space-x-3">
-                    <% if (report.status === 'Claimed') { %>
-                      <button onclick="confirmCancel('<%= report.id_laporan %>')" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded text-sm font-medium transition-colors">
-                        Batalkan Klaim
-                      </button>
-                    <% } else { %>
-                      <button disabled class="bg-red-300 text-white px-4 py-2 rounded text-sm font-medium">
-                        Klaim Selesai
-                      </button>
-                    <% } %>
-                    <a href="/detail/<%= report.id_laporan %>" class="bg-gray-800 hover:bg-gray-900 text-white px-4 py-2 rounded text-sm font-medium transition-colors">
-                      Lihat Detail
-                    </a>
-                  </div>
+<!-- Tombol -->
+<div class="flex flex-wrap justify-between items-end mt-4">
+  <div class="flex space-x-3">
+    <!-- Tombol Batalkan Klaim -->
+    <button 
+  onclick="cancelClaim(this)" 
+  data-id="<%= report.id_laporan %>" 
+  class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded text-sm font-medium transition-colors">
+  Batalkan Klaim
+</button>
+
+
+    <!-- Tombol Lihat Detail -->
+    <a href="/detail/<%= report.id_laporan %>" class="bg-gray-800 hover:bg-gray-900 text-white px-4 py-2 rounded text-sm font-medium transition-colors">
+      Lihat Detail
+    </a>
+  </div>
+
+  <!-- Tombol Buat Laporan Selesai -->
+  <button class="mt-4 md:mt-0 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded text-sm font-medium transition-colors">
+    Buat Laporan Selesai
+  </button>
+</div>
+
                 </div>
               </div>
             </div>
@@ -80,11 +89,21 @@
   </div>
 
   <script>
-    function confirmCancel(id_laporan) {
-      if (confirm("Apakah kamu yakin ingin membatalkan klaim?")) {
-        window.location.href = `/cancel-claim/${id_laporan}`;
-      }
-    }
-  </script>
+  function cancelClaim(button) {
+    const id = button.getAttribute('data-id');
+
+    fetch(`/unclaim/${id}`, {
+      method: 'POST'
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          window.location.reload();
+        }
+      })
+      .catch(err => console.error('Gagal membatalkan klaim:', err));
+  }
+</script>
+
 </body>
 </html>

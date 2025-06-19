@@ -26,6 +26,9 @@ exports.claimReport = (req, res) => {
 
 exports.unclaimReport = (req, res) => {
   const reportId = req.params.id;
+  const email = req.session.user?.email; // ambil email dari session
+  const tanggal_aktivitas = new Date(); // tanggal dan waktu sekarang
+  const deskripsi_aktivitas = `Membatalkan claim laporan dengan ID ${reportId}`;
 
   const sql = `
     UPDATE laporan SET 
@@ -42,7 +45,19 @@ exports.unclaimReport = (req, res) => {
       console.error('Gagal batalkan klaim:', err);
       return res.status(500).json({ success: false, message: 'Terjadi kesalahan saat membatalkan klaim' });
     }
+  // Tambahkan riwayat
+    const insertRiwayat = `
+      INSERT INTO riwayat (email, deskripsi_aktivitas, tanggal_aktivitas)
+      VALUES (?, ?, ?)
+    `;
+
+    db.query(insertRiwayat, [email, deskripsi_aktivitas, tanggal_aktivitas], (err2, result2) => {
+      if (err2) {
+        console.error('Gagal menyimpan riwayat:', err2);
+        // Meski gagal simpan riwayat, balas tetap berhasil untuk UX
+      }
     res.json({ success: true, message: 'Claim berhasil dibatalkan' });
+    });
   });
 };
 

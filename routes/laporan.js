@@ -4,8 +4,7 @@ const requireLogin = require("../middleware/requireLogin");
 const validateLaporanType = require("../middleware/validateLaporanType");
 const uploadFotoBarang = require("../middleware/uploadFoto");
 const { saveLaporan } = require("../controllers/laporanController");
-const laporanController = require('../controllers/laporanController');
-
+const laporanController = require("../controllers/laporanController");
 
 // Menampilkan Form Laporan (GET)
 router.get("/laporan", requireLogin, (req, res) => {
@@ -21,6 +20,12 @@ router.post(
   saveLaporan // Pastikan ini adalah controller yang valid
 );
 
-router.get("/laporan/detail/:id", requireLogin, laporanController.detailLaporan);
+router.get("/", laporanController.getLaporan);
+
+router.get(
+  "/laporan/detail/:id",
+  requireLogin,
+  laporanController.detailLaporan
+);
 
 module.exports = router;

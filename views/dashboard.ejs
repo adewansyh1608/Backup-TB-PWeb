@@ -3,65 +3,155 @@
   <head>
     <meta charset="UTF-8" />
     <title>Dashboard</title>
-    <link rel="stylesheet" href="/css/dashboard.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+      /* Ensure the body and html take up the full height */
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+      }
+
+      /* Make sidebar fixed */
+      .sidebar {
+        height: 100vh;
+        position: fixed;
+        width: 250px; /* Adjust the sidebar width if needed */
+      }
+
+      /* Make the main content area take the rest of the screen */
+      .main-content {
+        margin-left: 250px; /* Adjust according to sidebar width */
+        height: 100vh;
+        overflow: hidden; /* Hide overflow on the main content */
+        padding-top: 1.5rem; /* Top padding for the content */
+      }
+
+      /* Set the card grid to be scrollable with fixed max height */
+      .card-grid {
+        height: calc(
+          100vh - 160px
+        ); /* Subtract top bar height (adjust as needed) */
+        overflow-y: auto;
+      }
+    </style>
   </head>
-  <body>
-    <div class="layout">
-      <!-- Include Sidebar -->
+  <body class="bg-gray-100 text-gray-800">
+    <div class="flex">
+      <!-- Sidebar -->
       <%- include('partials/sidebar') %>
-      <!-- Ini menyertakan sidebar.ejs -->
 
       <!-- Main Content -->
-      <main class="main-content">
-        <div class="top-bar">
+      <main class="main-content p-6">
+        <!-- Top Bar -->
+        <div class="flex justify-between items-center mb-6">
           <button
-            class="create-report"
+            class="bg-green-600 text-white py-2 px-6 rounded-full hover:bg-green-700 transition"
             onclick="window.location.href='/laporan';"
           >
             Buat Laporan Baru
           </button>
 
-          <div class="filter-group">
-            <button class="filter active">All</button>
-            <button class="filter">Laporan Kehilangan</button>
-            <button class="filter">Laporan Penemuan</button>
-            <button class="filter">Filter ⌄</button>
+          <div class="space-x-2">
+            <button
+              class="bg-gray-200 text-gray-800 py-2 px-4 rounded-full hover:bg-gray-300"
+            >
+              All
+            </button>
+            <button
+              class="bg-gray-200 text-gray-800 py-2 px-4 rounded-full hover:bg-gray-300"
+            >
+              Laporan Kehilangan
+            </button>
+            <button
+              class="bg-gray-200 text-gray-800 py-2 px-4 rounded-full hover:bg-gray-300"
+            >
+              Laporan Penemuan
+            </button>
+            <button
+              class="bg-gray-200 text-gray-800 py-2 px-4 rounded-full hover:bg-gray-300"
+            >
+              Filter ⌄
+            </button>
           </div>
         </div>
 
-        <div class="search-bar">
-          <input type="text" placeholder="Search" />
-          <button class="search-btn">🔍</button>
+        <!-- Search Bar -->
+        <div class="flex items-center mb-6">
+          <input
+            type="text"
+            placeholder="Search..."
+            class="w-full py-3 px-6 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-gray-500 transition duration-300 ease-in-out text-gray-800 placeholder-gray-500"
+          />
+          <button
+            class="ml-4 py-3 px-6 bg-gradient-to-r from-gray-300 to-gray-300 text-white rounded-full hover:from-gray-500 hover:to-gray-500 transition duration-300 ease-in-out"
+          >
+            🔍
+          </button>
         </div>
 
-        <div class="card-grid">
+        <!-- Card Grid -->
+        <div
+          class="card-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
           <% if (reports && reports.length > 0) { %> <%
           reports.forEach(function(report) { %>
-          <div class="card">
-            <div class="card-image">
+          <div
+            class="bg-white rounded-lg shadow-xl hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105"
+          >
+            <div class="relative">
               <img
                 src="/<%= report.foto_barang %>"
                 alt="gambar barang"
-                class="card-image"
+                class="w-full h-56 object-cover rounded-t-lg"
               />
+              <div
+                class="absolute top-4 left-4 bg-white bg-opacity-75 px-3 py-2 rounded-full shadow-lg"
+              >
+                <h3 class="text-lg font-semibold text-gray-900">
+                  <%= report.nama_barang %>
+                </h3>
+              </div>
             </div>
-            <h3><%= report.nama_barang %></h3>
-            <p><strong><%= report.jenis_laporan %></strong></p>
-            <p>Lokasi: <%= report.lokasi %></p>
-            <p>Tanggal: <%= report.tanggal_kejadian %></p>
-            <span
-              class="badge <%= report.status.toLowerCase().replace(/\s+/g, '-') %>"
-            >
-              <%= report.status %>
-            </span>
-            <!-- Buttons container -->
-            <div class="buttons">
-              <button class="detail-btn">See Detail</button>
-              <button class="claim-btn">Claim</button>
+
+            <div class="p-6">
+              <p class="text-sm font-semibold text-gray-700 mb-2">
+                <%= report.jenis_laporan %>
+              </p>
+              <p class="text-sm text-gray-600 mb-1">
+                Lokasi: <%= report.lokasi %>
+              </p>
+              <p class="text-sm text-gray-600 mb-1">
+                Tanggal: <%= report.tanggal_kejadian %>
+              </p>
+              <p class="text-sm text-gray-600 mb-3">
+                Deskripsi: <%= report.deskripsi %>
+              </p>
+
+              <span
+                class="inline-block mt-2 px-4 py-2 text-sm rounded-full <%= report.status.toLowerCase().replace(/\s+/g, '-') %> bg-green-200 text-green-800 font-semibold"
+              >
+                <%= report.status %>
+              </span>
+            </div>
+
+            <div class="flex justify-between p-6 bg-gray-50 rounded-b-lg">
+              <button
+                class="bg-blue-600 text-white py-2 px-6 rounded-full hover:bg-blue-700 transition"
+              >
+                See Detail
+              </button>
+              <button
+                class="bg-green-600 text-white py-2 px-6 rounded-full hover:bg-green-700 transition"
+              >
+                Claim
+              </button>
             </div>
           </div>
           <% }) %> <% } else { %>
-          <p>No reports available.</p>
+          <p class="text-center text-gray-600 col-span-3">
+            No reports available.
+          </p>
           <% } %>
         </div>
       </main>

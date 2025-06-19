@@ -49,8 +49,6 @@ const saveLaporan = (req, res) => {
 };
 
 // Tampilkan detail laporan berdasarkan ID
-
-
 const detailLaporan = (req, res) => {
   const idLaporan = req.params.id;
 
@@ -70,11 +68,13 @@ const detailLaporan = (req, res) => {
   });
 };
 
+const getLaporan = (req, res) => {
+  // logika untuk mengambil data laporan
+  res.send("Daftar laporan di sini");
+};
+
 module.exports = {
   saveLaporan,
   detailLaporan,
+  getLaporan,
 };
-
-
-
-

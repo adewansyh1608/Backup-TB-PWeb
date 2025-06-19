@@ -1,0 +1,41 @@
+<!-- detail-laporanclaim.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Detail Laporan Claim</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 font-sans">
+    <div class="container mx-auto p-6">
+      <h1 class="text-3xl font-semibold text-gray-800 mb-6">
+        Detail Laporan Claim
+      </h1>
+
+      <div class="bg-white shadow-lg rounded-lg p-6">
+        <h3 class="text-xl font-semibold text-gray-900">
+          <%= report.nama_barang %>
+        </h3>
+        <p class="text-sm text-gray-600">
+          Jenis Laporan: <%= report.jenis_laporan %>
+        </p>
+        <p class="text-sm text-gray-600">Deskripsi: <%= report.deskripsi %></p>
+        <p class="text-sm text-gray-600">Lokasi: <%= report.lokasi %></p>
+        <p class="text-sm text-gray-600">
+          Tanggal Kejadian: <%= report.tanggal_kejadian %>
+        </p>
+        <p class="text-sm text-gray-600">Status: <%= report.status %></p>
+        <p class="text-sm text-gray-600">Kontak: <%= report.no_telepon %></p>
+
+        <div class="mt-4">
+          <button
+            onclick="window.location.href='/dashboard'"
+            class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition ml-2"
+          >
+            Kembali
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

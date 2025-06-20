@@ -15,6 +15,7 @@ const confirmPostRoutes = require("./routes/confirmPost");
 const editController = require("./controllers/editController"); // Pastikan path ini benar
 
 const statistikRoutes = require("./routes/statistik");
+const arsipLaporanRoute = require('./routes/arsipLaporan');
 
 const upload = multer({ dest: "uploads/" }); // pastikan destinasi upload benar
 
@@ -45,6 +46,9 @@ app.use(editFormRoutes);
 app.use(deleteRoutes);
 app.use("/laporan", require("./routes/laporan"));
 app.use("/", require("./routes/statistik"));
+app.use('/', arsipLaporanRoute);
+
+
 
 
 

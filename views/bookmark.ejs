@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Bookmark</title>
+    <link rel="stylesheet" href="/css/dashboard.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <!-- Sidebar -->
+      <%- include('partials/sidebar') %>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <div class="top-bar">
+          <h2>Daftar Laporan yang Disimpan</h2>
+        </div>
+
+        <div class="card-grid">
+          <% if (bookmarks && bookmarks.length > 0) { %>
+            <% bookmarks.forEach(function(report) { %>
+              <div class="card">
+                <!-- Gambar -->
+                <div class="card-image">
+                  <% if (report.foto_barang) { %>
+                    <img src="/<%= report.foto_barang %>" alt="Gambar Barang" class="card-image" />
+                  <% } else { %>
+                    <img src="/images/default.png" alt="Gambar Default" class="card-image" />
+                  <% } %>
+                </div>
+
+                <!-- Info Utama -->
+                <h3><%= report.nama_barang %></h3>
+                <p><strong><%= report.jenis_laporan %></strong></p>
+                <p>Lokasi: <%= report.lokasi %></p>
+                <p>
+                  Tanggal: 
+                  <%= report.tanggal_laporan ? new Date(report.tanggal_laporan).toISOString().split('T')[0] : 'Tidak tersedia' %>
+                </p>
+
+                <!-- Status & Tombol Unbookmark -->
+<div class="status-bookmark-row">
+  <span class="badge <%= report.status.toLowerCase().replace(/\s+/g, '-') %>">
+    <%= report.status %>
+  </span>
+  
+  <form action="/hapus-simpan" method="POST" class="bookmark-form">
+    <input type="hidden" name="id_laporan" value="<%= report.id_laporan %>">
+    <input type="hidden" name="email" value="<%= report.email %>">
+    <button type="submit" class="bookmark-btn" title="Hapus Bookmark">
+      <img src="/images/bookmark.png" alt="Unbookmark" style="width: 20px; height: 20px;" />
+    </button>
+  </form>
+</div>
+
+<!-- Baris: Tombol bawah -->
+<div class="buttons">
+  <button class="detail-btn">See Detail</button>
+  <form action="/claim/<%= report.id_laporan %>" method="GET">
+    <button type="submit" class="claim-btn">Claim</button>
+  </form>
+</div>
+              </div>
+            <% }) %>
+          <% } else { %>
+            <p style="padding: 1rem;">Tidak ada laporan yang disimpan.</p>
+          <% } %>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

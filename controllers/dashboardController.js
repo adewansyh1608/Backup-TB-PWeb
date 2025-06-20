@@ -1,14 +1,16 @@
 const db = require("../config/db");
 
+// Controller untuk menampilkan halaman dashboard
 const dashboardController = (req, res) => {
-  // Ensure user data exists in session
+  // Pastikan user sudah login
   if (!req.session.user) {
-    return res.redirect("/login"); // Redirect to login if there's no user session
+    return res.redirect("/login");
   }
 
-  // Query to get reports with status 'On Progress', 'Claimed', or 'Done'
+  // Ambil laporan dengan status tertentu
   const query = `
-    SELECT * FROM laporan WHERE status IN ('On Progress', 'Claimed', 'Done')
+    SELECT * FROM laporan 
+    WHERE status IN ('On Progress', 'Claimed', 'Done')
   `;
 
   db.query(query, (err, results) => {
@@ -17,15 +19,15 @@ const dashboardController = (req, res) => {
       return res.status(500).send("Error fetching reports.");
     }
 
-    // Render the dashboard page and pass the reports, user data, and active menu
     res.render("dashboard", {
       user: req.session.user,
-      activeMenu: "dashboard", // Mark "Dashboard" as active in the sidebar
-      reports: results || [], // Pass reports to the template (or empty array if no reports)
+      activeMenu: "dashboard",
+      reports: results || [],
     });
   });
 };
 
+// Controller untuk menyimpan klaim laporan
 const saveClaim = (req, res) => {
   if (!req.session.user) {
     return res.status(401).send("Unauthorized. Please log in.");
@@ -37,16 +39,25 @@ const saveClaim = (req, res) => {
   }
 
   const email = req.session.user.email;
-  const tanggal_claim = new Date().toISOString().slice(0, 10);
+  const tanggal_claim = new Date().toISOString().slice(0, 10); // Format YYYY-MM-DD
 
-  const sql = "INSERT INTO claim (id_laporan, email, tanggal_claim) VALUES (?, ?, ?)";
+  const sql = `
+    INSERT INTO claim (id_laporan, email, tanggal_claim) 
+    VALUES (?, ?, ?)
+  `;
+
   db.query(sql, [id_laporan, email, tanggal_claim], (err) => {
     if (err) {
       console.error("Error inserting claim:", err);
       return res.status(500).send("Claim failed.");
     }
+
     res.redirect("/dashboard");
   });
 };
 
-module.exports = { dashboardController, saveClaim };
+// Pastikan kedua fungsi diekspor
+module.exports = {
+  dashboardController,
+  saveClaim
+};

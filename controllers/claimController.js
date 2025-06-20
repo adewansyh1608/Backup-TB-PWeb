@@ -61,25 +61,6 @@ exports.unclaimReport = (req, res) => {
   });
 };
 
-// Untuk menandai laporan sebagai selesai
-exports.laporanSelesai = (req, res) => {
-  const reportId = req.params.id;
-
-  const sql = `
-    UPDATE laporan SET 
-      status = 'Done'
-    WHERE id_laporan = ?
-  `;
-
-  db.query(sql, [reportId], (err, result) => {
-    if (err) {
-      console.error('Gagal menandai laporan selesai:', err);
-      return res.status(500).json({ success: false, message: 'Terjadi kesalahan saat menandai laporan selesai' });
-    }
-    res.json({ success: true, message: 'Laporan berhasil ditandai sebagai selesai' });
-  });
-};
-
 exports.getClaimedReports = (req, res) => {
   const emailUser = req.session.user?.email; // pastikan ada session
 

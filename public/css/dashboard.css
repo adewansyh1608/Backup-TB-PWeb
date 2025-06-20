@@ -131,6 +131,7 @@ html {
   background: #ddd;
   border-radius: 6px;
   margin-bottom: 1rem;
+  pointer-events: none;
 }
 
 .card h3 {
@@ -276,4 +277,21 @@ a.user-link:hover {
   padding: 10px;
   display: block;
   margin-bottom: 10px;
+}
+
+.status-bookmark-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.bookmark-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 4px;
+  position: relative;
+  z-index: 10;
 }

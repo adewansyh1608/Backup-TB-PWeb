@@ -15,6 +15,8 @@ const confirmPostRoutes = require("./routes/confirmPost");
 const editController = require("./controllers/editController"); // Pastikan path ini benar
 const claimRoutes = require("./routes/claim");
 const riwayatRoutes = require("./routes/riwayat");
+const selesaiRoutes = require("./routes/selesai");
+const simpanRoutes = require("./routes/simpan");
 
 const upload = multer({ dest: "uploads/" }); // pastikan destinasi upload benar
 
@@ -26,6 +28,7 @@ app.set("view engine", "ejs");
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true })); // Parsing data dari form
+app.use(express.json());
 
 app.use(
   session({
@@ -45,6 +48,8 @@ app.use(editFormRoutes);
 app.use(deleteRoutes);
 app.use("/", claimRoutes);
 app.use("/", riwayatRoutes);
+app.use("/", selesaiRoutes);
+app.use("/", simpanRoutes);
 
 // Menangani POST request untuk mengedit laporan
 app.post(

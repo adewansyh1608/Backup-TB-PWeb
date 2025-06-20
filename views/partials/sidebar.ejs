@@ -28,6 +28,11 @@
     class="<%= activeMenu === 'riwayat-saya' ? 'active' : '' %>"
     >Riwayat Saya</a>
 
+    <a href="/bookmark"
+    class="<%= activeMenu === 'bookmark' ? 'active' : '' %>"
+    >Laporan Disimpan</a
+    >
+
     <% if (user.role === 'admin') { %>
     <div class="menu-separator"></div>
     <div class="dropdown">

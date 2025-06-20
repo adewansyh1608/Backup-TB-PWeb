@@ -58,8 +58,8 @@
 <!-- Tombol -->
 <div class="flex flex-wrap justify-between items-end mt-4">
   <div class="flex space-x-3">
-    <!-- Tombol Batalkan Klaim -->
-    <button 
+<!-- Tombol Batalkan Klaim -->
+<button 
   onclick="cancelClaim(this)" 
   data-id="<%= report.id_laporan %>" 
   class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded text-sm font-medium transition-colors">
@@ -73,11 +73,18 @@
     </a>
   </div>
 
-  <!-- Tombol Buat Laporan Selesai -->
-  <button class="mt-4 md:mt-0 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded text-sm font-medium transition-colors">
+<!-- Tombol Buat Laporan Selesai -->
+<% if (report.status === 'Claimed') { %>
+  <!-- Tombol Buat Laporan Selesai hanya muncul jika status Claimed -->
+  <a 
+    href="/selesai-form/<%= report.id_laporan %>" 
+    class="mt-4 md:mt-0 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded text-sm font-medium transition-colors">
     Buat Laporan Selesai
-  </button>
-</div>
+  </a>
+<% } else if (report.status === 'Done') { %>
+  <!-- Jika sudah Done, tampilkan indikator -->
+  <span class="mt-4 md:mt-0 text-green-600 font-semibold text-sm">Laporan Selesai</span>
+<% } %>
 
                 </div>
               </div>
@@ -103,6 +110,22 @@
       })
       .catch(err => console.error('Gagal membatalkan klaim:', err));
   }
+</script>
+<script>
+function finishReport(button) {
+  const id = button.getAttribute('data-id');
+  
+  fetch(`/selesai/${id}`, {
+    method: 'POST'
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      window.location.reload();
+    }
+  })
+  .catch(err => console.error('Gagal menyelesaikan laporan:', err));
+}
 </script>
 
 </body>

@@ -1,14 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const requireLogin = require("../middleware/requireLogin");
-const db = require("../config/db"); // pastikan koneksi db disini
+const db = require("../config/db");
 
-const { dashboardController } = require("../controllers/dashboardController");
+const dashCtrl = require("../controllers/dashboardController");
 
-router.get("/dashboard", requireLogin, dashboardController);
+// Halaman dashboard
+router.get("/dashboard", requireLogin, dashCtrl.dashboardController);
 
+// Halaman detail kontak pelapor
 router.get("/claim/:id", requireLogin, (req, res) => {
-  console.log("Route /claim/:id dipanggil");
   const idLaporan = req.params.id;
 
   const query = `

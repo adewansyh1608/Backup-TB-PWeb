@@ -1,0 +1,49 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f7f8fa;
+  margin: 0;
+  padding: 0;
+}
+
+.layout {
+  display: flex;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #fff;
+  padding: 20px;
+  border-right: 1px solid #ddd;
+  height: 100vh;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 20px;
+}
+
+/* Tombol */
+a.bg-sky-500, a.bg-red-500, button.bg-red-500 {
+  transition: background-color 0.2s ease;
+}
+
+/* Tabel styling */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+th {
+  background-color: #f1f1f1;
+  font-weight: bold;
+}
+
+td, th {
+  padding: 12px 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+

@@ -25,7 +25,10 @@
     >
       Laporan Saya
     </a>
-    <a href="#" class="block py-2 px-4 rounded hover:bg-gray-700">
+    <a
+      href="/laporan-sayaclaim"
+      class="block py-2 px-4 rounded hover:bg-gray-700 <%= activeMenu === 'laporan-sayaclaim' ? 'bg-green-600' : '' %>"
+    >
       Laporan Saya Claim
     </a>
     <a
@@ -45,7 +48,7 @@
         href="#"
         class="dropdown-toggle block py-2 px-4 rounded hover:bg-gray-700 flex justify-between items-center"
       >
-        Laporan Masuk
+        Verifikasi Laporan
         <span class="arrow text-gray-400">&#9660;</span>
       </a>
       <div

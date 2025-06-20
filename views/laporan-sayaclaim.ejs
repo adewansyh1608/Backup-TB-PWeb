@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Laporan Saya Claim</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+      /* Ensure the body and html take up the full height */
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+      }
+
+      /* Make sidebar fixed */
+      .sidebar {
+        height: 100vh;
+        position: fixed;
+        width: 250px; /* Adjust the sidebar width if needed */
+      }
+
+      /* Make the main content area take the rest of the screen */
+      .main-content {
+        margin-left: 250px; /* Adjust according to sidebar width */
+        height: 100vh;
+        overflow: hidden; /* Hide overflow on the main content */
+        padding-top: 1.5rem; /* Top padding for the content */
+      }
+
+      /* Set the card grid to be scrollable with fixed max height */
+      .card-grid {
+        height: calc(
+          100vh - 160px
+        ); /* Subtract top bar height (adjust as needed) */
+        overflow-y: auto;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 text-gray-800">
+    <div class="flex">
+      <!-- Sidebar -->
+      <%- include('partials/sidebar') %>
+
+      <!-- Main Content -->
+      <main class="main-content p-6">
+        <!-- Card Grid -->
+        <div
+          class="card-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
+          <% if (reports && reports.length > 0) { %> <%
+          reports.forEach(function(report) { %>
+          <div
+            class="bg-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105"
+          >
+            <div class="relative">
+              <img
+                src="/<%= report.foto_barang %>"
+                alt="gambar barang"
+                class="w-full h-56 object-cover rounded-t-lg"
+              />
+              <div
+                class="absolute top-4 left-4 bg-white bg-opacity-75 px-3 py-2 rounded-full shadow-lg"
+              >
+                <h3 class="text-lg font-semibold text-gray-900">
+                  <%= report.nama_barang %>
+                </h3>
+              </div>
+            </div>
+
+            <div class="p-6">
+              <p class="text-sm font-semibold text-gray-700 mb-2">
+                <%= report.jenis_laporan %>
+              </p>
+              <p class="text-sm text-gray-600 mb-1">
+                Lokasi: <%= report.lokasi %>
+              </p>
+              <p class="text-sm text-gray-600 mb-1">
+                Tanggal: <%= report.tanggal_kejadian %>
+              </p>
+              <p class="text-sm text-gray-600 mb-3">
+                Deskripsi: <%= report.deskripsi %>
+              </p>
+
+              <span
+                class="inline-block mt-2 px-4 py-2 text-sm rounded-full <%= report.status.toLowerCase().replace(/\s+/g, '-') %> bg-green-200 text-green-800 font-semibold"
+              >
+                <%= report.status %>
+              </span>
+            </div>
+
+            <!-- Action Buttons Section -->
+            <div class="flex justify-between p-4 bg-gray-50 rounded-b-lg">
+              <!-- See Detail Button -->
+              <a
+                href="/detail-laporan/<%= report.id_laporan %>"
+                class="bg-blue-600 text-white py-2 px-6 rounded-full hover:bg-blue-700 transition"
+              >
+                See Detail
+              </a>
+
+              <!-- Batal Claim Button -->
+              <form action="/batal-claim" method="POST" class="inline-block">
+                <input
+                  type="hidden"
+                  name="id_laporan"
+                  value="<%= report.id_laporan %>"
+                />
+                <button
+                  type="submit"
+                  class="bg-red-600 text-white py-2 px-6 rounded-full hover:bg-red-700 transition"
+                >
+                  Batal Claim
+                </button>
+              </form>
+            </div>
+          </div>
+          <% }) %> <% } else { %>
+          <p class="text-center text-gray-600 col-span-3">
+            Tidak ada laporan yang di-claim.
+          </p>
+          <% } %>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

@@ -135,17 +135,63 @@
               </span>
             </div>
 
-            <div class="flex justify-between p-6 bg-gray-50 rounded-b-lg">
-              <button
-                class="bg-blue-600 text-white py-2 px-6 rounded-full hover:bg-blue-700 transition"
-              >
-                See Detail
-              </button>
-              <button
-                class="bg-green-600 text-white py-2 px-6 rounded-full hover:bg-green-700 transition"
-              >
-                Claim
-              </button>
+            <!-- Buttons -->
+            <div class="p-6 bg-gray-50 rounded-b-lg">
+              <div class="flex justify-between space-x-4">
+                <!-- Button See Detail -->
+                <a
+                  href="/detail-laporan/<%= report.id_laporan %>"
+                  class="bg-gray-300 text-gray py-2 px-6 rounded-full hover:bg-gray-400 transition"
+                >
+                  See Detail
+                </a>
+
+                <!-- Button Claim -->
+                <% if (report.status !== 'Claimed') { %>
+                <form
+                  action="/claim"
+                  method="POST"
+                  id="claim-form-<%= report.id_laporan %>"
+                >
+                  <input
+                    type="hidden"
+                    name="id_laporan"
+                    value="<%= report.id_laporan %>"
+                  />
+                  <button
+                    type="submit"
+                    id="claim-btn-<%= report.id_laporan %>"
+                    class="bg-green-600 text-white py-2 px-6 rounded-full hover:bg-green-700 transition"
+                  >
+                    Claim
+                  </button>
+                </form>
+                <% } else { %>
+                <button
+                  class="bg-green-300 text-white py-2 px-6 rounded-full cursor-not-allowed"
+                  disabled
+                >
+                  Claimed
+                </button>
+                <% } %>
+              </div>
+
+              <script>
+                // Menonaktifkan tombol Claim setelah klik
+                const form = document.getElementById(
+                  "claim-form-<%= report.id_laporan %>"
+                );
+                const claimButton = document.getElementById(
+                  "claim-btn-<%= report.id_laporan %>"
+                );
+
+                if (form) {
+                  form.addEventListener("submit", () => {
+                    claimButton.disabled = true; // Menonaktifkan tombol setelah diklik
+                    claimButton.textContent = "Claimed"; // Mengubah teks tombol menjadi "Claimed"
+                  });
+                }
+              </script>
             </div>
           </div>
           <% }) %> <% } else { %>

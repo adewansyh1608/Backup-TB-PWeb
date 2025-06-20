@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 16 Jun 2025 pada 05.02
+-- Waktu pembuatan: 20 Jun 2025 pada 16.16
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -34,6 +34,15 @@ CREATE TABLE `claim` (
   `tanggal_claim` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data untuk tabel `claim`
+--
+
+INSERT INTO `claim` (`id_claim`, `id_laporan`, `email`, `tanggal_claim`) VALUES
+(15, 19, 'admin123@gmail.com', '2025-06-20'),
+(16, 3, 'andre123@gmail.com', '2025-06-20'),
+(17, 14, 'andre123@gmail.com', '2025-06-20');
+
 -- --------------------------------------------------------
 
 --
@@ -55,18 +64,24 @@ CREATE TABLE `laporan` (
   `nohp_penemu_penerima` varchar(15) DEFAULT NULL,
   `tanggal_penyerahan` date DEFAULT NULL,
   `lokasi_penyerahan` varchar(255) DEFAULT NULL,
-  `foto_bukti` varchar(255) DEFAULT NULL
+  `foto_bukti` varchar(255) DEFAULT NULL,
+  `verifikasi_action` enum('none','approve','denied') NOT NULL DEFAULT 'none'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `laporan`
 --
 
-INSERT INTO `laporan` (`id_laporan`, `email`, `jenis_laporan`, `nama_barang`, `tanggal_kejadian`, `lokasi`, `tanggal_laporan`, `deskripsi`, `foto_barang`, `status`, `nama_penemu_penerima`, `nohp_penemu_penerima`, `tanggal_penyerahan`, `lokasi_penyerahan`, `foto_bukti`) VALUES
-(3, 'admin123@gmail.com', 'Penemuan', 'Botol', '2025-05-20', 'Gedung A', '2025-06-01', 'adfre', 'uploads/1748788466640.jpeg', 'Claimed', NULL, NULL, NULL, NULL, NULL),
-(4, 'admin123@gmail.com', 'Kehilangan', 'HP', '2025-06-01', 'Gedung F', '2025-06-01', 'HP orang', 'uploads/1748796282818.png', 'Upload verification rejected', NULL, NULL, NULL, NULL, NULL),
-(5, 'andre123@gmail.com', 'Penemuan', 'Botol', '2025-05-29', 'Gedung F', '2025-06-01', 'doiahsoidhaodho', 'uploads/1748800965663.jpeg', 'Upload verification rejected', NULL, NULL, NULL, NULL, NULL),
-(6, 'admin123@gmail.com', 'Kehilangan', 'Jam', '2025-05-13', 'Gedung F', '2025-06-02', 'Jam Saya Hilang', 'uploads/1748833580199.png', 'On progress', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `laporan` (`id_laporan`, `email`, `jenis_laporan`, `nama_barang`, `tanggal_kejadian`, `lokasi`, `tanggal_laporan`, `deskripsi`, `foto_barang`, `status`, `nama_penemu_penerima`, `nohp_penemu_penerima`, `tanggal_penyerahan`, `lokasi_penyerahan`, `foto_bukti`, `verifikasi_action`) VALUES
+(3, 'admin123@gmail.com', 'Penemuan', 'Botol', '2025-05-19', 'Gedung A', '2025-06-01', 'adfre updated', 'uploads/1748788466640.jpeg', 'Claimed', NULL, NULL, NULL, NULL, NULL, 'none'),
+(5, 'andre123@gmail.com', 'Penemuan', 'Botol', '2025-05-29', 'Gedung F', '2025-06-01', 'doiahsoidhaodho', 'uploads/1748800965663.jpeg', 'On progress', NULL, NULL, NULL, NULL, NULL, 'none'),
+(6, 'admin123@gmail.com', 'Penemuan', 'Logo', '2025-05-11', 'Gedung J', '2025-06-02', 'Hilangggg', 'uploads/1750158749029.png', 'On progress', NULL, NULL, NULL, NULL, NULL, 'none'),
+(14, 'admin123@gmail.com', 'Kehilangan', 'Motor', '2025-06-06', 'Gedung A', '2025-06-17', 'fsvwafevefew', 'uploads/1750158051445.jpg', 'Claimed', NULL, NULL, NULL, NULL, NULL, 'none'),
+(15, 'admin123@gmail.com', 'Penemuan', 'HP', '2025-06-20', 'Gedung B', '2025-06-18', 'hvoihoiwheivjo', 'uploads/1750252562925.jpg', 'On progress', NULL, NULL, NULL, NULL, NULL, 'none'),
+(16, 'admin123@gmail.com', 'Penemuan', 'Dompet Levis Mantap', '2025-06-15', 'Gedung B', '2025-06-18', 'dompet hilang isi kartu pelajar', 'uploads/1750260250907.jpeg', 'On progress', NULL, NULL, NULL, NULL, NULL, 'none'),
+(17, 'admin123@gmail.com', 'Kehilangan', 'test', '2025-06-17', 'naldhaih', '2025-06-19', 'iodweoihfoiwehvoiwe', 'uploads/1750323641356.jpeg', 'On progress', NULL, NULL, NULL, NULL, NULL, 'none'),
+(18, 'admin123@gmail.com', 'Penemuan', 'gewgweg', '2025-06-06', 'gewegw', '2025-06-19', 'gwergew', 'uploads/1750357910962.jpeg', 'On progress', NULL, NULL, NULL, NULL, NULL, 'none'),
+(19, 'andre123@gmail.com', 'Kehilangan', 'test aja', '2025-06-10', 'Gedung J', '2025-06-20', 'gebseseiofsoidfoisdnvoisdnvoidsvuinsdoivnsdoivnsdoihoisdhiodshvoisdhviosdnvoisdnvoidsnvoisdnvoidsn', 'uploads/1750428760510.jpeg', 'Claimed', NULL, NULL, NULL, NULL, NULL, 'none');
 
 -- --------------------------------------------------------
 
@@ -106,6 +121,31 @@ CREATE TABLE `riwayat` (
   `tanggal_aktivitas` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `saran`
+--
+
+CREATE TABLE `saran` (
+  `id_saran` int(11) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `deskripsi_saran` text NOT NULL,
+  `tanggal_saran` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `simpan`
+--
+
+CREATE TABLE `simpan` (
+  `id_simpan` int(11) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `id_laporan` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- Indexes for dumped tables
 --
@@ -139,6 +179,21 @@ ALTER TABLE `riwayat`
   ADD KEY `email` (`email`);
 
 --
+-- Indeks untuk tabel `saran`
+--
+ALTER TABLE `saran`
+  ADD PRIMARY KEY (`id_saran`),
+  ADD KEY `email` (`email`);
+
+--
+-- Indeks untuk tabel `simpan`
+--
+ALTER TABLE `simpan`
+  ADD PRIMARY KEY (`id_simpan`),
+  ADD KEY `email` (`email`),
+  ADD KEY `id_laporan` (`id_laporan`);
+
+--
 -- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
@@ -146,19 +201,31 @@ ALTER TABLE `riwayat`
 -- AUTO_INCREMENT untuk tabel `claim`
 --
 ALTER TABLE `claim`
-  MODIFY `id_claim` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_claim` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT untuk tabel `laporan`
 --
 ALTER TABLE `laporan`
-  MODIFY `id_laporan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_laporan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT untuk tabel `riwayat`
 --
 ALTER TABLE `riwayat`
   MODIFY `id_riwayat` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `saran`
+--
+ALTER TABLE `saran`
+  MODIFY `id_saran` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `simpan`
+--
+ALTER TABLE `simpan`
+  MODIFY `id_simpan` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
@@ -182,6 +249,19 @@ ALTER TABLE `laporan`
 --
 ALTER TABLE `riwayat`
   ADD CONSTRAINT `riwayat_ibfk_1` FOREIGN KEY (`email`) REFERENCES `pengguna` (`email`);
+
+--
+-- Ketidakleluasaan untuk tabel `saran`
+--
+ALTER TABLE `saran`
+  ADD CONSTRAINT `saran_ibfk_1` FOREIGN KEY (`email`) REFERENCES `pengguna` (`email`);
+
+--
+-- Ketidakleluasaan untuk tabel `simpan`
+--
+ALTER TABLE `simpan`
+  ADD CONSTRAINT `simpan_ibfk_1` FOREIGN KEY (`email`) REFERENCES `pengguna` (`email`),
+  ADD CONSTRAINT `simpan_ibfk_2` FOREIGN KEY (`id_laporan`) REFERENCES `laporan` (`id_laporan`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

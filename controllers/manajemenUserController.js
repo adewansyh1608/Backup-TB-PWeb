@@ -46,8 +46,52 @@ const cetakUser = (req, res) => {
   });
 };
 
+const hapusUser = (req, res) => {
+  const email = req.params.email;
+
+  const deleteSaran = "DELETE FROM saran WHERE email = ?";
+  const deleteClaim = "DELETE FROM claim WHERE email = ?";
+  const deleteRiwayat = "DELETE FROM riwayat WHERE email = ?";
+  const deleteLaporan = "DELETE FROM laporan WHERE email = ?";
+  const deletePengguna = "DELETE FROM pengguna WHERE email = ?";
+
+  db.query(deleteSaran, [email], (err) => {
+    if (err) {
+      console.error("Gagal menghapus saran:", err);
+      return res.status(500).send("Gagal menghapus saran.");
+    }
+    db.query(deleteClaim, [email], (err) => {
+      if (err) {
+        console.error("Gagal menghapus claim:", err);
+        return res.status(500).send("Gagal menghapus claim.");
+      }
+      db.query(deleteRiwayat, [email], (err) => {
+        if (err) {
+          console.error("Gagal menghapus riwayat:", err);
+          return res.status(500).send("Gagal menghapus riwayat.");
+        }
+        db.query(deleteLaporan, [email], (err) => {
+          if (err) {
+            console.error("Gagal menghapus laporan:", err);
+            return res.status(500).send("Gagal menghapus laporan.");
+          }
+          db.query(deletePengguna, [email], (err) => {
+            if (err) {
+              console.error("Gagal menghapus akun:", err);
+              return res.status(500).send("Gagal menghapus akun.");
+            }
+            res.redirect("/manajemen-user");
+          });
+        });
+      });
+    });
+  });
+};
+
+
 
 module.exports = {
   tampilkanUser,
-  cetakUser
+  cetakUser,
+  hapusUser
 };

@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const requireLogin = require("../middleware/requireLogin");
-const { tampilkanUser, cetakUser } = require("../controllers/manajemenUserController");
+const { tampilkanUser, cetakUser, hapusUser } = require("../controllers/manajemenUserController");
 const db = require("../config/db");
 const bcrypt = require("bcrypt");
 
@@ -76,20 +76,36 @@ router.post("/reset-password/:email", requireLogin, async (req, res) => {
 });
 
 
+
 // Route untuk menghapus user berdasarkan email
 router.post("/hapus-akun/:email", requireLogin, (req, res) => {
   const email = req.params.email;
 
-  const sql = "DELETE FROM pengguna WHERE email = ?";
-  db.query(sql, [email], (err, result) => {
-    if (err) {
-      console.error("Gagal menghapus akun:", err);
-      return res.status(500).send("Gagal menghapus akun.");
+  // Hapus data terkait terlebih dahulu
+  const deleteQueries = [
+    "DELETE FROM claim WHERE email = ?",
+    "DELETE FROM riwayat WHERE email = ?",
+    "DELETE FROM laporan WHERE email = ?",
+    "DELETE FROM saran WHERE email = ?",
+    "DELETE FROM pengguna WHERE email = ?"
+  ];
+
+  const executeQuery = (index) => {
+    if (index >= deleteQueries.length) {
+      // Semua query berhasil
+      return res.redirect("/manajemen-user");
     }
 
-    // Setelah berhasil menghapus, kembali ke halaman manajemen user
-    res.redirect("/manajemen-user");
-  });
+    db.query(deleteQueries[index], [email], (err) => {
+      if (err) {
+        console.error("Gagal menghapus data:", err);
+        return res.status(500).send("Gagal menghapus akun beserta data terkait.");
+      }
+      executeQuery(index + 1); // Lanjut ke query berikutnya
+    });
+  };
+
+  executeQuery(0); // Mulai dari query pertama
 });
 
 module.exports = router;

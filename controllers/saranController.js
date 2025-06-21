@@ -11,7 +11,7 @@ const formSaran = (req, res) => {
 // Simpan saran dari user
 const kirimSaran = (req, res) => {
   const { deskripsi_saran } = req.body;
-  const email = req.session.user.email;
+  const email = req.body.email;
   const tanggal_saran = new Date();
 
   const sql = "INSERT INTO saran (email, deskripsi_saran, tanggal_saran) VALUES (?, ?, ?)";

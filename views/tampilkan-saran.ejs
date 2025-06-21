@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Halaman Saran</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/css/dashboard.css" />
+</head>
+<body class="layout">
+  <!-- Sidebar -->
+  <%- include('partials/sidebar', { user, activeMenu: 'saran' }) %>
+
+  <!-- Main content -->
+  <div class="main-content p-6 w-full">
+    <h1 class="text-2xl font-semibold mb-6">Saran</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <% saranList.forEach(saran => { %>
+        <div class="bg-white rounded-lg shadow-md p-4 h-full overflow-hidden">
+          <h2 class="font-bold"><%= saran.nama %></h2>
+          <p class="text-sm text-gray-600 mb-2"><%= saran.email.replace(/(.{2})(.*)(@.*)/, "$1****$3") %></p>
+          <p class="text-gray-800 truncate"><%= saran.deskripsi_saran.substring(0, 100) %>...</p>
+          <button onclick="showModal('<%= saran.nama %>', '<%= saran.email %>', `<%= saran.deskripsi_saran %>`)" class="mt-4 w-full bg-black text-white py-1 rounded text-sm">See Detail</button>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="modalDetail" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
+    <div class="bg-white p-6 rounded-lg max-w-md w-full">
+      <h2 class="font-bold mb-2">Nama:</h2>
+      <p id="modalNama" class="mb-2"></p>
+
+      <h2 class="font-bold mb-2">Email:</h2>
+      <p id="modalEmail" class="mb-2"></p>
+
+      <h2 class="font-bold mb-2">Saran:</h2>
+      <p id="modalSaran" class="mb-4 break-words whitespace-pre-line"></p>
+
+      <button onclick="closeModal()" class="bg-red-500 text-white px-4 py-2 rounded">Close</button>
+    </div>
+  </div>
+
+  <script>
+    function showModal(nama, email, saran) {
+      document.getElementById('modalNama').innerText = nama;
+      document.getElementById('modalEmail').innerText = email.replace(/(.{2})(.*)(@.*)/, "$1****$3");
+      document.getElementById('modalSaran').innerText = saran;
+      document.getElementById('modalDetail').classList.remove('hidden');
+      document.getElementById('modalDetail').classList.add('flex');
+    }
+
+    function closeModal() {
+      document.getElementById('modalDetail').classList.add('hidden');
+    }
+  </script>
+</body>
+</html>

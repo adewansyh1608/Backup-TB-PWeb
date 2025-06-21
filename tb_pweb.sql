@@ -184,6 +184,25 @@ ALTER TABLE `riwayat`
   ADD CONSTRAINT `riwayat_ibfk_1` FOREIGN KEY (`email`) REFERENCES `pengguna` (`email`);
 COMMIT;
 
+CREATE TABLE simpan (
+    id_simpan INT(11) AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL,
+    id_laporan INT(11) NOT NULL,
+    FOREIGN KEY (email) REFERENCES pengguna(email),
+    FOREIGN KEY (id_laporan) REFERENCES laporan(id_laporan)
+);
+
+CREATE TABLE saran (
+    id_saran INT(11) AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL,
+    deskripsi_saran TEXT NOT NULL,
+    tanggal_saran DATE NOT NULL,
+    FOREIGN KEY (email) REFERENCES pengguna(email)
+);
+
+ALTER TABLE your_table_name
+ADD COLUMN verifikasi_action ENUM('none', 'approve', 'denied') NOT NULL DEFAULT 'none';
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

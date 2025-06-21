@@ -34,6 +34,12 @@ const generateReportPdf = (req, res) => {
 
     const report = results[0];
 
+    if (!report) {
+      return res.send("Report not found.");
+    }
+
+    console.log(report); // Log the fetched data for debugging
+
     // Create a PDF document
     const doc = new PDFDocument({ margin: 50 });
 
@@ -57,19 +63,20 @@ const generateReportPdf = (req, res) => {
       .text("Laporan Penemuan / Kehilangan Barang Hilang", { align: "center" });
     doc.moveDown(2);
 
-    // Judul Barang (bold)
+    // Nama Barang (bold)
     doc
       .fontSize(12)
       .font("Helvetica-Bold")
-      .text(`Nama Barang: ${report.nama_barang}`, { align: "center" });
-    doc.moveDown(2);
+      .text(`${report.nama_barang || "-"}`, {
+        align: "center",
+      });
+    doc.moveDown(1);
 
     // Gambar Barang (jika ada)
     if (report.foto_barang) {
       const imagePath = `public/${report.foto_barang}`;
       if (fs.existsSync(imagePath)) {
-        // Ensure image is centered and fits the page width
-        doc.image(imagePath, { fit: [500, 500], align: "center" });
+        doc.image(imagePath, { fit: [250, 250], align: "center" });
         doc.moveDown(2); // Space after image
       } else {
         doc.text("Gambar tidak tersedia.", { align: "center" });
@@ -80,43 +87,47 @@ const generateReportPdf = (req, res) => {
     // **Informasi Laporan**
     doc
       .fontSize(12)
-      .font("Helvetica")
-      .text("Informasi Laporan", { underline: true });
+      .font("Helvetica-Bold")
+      .text("Informasi Laporan:", { underline: true });
     doc.moveDown();
-    doc.font("Helvetica").text(`Jenis Laporan: ${report.jenis_laporan}`);
-    doc.font("Helvetica").text(`Status: ${report.status}`);
-    doc.font("Helvetica").text(`Lokasi: ${report.lokasi}`);
-    doc.font("Helvetica").text(`Tanggal Kejadian: ${report.tanggal_kejadian}`);
-    doc.font("Helvetica").text(`Tanggal Laporan: ${report.tanggal_laporan}`);
-    doc.font("Helvetica").text(`Deskripsi: ${report.deskripsi}`);
     doc
       .font("Helvetica")
-      .text(`Lokasi Penyerahan: ${report.lokasi_penyerahan}`);
-    doc
-      .font("Helvetica")
-      .text(`Tanggal Penyerahan: ${report.tanggal_penyerahan}`);
-    doc.font("Helvetica").text(`Foto Bukti Penyerahan: ${report.foto_bukti}`);
-    doc.moveDown(2); // Space after details
+      .text(`Jenis Laporan: ${report.jenis_laporan || "-"}`)
+      .text(`Status: ${report.status || "-"}`)
+      .text(`Lokasi: ${report.lokasi || "-"}`)
+      .text(`Tanggal Kejadian: ${report.tanggal_kejadian || "-"}`)
+      .text(`Tanggal Laporan: ${report.tanggal_laporan || "-"}`)
+      .text(`Deskripsi: ${report.deskripsi || "-"}`)
+      .text(`Lokasi Penyerahan: ${report.lokasi_penyerahan || "-"}`)
+      .text(`Tanggal Penyerahan: ${report.tanggal_penyerahan || "-"}`)
+      .text(`Foto Bukti Penyerahan: ${report.foto_bukti || "-"}`);
+    doc.moveDown(2); // Space after Informasi Laporan
 
     // **Informasi Pelapor**
-    doc.fontSize(12).text("Informasi Pelapor", { underline: true });
+    doc
+      .fontSize(12)
+      .font("Helvetica-Bold")
+      .text("Informasi Pelapor:", { underline: true });
     doc.moveDown();
-    doc.font("Helvetica").text(`Nama Pelapor: ${report.nama_penemu_penerima}`);
-    doc.font("Helvetica").text(`Email Pelapor: ${report.email_pelapor}`);
     doc
       .font("Helvetica")
-      .text(`No Telepon Pelapor: ${report.nohp_penemu_penerima}`);
-    doc.font("Helvetica").text(`Alamat Pelapor: ${report.alamat_pelapor}`);
-    doc.moveDown(2); // Space after pelapor info
+      .text(`Nama Pelapor: ${report.nama_penemu_penerima || "-"}`)
+      .text(`Email Pelapor: ${report.email_pelapor || "-"}`)
+      .text(`No Telepon Pelapor: ${report.nohp_penemu_penerima || "-"}`)
+      .text(`Alamat Pelapor: ${report.alamat_pelapor || "-"}`);
+    doc.moveDown(2); // Space after Informasi Pelapor
 
     // **Informasi Penemu/Penerima**
-    doc.fontSize(12).text("Informasi Penemu/Penerima", { underline: true });
+    doc
+      .fontSize(12)
+      .font("Helvetica-Bold")
+      .text("Informasi Penemu/Penerima:", { underline: true });
     doc.moveDown();
-    doc.font("Helvetica").text(`Nama: ${report.nama_penemu_penerima}`);
     doc
       .font("Helvetica")
-      .text(`No Telepon Penemu: ${report.nohp_penemu_penerima}`);
-    doc.moveDown(2); // Space after penerima info
+      .text(`Nama: ${report.nama_penemu_penerima || "-"}`)
+      .text(`No Telepon Penemu: ${report.nohp_penemu_penerima || "-"}`);
+    doc.moveDown(2); // Space after Informasi Penemu/Penerima
 
     // Footer
     doc

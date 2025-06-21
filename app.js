@@ -16,6 +16,10 @@ const editController = require("./controllers/editController"); // Pastikan path
 const statistikRoutes = require("./routes/statistik");
 const kontakPelaporRoute = require("./routes/kontak-pelapor");
 const laporanSayaclaimRoutes = require("./routes/laporan-sayaclaim"); // Import rute laporan-sayaclaim
+const arsipLaporanRoute = require("./routes/arsipLaporan");
+const tambahAkunRoutes = require('./routes/tambahAkun');
+const manajemenUserRoutes = require('./routes/manajemenUser');
+const saranRoutes = require("./routes/saran");
 
 const upload = multer({ dest: "uploads/" }); // pastikan destinasi upload benar
 
@@ -49,6 +53,11 @@ app.use("/", require("./routes/statistik"));
 app.use("/kontak-pelapor", kontakPelaporRoute);
 app.use("/", statistikRoutes);
 app.use("/", laporanSayaclaimRoutes); // Menambahkan rute laporan-sayaclaim ke dalam aplikasi
+app.use("/", arsipLaporanRoute);
+app.use('/tambah-akun', tambahAkunRoutes);
+app.use('/', manajemenUserRoutes);
+app.use(saranRoutes);
+
 
 // Menangani POST request untuk mengedit laporan
 app.post(

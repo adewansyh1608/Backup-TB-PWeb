@@ -71,19 +71,36 @@
     >
       Statistik Laporan
     </a>
-    <a href="#" class="block py-2 px-4 rounded hover:bg-gray-700">
-      Management User
+
+    <a
+      href="/arsip-laporan"
+      class="block py-2 px-4 rounded hover:bg-gray-700 <%= activeMenu === 'arsip-laporan' ? 'bg-green-600' : '' %>"
+    >
+      Manajemen Laporan
     </a>
     <% } %>
+
+    <a
+      href="/manajemen-user"
+      class="block py-2 px-4 rounded hover:bg-gray-700 <%= activeMenu === 'manajemen-user' ? 'bg-green-600' : '' %>"
+    >
+      Management User
+    </a>
+
+    <a href="/saran" class="<%= activeMenu === 'saran' ? 'active' : '' %>"
+      >Saran</a
+    >
   </nav>
 </aside>
 
 <script>
   // Ensure the dropdown toggles visibility on click
-  document.querySelectorAll(".dropdown-toggle").forEach((dropdown) => {
-    dropdown.addEventListener("click", function (event) {
-      const menu = this.nextElementSibling;
-      menu.classList.toggle("hidden");
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".dropdown-toggle").forEach((dropdown) => {
+      dropdown.addEventListener("click", function () {
+        const menu = this.nextElementSibling;
+        menu.classList.toggle("hidden");
+      });
     });
   });
 </script>

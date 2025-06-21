@@ -48,7 +48,7 @@
               <p class="text-xl text-gray-700"><%= report.jenis_laporan %></p>
             </div>
 
-            <!-- Status - Moved Below Jenis Laporan -->
+            <!-- Status -->
             <div>
               <h2 class="text-3xl font-semibold text-indigo-600">Status</h2>
               <p class="text-xl text-gray-700"><%= report.status %></p>
@@ -59,9 +59,7 @@
               <h2 class="text-3xl font-semibold text-indigo-600">
                 Tanggal Kejadian
               </h2>
-              <p class="text-xl text-gray-700">
-                <%= report.tanggal_kejadian %>
-              </p>
+              <p id="tanggal-kejadian" class="text-xl text-gray-700"></p>
             </div>
 
             <!-- Lokasi -->
@@ -75,13 +73,17 @@
               <h2 class="text-3xl font-semibold text-indigo-600">
                 Tanggal Laporan
               </h2>
-              <p class="text-xl text-gray-700"><%= report.tanggal_laporan %></p>
+              <p id="tanggal-laporan" class="text-xl text-gray-700"></p>
             </div>
 
             <!-- Deskripsi -->
             <div>
               <h2 class="text-3xl font-semibold text-indigo-600">Deskripsi</h2>
-              <p class="text-xl text-gray-700"><%= report.deskripsi %></p>
+              <p
+                class="text-xl text-gray-700 overflow-hidden overflow-ellipsis whitespace-normal break-words"
+              >
+                <%= report.deskripsi %>
+              </p>
             </div>
           </div>
         </div>
@@ -125,5 +127,19 @@
         </div>
       </div>
     </div>
+
+    <script>
+      // Format the date to "Fri Jun 20 2025" for Tanggal Kejadian
+      const tanggalKejadian = new Date("<%= report.tanggal_kejadian %>");
+      const formattedTanggalKejadian = tanggalKejadian.toDateString(); // This returns the date in "Fri Jun 20 2025" format
+      document.getElementById("tanggal-kejadian").textContent =
+        formattedTanggalKejadian;
+
+      // Format the date to "Fri Jun 20 2025" for Tanggal Laporan
+      const tanggalLaporan = new Date("<%= report.tanggal_laporan %>");
+      const formattedTanggalLaporan = tanggalLaporan.toDateString(); // This returns the date in "Fri Jun 20 2025" format
+      document.getElementById("tanggal-laporan").textContent =
+        formattedTanggalLaporan;
+    </script>
   </body>
 </html>

@@ -12,12 +12,13 @@ const myReportRoutes = require("./routes/myReport");
 const editFormRoutes = require("./routes/edit-form");
 const deleteRoutes = require("./routes/delete");
 const confirmPostRoutes = require("./routes/confirmPost");
-const editController = require("./controllers/editController"); // Pastikan path ini benar
+const confirmDoneRoutes = require("./routes/confirmDone");
+const editController = require("./controllers/editController");
 
 const statistikRoutes = require("./routes/statistik");
 const arsipLaporanRoute = require('./routes/arsipLaporan');
 
-const upload = multer({ dest: "uploads/" }); // pastikan destinasi upload benar
+const upload = multer({ dest: "uploads/" }); 
 
 const app = express();
 const port = 3000;
@@ -26,7 +27,7 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 app.use(express.static(path.join(__dirname, "public")));
-app.use(express.urlencoded({ extended: true })); // Parsing data dari form
+app.use(express.urlencoded({ extended: true })); 
 
 app.use(
   session({
@@ -42,11 +43,13 @@ app.use("/", laporanRoutes);
 app.use("/", dashboardRoutes);
 app.use("/", myReportRoutes);
 app.use("/", confirmPostRoutes);
+app.use("/", confirmDoneRoutes);
 app.use(editFormRoutes);
 app.use(deleteRoutes);
 app.use("/laporan", require("./routes/laporan"));
 app.use("/", require("./routes/statistik"));
 app.use('/', arsipLaporanRoute);
+
 
 
 

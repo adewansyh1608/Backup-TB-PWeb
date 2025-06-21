@@ -41,6 +41,12 @@
       Riwayat Saya
     </a>
 
+    <a
+      href="/saran"
+      class="block py-2 px-4 rounded hover:bg-gray-700 <%= activeMenu === 'saran' ? 'bg-green-600' : '' %>"
+      >Saran
+    </a>
+
     <% if (user.role === 'admin') { %>
     <div class="menu-separator my-4 border-t border-gray-600"></div>
     <div class="dropdown relative">
@@ -86,10 +92,6 @@
     >
       Management User
     </a>
-
-    <a href="/saran" class="<%= activeMenu === 'saran' ? 'active' : '' %>"
-      >Saran</a
-    >
   </nav>
 </aside>
 

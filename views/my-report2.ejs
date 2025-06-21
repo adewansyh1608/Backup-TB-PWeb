@@ -68,34 +68,7 @@
       select {
         flex-shrink: 0; /* Prevent shrinking of buttons */
       }
-
-      .button-image {
-        width: 20px;
-        height: 20px;
-      }
-
-      .button-container {
-        display: flex;
-        gap: 8px;
-        justify-content: space-between;
-        align-items: center;
-        flex-direction: column; /* Arrange buttons vertically */
-      }
-
-       .button-row {
-        display: flex;
-        gap: 10px;
-        justify-content: center;
-        align-items: center;
-      }
-
-        .button-text {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-      }
-
+      
     </style>
   </head>
   <body class="bg-gray-100 text-gray-800">
@@ -180,7 +153,7 @@
           <% if (reports && reports.length > 0) { %> <%
           reports.forEach(function(report) { %>
           <div
-            class="bg-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-102"
+            class="bg-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105"
           >
             <div class="relative">
               <img
@@ -218,49 +191,12 @@
               >
                 <%= report.status %>
               </span>
-              
             </div>
 
             <!-- Action Buttons Section -->
-            <div class="button-container p-4 bg-gray-50 rounded-b-lg">
-              
-              <!-- Edit, Download, Hapus buttons in a row -->
-              <div class="button-row">
-                <button class="opacity-50 hover:opacity-100"
-                href="#"
-                  onclick="if (confirm('Apakah Anda yakin ingin menghapus laporan ini?')) { window.location.href = '/laporan/delete/<%= report.id_laporan %>' }"
-                >
-                  <img src="/images/delete.png" alt="Hapus" class="button-image" />
-                </button>
-
-                <button class="opacity-50 hover:opacity-100"
-                onclick="window.location.href='/laporan/edit/<%= report.id_laporan %>'"
-                >
-                  <img src="/images/edit.png" alt="Edit" class="button-image" />
-                </button>
-
-                <button class="opacity-50 hover:opacity-100"
-                onclick="window.location.href='/my-report/download/<%= report.id_laporan %>'"
-                >
-                  <img src="/images/download.png" alt="Download PDF" class="button-image" />
-                </button>
-
-                <button class="opacity-50 hover:opacity-100"
-                onclick="window.location.href='#'"
-                >
-                  <img src="/images/ajukanulang.png" alt="Ajukan Ulang" class="button-image" />
-                </button>
-
-                <button class="opacity-50 hover:opacity-100"
-                onclick="window.location.href='#'"
-                >
-                  <img src="/images/detail.png" alt="Detail Laporan" class="button-image" />
-                </button>
-                
-              </div>
-
-             <!-- Done & See Claimer buttons in a row (text buttons) -->
-              <div class="button-row mt-4">
+            <div class="flex justify-between p-4 bg-gray-50 rounded-b-lg">
+              <!-- Grouped buttons: Done & See Claimer -->
+              <div class="action-buttons space-x-3">
                 <button
                   class="bg-green-600 text-white py-2 px-4 rounded-full hover:bg-green-700 transition <%= report.status !== 'Claimed' ? 'opacity-50 cursor-not-allowed' : '' %>"
                 >
@@ -270,6 +206,39 @@
                   class="bg-blue-600 text-white py-2 px-4 rounded-full hover:bg-blue-700 transition <%= report.status !== 'Claimed' ? 'opacity-50 cursor-not-allowed' : '' %>"
                 >
                   See Claimer
+                </button>
+              </div>
+
+              <!-- Grouping other buttons (Edit, Delete, etc.) -->
+              <div class="space-x-3">
+                <button
+                  class="bg-yellow-500 text-white py-2 px-4 rounded-full hover:bg-yellow-600 transition"
+                  onclick="window.location.href='/laporan/edit/<%= report.id_laporan %>'"
+                >
+                  Edit
+                </button>
+                <a
+                  href="#"
+                  onclick="if (confirm('Apakah Anda yakin ingin menghapus laporan ini?')) { window.location.href = '/laporan/delete/<%= report.id_laporan %>' }"
+                >
+                  <button
+                    class="bg-red-600 text-white py-2 px-4 rounded-full hover:bg-red-700 transition"
+                  >
+                    Hapus
+                  </button>
+                </a>
+                <button
+                  class="bg-indigo-600 text-white py-2 px-4 rounded-full hover:bg-indigo-700 transition"
+                >
+                  Ajukan Ulang
+                </button>
+
+                <button
+                  class="bg-purple-600 text-white py-2 px-4 rounded-full hover:bg-purple-700 transition"
+                >
+                  <a href="/my-report/download/<%= report.id_laporan %>"
+                    >Download PDF</a
+                  >
                 </button>
               </div>
             </div>

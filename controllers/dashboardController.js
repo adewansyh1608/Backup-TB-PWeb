@@ -1,27 +1,46 @@
 const db = require("../config/db");
 
 const dashboardController = (req, res) => {
-  // Ensure user data exists in session
-  if (!req.session.user) {
-    return res.redirect("/login"); // Redirect to login if there's no user session
+  if (!req.session.user) return res.redirect("/login");
+
+  const { filter, jenis, search } = req.query;
+
+  let query = `SELECT * FROM laporan WHERE 1=1`;
+  const params = [];
+
+  // Filter jenis_laporan (Kehilangan, Penemuan)
+  if (jenis === "Kehilangan" || jenis === "Penemuan") {
+    query += ` AND jenis_laporan = ?`;
+    params.push(jenis);
   }
 
-  // Query to get reports with status 'On Progress', 'Claimed', or 'Done'
-  const query = `
-    SELECT * FROM laporan WHERE status IN ('On Progress', 'Claimed', 'Done')
-  `;
+  // Filter status (On Progress, Claimed, Done)
+  if (filter === "On Progress" || filter === "Claimed" || filter === "Done") {
+    query += ` AND status = ?`;
+    params.push(filter);
+  } else {
+    query += ` AND status IN ('On Progress', 'Claimed', 'Done')`;
+  }
 
-  db.query(query, (err, results) => {
+  // Pencarian nama_barang
+  if (search) {
+    query += ` AND nama_barang LIKE ?`;
+    params.push(`%${search}%`);
+  }
+
+  db.query(query, params, (err, results) => {
     if (err) {
       console.error("Error fetching reports:", err);
       return res.status(500).send("Error fetching reports.");
     }
 
-    // Render the dashboard page and pass the reports, user data, and active menu
     res.render("dashboard", {
       user: req.session.user,
-      activeMenu: "dashboard", // Mark "Dashboard" as active in the sidebar
-      reports: results || [], // Pass reports to the template (or empty array if no reports)
+      activeMenu: "dashboard",
+      reports: results || [],
+      searchQuery: search || "",
+      activeFilter: filter || "All",
+      activeJenis: jenis || "All",
     });
   });
 };

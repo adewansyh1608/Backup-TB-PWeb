@@ -4,20 +4,53 @@ const db = require("../config/db"); // Pastikan pengimporan db benar
 
 const getUserReports = (req, res) => {
   const userEmail = req.session.user.email;
+  const { filter, jenis, search } = req.query;
 
-  const sql = `SELECT * FROM laporan WHERE email = ?`;
+  let query = `SELECT * FROM laporan WHERE email = ?`;
+  const params = [userEmail];
 
-  db.query(sql, [userEmail], (err, results) => {
+  // Filter jenis_laporan (Kehilangan, Penemuan)
+  if (jenis === "Kehilangan" || jenis === "Penemuan") {
+    query += ` AND jenis_laporan = ?`;
+    params.push(jenis);
+  }
+
+  // Filter status (On Progress, Claimed, Done)
+  if (
+    filter === "Waiting for upload verification" ||
+    filter === "Upload verification rejected" ||
+    filter === "On Progress" ||
+    filter === "Claimed" ||
+    filter === "Waiting for end verification" ||
+    filter === "End verification rejected" ||
+    filter === "Done"
+  ) {
+    query += ` AND status = ?`;
+    params.push(filter);
+  } else {
+    query += ` AND status IN ('Waiting for upload verification', 'Upload verification rejected', 'On Progress', 'Claimed', 'Waiting for end verification' 'End verification rejected', 'Done')`;
+  }
+
+  // Pencarian nama_barang
+  if (search) {
+    query += ` AND nama_barang LIKE ?`;
+    params.push(`%${search}%`);
+  }
+
+  // Execute the query and pass data to the view
+  db.query(query, params, (err, results) => {
     if (err) {
       console.error("Error fetching reports:", err);
-      return res.send("Error fetching reports.");
+      return res.status(500).send("Error fetching reports.");
     }
 
-    // Menggunakan layout dengan title dan activeMenu
     res.render("my-report", {
       user: req.session.user,
-      reports: results,
-      activeMenu: "my-report", // Pastikan menu aktif di sidebar
+      activeMenu: "my-report",
+      reports: results || [],
+      searchQuery: search || "",
+      activeFilter: filter || "All", // Default filter to "All"
+      activeJenis: jenis || "All", // Default jenis to "All"
     });
   });
 };

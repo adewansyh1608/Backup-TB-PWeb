@@ -32,8 +32,57 @@
         <!-- Tombol Aksi -->
         <div class="flex justify-end mb-4 gap-2">
           <a href="/tambah-akun" class="bg-sky-500 hover:bg-sky-600 text-white px-4 py-2 rounded-md">Tambah Akun</a>
-          <a href="/manajemen-user/cetak" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md">Print PDF</a>
+          <button onclick="downloadPDF()" class="bg-red-600 text-white px-4 py-2 rounded">Download PDF</button>
         </div>
+
+        <!-- Konten untuk PDF -->
+        <div id="pdf-content" style="display: none">
+          <h1 style="font-size: 24px; margin-bottom: 10px; font-weight: bold;">Daftar Akun Pengguna</h1>
+
+          <p style="font-weight: bold; margin-top: 20px;">Role: User</p>
+        <table border="1" cellspacing="0" cellpadding="5">
+          <thead>
+            <tr>
+              <th>Nama</th>
+              <th>Email</th>
+              <th>No. Telepon</th>
+              <th>Alamat</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% users.filter(u => u.role === "user").forEach(user => { %>
+              <tr>
+                <td><%= user.nama %></td>
+                <td><%= user.email %></td>
+                <td><%= user.no_telepon %></td>
+                <td><%= user.alamat %></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+
+        <p style="font-weight: bold; margin-top: 30px;">Role: Admin</p>
+        <table border="1" cellspacing="0" cellpadding="5">
+          <thead>
+            <tr>
+              <th>Nama</th>
+              <th>Email</th>
+              <th>No. Telepon</th>
+              <th>Alamat</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% users.filter(u => u.role === "admin").forEach(user => { %>
+              <tr>
+                <td><%= user.nama %></td>
+                <td><%= user.email %></td>
+                <td><%= user.no_telepon %></td>
+                <td><%= user.alamat %></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
 
         <!-- Modal Konfirmasi Hapus -->
         <div id="modalHapus" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
@@ -85,6 +134,7 @@
       </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script>
       function bukaModalHapus(email) {
         const form = document.getElementById('formHapus');
@@ -94,6 +144,21 @@
 
       function tutupModalHapus() {
         document.getElementById('modalHapus').classList.add('hidden');
+      }
+
+      function downloadPDF() {
+        const element = document.getElementById('pdf-content');
+        element.style.display = 'block';
+
+        html2pdf().set({
+          margin: 0.3,
+          filename: 'user-list.pdf',
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2 },
+          jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+        }).from(element).save().then(() => {
+          element.style.display = 'none';
+        });
       }
     </script>
   </body>

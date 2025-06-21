@@ -22,12 +22,22 @@
           </button>
 
           <div class="filter-group">
-            <button class="filter active">All</button>
-            <button class="filter">Laporan Kehilangan</button>
-            <button class="filter">Laporan Penemuan</button>
-            <button class="filter">Filter ⌄</button>
-          </div>
+  <a href="/dashboard?jenis=all&status=<%= currentStatus %>" class="filter <%= currentJenis === 'all' ? 'active' : '' %>">All</a>
+  <a href="/dashboard?jenis=kehilangan&status=<%= currentStatus %>" class="filter <%= currentJenis === 'kehilangan' ? 'active' : '' %>">Laporan Kehilangan</a>
+  <a href="/dashboard?jenis=penemuan&status=<%= currentStatus %>" class="filter <%= currentJenis === 'penemuan' ? 'active' : '' %>">Laporan Penemuan</a>
+</div>
+
         </div>
+
+        <form method="get" action="/dashboard" class="inline">
+  <input type="hidden" name="jenis" value="<%= currentJenis %>">
+  <select name="status" onchange="this.form.submit()" class="filter px-2 py-1 border rounded">
+    <option value="all" <%= currentStatus === 'all' ? 'selected' : '' %>>Semua Status</option>
+    <option value="On Progress" <%= currentStatus === 'On Progress' ? 'selected' : '' %>>On Progress</option>
+    <option value="Claimed" <%= currentStatus === 'Claimed' ? 'selected' : '' %>>Claimed</option>
+  </select>
+</form>
+
 
         <div class="search-bar">
           <input type="text" placeholder="Search" />

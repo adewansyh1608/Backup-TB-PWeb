@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Form Laporan Selesai</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  </head>
+  <body class="bg-gray-100 min-h-screen flex items-center justify-center p-6">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl">
+      <h1 class="text-2xl font-bold text-green-600 mb-6">Form Laporan Selesai</h1>
+
+      <form action="/laporan-selesai" method="POST" enctype="multipart/form-data">
+        <!-- Nama Penemu/Penerima -->
+        <div class="mb-4">
+          <label for="nama_penyerah" class="block text-gray-700 font-semibold mb-2">
+            Nama Penemu / Penerima
+          </label>
+          <input
+            type="text"
+            id="nama_penyerah"
+            name="nama_penyerah"
+            class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+            required
+          />
+        </div>
+
+        <!-- Nomor HP -->
+        <div class="mb-4">
+          <label for="no_penyerah" class="block text-gray-700 font-semibold mb-2">
+            Nomor HP Penemu / Penerima
+          </label>
+          <input
+            type="tel"
+            id="no_penyerah"
+            name="no_penyerah"
+            pattern="[0-9]{10,15}"
+            class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+            placeholder="Contoh: 081234567890"
+            required
+          />
+        </div>
+
+        <!-- Tanggal Penyerahan -->
+        <div class="mb-4">
+          <label for="tanggal_penyerahan" class="block text-gray-700 font-semibold mb-2">
+            Tanggal Penyerahan Barang
+          </label>
+          <input
+            type="date"
+            id="tanggal_penyerahan"
+            name="tanggal_penyerahan"
+            class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+            required
+          />
+        </div>
+
+        <!-- Lokasi Penyerahan -->
+        <div class="mb-4">
+          <label for="lokasi_penyerahan" class="block text-gray-700 font-semibold mb-2">
+            Lokasi Penyerahan
+          </label>
+          <input
+            type="text"
+            id="lokasi_penyerahan"
+            name="lokasi_penyerahan"
+            class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+            placeholder="Contoh: Pos Satpam, Lobi Gedung A"
+            required
+          />
+        </div>
+
+        <!-- Upload Bukti Penyerahan -->
+        <div class="mb-6">
+          <label for="bukti_penyerahan" class="block text-gray-700 font-semibold mb-2">
+            Upload Foto Bukti Penyerahan
+          </label>
+          <input
+            type="file"
+            id="bukti_penyerahan"
+            name="bukti_penyerahan"
+            accept="image/*"
+            class="w-full p-2 border border-gray-300 rounded-md"
+            required
+          />
+        </div>
+
+        <!-- Buttons -->
+        <div class="flex justify-between items-center mt-6">
+          <a href="/dashboard" class="text-gray-600 font-medium hover:underline">
+            Back
+          </a>
+          <button
+            type="submit"
+            class="bg-green-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-green-700 transition"
+          >
+            Kirim Laporan Selesai
+          </button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

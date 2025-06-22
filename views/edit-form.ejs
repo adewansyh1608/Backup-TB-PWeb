@@ -3,86 +3,137 @@
   <head>
     <meta charset="UTF-8" />
     <title>Edit Laporan</title>
-    <link rel="stylesheet" href="/css/report-form.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const dropArea = document.getElementById("drop-area");
+        const fileInput = document.getElementById("foto_barang");
+        const uploadText = document.getElementById("upload-text");
+
+        dropArea.addEventListener("dragover", (e) => {
+          e.preventDefault();
+          dropArea.classList.add("bg-green-100");
+        });
+
+        dropArea.addEventListener("dragleave", () => {
+          dropArea.classList.remove("bg-green-100");
+        });
+
+        dropArea.addEventListener("drop", (e) => {
+          e.preventDefault();
+          dropArea.classList.remove("bg-green-100");
+          const files = e.dataTransfer.files;
+          if (files.length > 0) {
+            fileInput.files = files;
+            uploadText.innerText = `${files.length} file(s) selected`;
+          }
+        });
+
+        fileInput.addEventListener("change", (e) => {
+          const files = e.target.files;
+          if (files.length > 0) {
+            uploadText.innerText = `${files.length} file(s) selected`;
+          }
+        });
+      });
+    </script>
   </head>
-  <body>
-    <div class="form-container">
-      <h1>Edit Laporan</h1>
+  <body class="bg-gray-100 min-h-screen flex justify-center items-center p-6">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl">
+      <h1 class="text-3xl font-bold text-green-600 mb-6">Edit Laporan</h1>
       <form action="/laporan/edit/<%= report.id_laporan %>" method="POST" enctype="multipart/form-data">
-  <!-- Jenis Laporan -->
-  <div class="form-group">
-    <label for="jenis_laporan">Jenis Laporan</label>
-    <select id="jenis_laporan" name="jenis_laporan" required>
-      <option value="Penemuan" <%= report.jenis_laporan === 'Penemuan' ? 'selected' : '' %>>Penemuan</option>
-      <option value="Kehilangan" <%= report.jenis_laporan === 'Kehilangan' ? 'selected' : '' %>>Kehilangan</option>
-    </select>
-  </div>
 
-  <!-- Nama Barang -->
-  <div class="form-group">
-    <label for="nama_barang">Nama Barang</label>
-    <input type="text" id="nama_barang" name="nama_barang" value="<%= report.nama_barang %>" required />
-  </div>
+        <!-- Jenis Laporan -->
+        <div class="mb-6">
+          <label for="jenis_laporan" class="block text-gray-700 font-semibold mb-2">Jenis Laporan</label>
+          <select id="jenis_laporan" name="jenis_laporan"
+            class="w-full p-3 bg-gray-50 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600"
+            required>
+            <option value="Penemuan" <%= report.jenis_laporan === 'Penemuan' ? 'selected' : '' %>>Penemuan</option>
+            <option value="Kehilangan" <%= report.jenis_laporan === 'Kehilangan' ? 'selected' : '' %>>Kehilangan</option>
+          </select>
+        </div>
 
-  <!-- Lokasi -->
-  <div class="form-group">
-    <label for="lokasi">Lokasi Kejadian</label>
-    <input type="text" id="lokasi" name="lokasi" value="<%= report.lokasi %>" required />
-  </div>
+        <!-- Nama Barang -->
+        <div class="mb-6">
+          <label for="nama_barang" class="block text-gray-700 font-semibold mb-2">Nama Barang</label>
+          <input type="text" id="nama_barang" name="nama_barang"
+            class="w-full p-3 bg-gray-50 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600"
+            value="<%= report.nama_barang %>" required />
+        </div>
 
-  <!-- Tanggal Kejadian -->
- <div class="form-group">
-  <label for="tanggal_kejadian">Tanggal Kejadian</label>
-  <input 
-    type="date" 
-    id="tanggal_kejadian" 
-    name="tanggal_kejadian" 
-    value="<%= report.tanggal_kejadian ? report.tanggal_kejadian.toISOString().split('T')[0] : '' %>" 
-    required 
-  />
-</div>
-  <!-- Deskripsi -->
-  <div class="form-group">
-    <label for="deskripsi">Deskripsi</label>
-    <textarea id="deskripsi" name="deskripsi" rows="4" required><%= report.deskripsi %></textarea>
-  </div>
+        <!-- Lokasi -->
+        <div class="mb-6">
+          <label for="lokasi" class="block text-gray-700 font-semibold mb-2">Lokasi Kejadian</label>
+          <input type="text" id="lokasi" name="lokasi"
+            class="w-full p-3 bg-gray-50 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600"
+            value="<%= report.lokasi %>" required />
+        </div>
 
-<!-- Foto Barang -->
-<div class="form-group">
-  <label for="foto_barang">Upload Foto Barang</label>
-  <input 
-    type="file" 
-    id="foto_barang" 
-    name="foto_barang" 
-    accept="image/*" 
-    onchange="displayFileName()" 
-  />
-  
-  <% if (report.foto_barang) { %>
-    <div>
-      <img src="/<%= report.foto_barang %>" alt="Foto Barang" style="max-width: 100px; max-height: 100px;" />
-    </div>
-    <input type="hidden" name="existing_foto_barang" value="<%= report.foto_barang %>" />
-  <% } %>
+        <!-- Tanggal Kejadian -->
+        <div class="mb-6">
+          <label for="tanggal_kejadian" class="block text-gray-700 font-semibold mb-2">Tanggal Kejadian</label>
+          <input type="date" id="tanggal_kejadian" name="tanggal_kejadian"
+            class="w-full p-3 bg-gray-50 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600"
+            value="<%= report.tanggal_kejadian ? report.tanggal_kejadian.toISOString().split('T')[0] : '' %>" required />
+        </div>
 
-</div>
+        <!-- Deskripsi -->
+        <div class="mb-6">
+          <label for="deskripsi" class="block text-gray-700 font-semibold mb-2">Deskripsi</label>
+          <textarea id="deskripsi" name="deskripsi" rows="4"
+            class="w-full p-3 bg-gray-50 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600"
+            required><%= report.deskripsi %></textarea>
+        </div>
 
+        <!-- Upload Foto Barang -->
+        <div class="mb-6">
+          <label for="foto_barang" class="block text-gray-700 font-semibold mb-2">Upload Foto Barang</label>
+          <div id="drop-area" class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+            <div class="text-center">
+              <svg class="mx-auto size-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd"
+                  d="M1.5 6a2.25 2.25 0 0 1 2.25-2.25h16.5A2.25 2.25 0 0 1 22.5 6v12a2.25 2.25 0 0 1-2.25 2.25H3.75A2.25 2.25 0 0 1 1.5 18V6ZM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0 0 21 18v-1.94l-2.69-2.689a1.5 1.5 0 0 0-2.12 0l-.88.879.97.97a.75.75 0 1 1-1.06 1.06l-5.16-5.159a1.5 1.5 0 0 0-2.12 0L3 16.061Zm10.125-7.81a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Z"
+                  clip-rule="evenodd" />
+              </svg>
+              <div class="mt-4 flex text-sm text-gray-600">
+                <label for="foto_barang"
+                  class="relative cursor-pointer rounded-md bg-white font-semibold text-green-600 hover:text-green-500">
+                  <span id="upload-text">Upload a file</span>
+                  <input id="foto_barang" name="foto_barang" type="file" accept="image/*" class="sr-only" />
+                </label>
+                <p class="pl-1">or drag and drop</p>
+              </div>
+            </div>
+          </div>
 
-  <!-- Hidden Fields for unchanged data -->
-  <input type="hidden" name="email" value="<%= report.email %>" />
-  <input type="hidden" name="nama_penemu_penerima" value="<%= report.nama_penemu_penerima %>" />
-  <input type="hidden" name="nohp_penemu_penerima" value="<%= report.nohp_penemu_penerima %>" />
-  <input type="hidden" name="tanggal_penyerahan" value="<%= report.tanggal_penyerahan %>" />
-  <input type="hidden" name="foto_bukti" value="<%= report.foto_bukti %>" />
-  <input type="hidden" name="tanggal_laporan" value="<%= report.tanggal_laporan %>" />
+          <% if (report.foto_barang) { %>
+            <div class="mt-4 text-center">
+              <p class="text-gray-600 text-sm font-medium mb-2">Foto Barang Saat Ini:</p>
+              <img src="/<%= report.foto_barang %>" alt="Foto Barang"
+                class="mx-auto max-w-[160px] max-h-[160px] rounded shadow border border-gray-300" />
+              <input type="hidden" name="existing_foto_barang" value="<%= report.foto_barang %>" />
+            </div>
+          <% } %>
+        </div>
 
-  <div class="form-footer">
-    <a href="/dashboard" class="back-link">Back</a>
-    <button type="submit">Simpan Perubahan</button>
-  </div>
-</form>
+        <!-- Hidden Fields -->
+        <input type="hidden" name="email" value="<%= report.email %>" />
+        <input type="hidden" name="nama_penemu_penerima" value="<%= report.nama_penemu_penerima %>" />
+        <input type="hidden" name="nohp_penemu_penerima" value="<%= report.nohp_penemu_penerima %>" />
+        <input type="hidden" name="tanggal_penyerahan" value="<%= report.tanggal_penyerahan %>" />
+        <input type="hidden" name="foto_bukti" value="<%= report.foto_bukti %>" />
+        <input type="hidden" name="tanggal_laporan" value="<%= report.tanggal_laporan %>" />
 
-
+        <!-- Footer -->
+        <div class="flex justify-between items-center mt-6">
+          <a href="/my-report" class="text-base font-semibold text-gray-600 hover:underline">Back</a>
+          <button type="submit"
+            class="py-2 px-4 bg-green-600 text-white font-semibold rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-opacity-50">
+            Simpan Perubahan
+          </button>
+        </div>
+      </form>
     </div>
   </body>
 </html>

@@ -174,4 +174,83 @@ const generateReportPdf = (req, res) => {
   });
 };
 
-module.exports = { getUserReports, generateReportPdf };
+// Function to handle "Ajukan Ulang" action and update status and verifikasi_action
+const ajukanUlang = (req, res) => {
+  const reportId = req.params.id;
+
+  // SQL query to update the status and verifikasi_action
+  const sql = `
+    UPDATE laporan
+    SET status = 'Waiting for upload verification', verifikasi_action = 'approve'
+    WHERE id_laporan = ?
+  `;
+
+  // Execute the query to update the report status
+  db.query(sql, [reportId], (err, result) => {
+    if (err) {
+      console.error("Error updating report status:", err);
+      return res.status(500).send("Error updating the report status.");
+    }
+
+    // After successfully updating, redirect back to the report list
+    res.redirect("/my-report");
+  });
+};
+
+const getReportDetail = (req, res) => {
+  const reportId = req.params.id;
+
+  const sql = `SELECT * FROM laporan WHERE id_laporan = ?`;
+  db.query(sql, [reportId], (err, results) => {
+    if (err) {
+      console.error("Error fetching report details:", err);
+      return res.status(500).send("Error fetching report details.");
+    }
+
+    const report = results[0];
+
+    if (!report) {
+      return res.render("detail-laporansaya", {
+        report: null,
+      });
+    }
+
+    res.render("detail-laporansaya", {
+      report: report,
+    });
+  });
+};
+
+const getClaimerContact = (req, res) => {
+  const reportId = req.params.id;
+
+  const query = `
+    SELECT p.nama, p.email, p.no_telepon, p.alamat
+    FROM claim c
+    JOIN pengguna p ON c.email = p.email
+    WHERE c.id_laporan = ?
+  `;
+
+  db.query(query, [reportId], (err, results) => {
+    if (err) {
+      console.error("Error fetching claimer contact:", err);
+      return res.status(500).send("Error retrieving claimer data.");
+    }
+
+    if (results.length === 0) {
+      return res.status(404).send("Claimer not found.");
+    }
+
+    res.render("kontak-claimer", {
+      claimer: results[0],
+    });
+  });
+};
+
+module.exports = {
+  getUserReports,
+  generateReportPdf,
+  ajukanUlang,
+  getReportDetail,
+  getClaimerContact,
+};

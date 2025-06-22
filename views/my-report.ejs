@@ -205,13 +205,17 @@
                 Lokasi: <%= report.lokasi %>
               </p>
               <p class="text-sm text-gray-600 mb-1">
-                Tanggal: <%= report.tanggal_kejadian %>
+                Tanggal Kejadian: <%= new Date(report.tanggal_kejadian).toLocaleDateString('id-ID', {
+            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+            || '-' %>
               </p>
-              <p
-                class="text-sm text-gray-700 overflow-hidden overflow-ellipsis whitespace-normal break-words"
-              >
-                Deskripsi: <%= report.deskripsi %>
+
+              <p class="text-sm text-gray-600 mb-1">
+                Tanggal Laporan: <%= new Date(report.tanggal_laporan).toLocaleDateString('id-ID', {
+            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+            || '-' %>
               </p>
+
 
               <span
                 class="inline-block mt-2 px-4 py-2 text-sm rounded-full <%= report.status.toLowerCase().replace(/\s+/g, '-') %> bg-green-200 text-green-800 font-semibold"
@@ -226,33 +230,39 @@
               
               <!-- Edit, Download, Hapus buttons in a row -->
               <div class="button-row">
-                <button class="opacity-50 hover:opacity-100"
+                <button class=" py-2 px-3 rounded-full opacity-50 hover:opacity-100"
                 href="#"
                   onclick="if (confirm('Apakah Anda yakin ingin menghapus laporan ini?')) { window.location.href = '/laporan/delete/<%= report.id_laporan %>' }"
                 >
                   <img src="/images/delete.png" alt="Hapus" class="button-image" />
                 </button>
 
-                <button class="opacity-50 hover:opacity-100"
+                <button class="py-2 px-3 rounded-full opacity-50 hover:opacity-100"
                 onclick="window.location.href='/laporan/edit/<%= report.id_laporan %>'"
                 >
                   <img src="/images/edit.png" alt="Edit" class="button-image" />
                 </button>
 
-                <button class="opacity-50 hover:opacity-100"
+                <button class=" py-2 px-3 rounded-full opacity-50 hover:opacity-100"
                 onclick="window.location.href='/my-report/download/<%= report.id_laporan %>'"
                 >
                   <img src="/images/download.png" alt="Download PDF" class="button-image" />
                 </button>
 
-                <button class="opacity-50 hover:opacity-100"
-                onclick="window.location.href='#'"
-                >
-                  <img src="/images/ajukanulang.png" alt="Ajukan Ulang" class="button-image" />
-                </button>
+               <!-- Ajukan Ulang button with conditional disabling logic -->
+<button
+  class="py-2 px-3 rounded-full hover:opacity-100
+    <%= report.status !== 'Upload verification rejected' ? 'opacity-50 cursor-not-allowed' : '' %>"
+  <% if (report.status !== 'Upload verification rejected') { %> disabled <% } else { %> onclick="window.location.href='/my-report/ajukan-ulang/<%= report.id_laporan %>'" <% } %>
+>
+  <img src="/images/ajukanulang.png" alt="Ajukan Ulang" class="button-image" />
+</button>
 
-                <button class="opacity-50 hover:opacity-100"
-                onclick="window.location.href='#'"
+
+
+
+                <button class="py-2 px-3 rounded-full opacity-50 hover:opacity-100"
+                onclick="window.location.href='/my-report/detail/<%= report.id_laporan %>'"
                 >
                   <img src="/images/detail.png" alt="Detail Laporan" class="button-image" />
                 </button>
@@ -268,6 +278,7 @@
                 </button>
                 <button
                   class="bg-blue-600 text-white py-2 px-4 rounded-full hover:bg-blue-700 transition <%= report.status !== 'Claimed' ? 'opacity-50 cursor-not-allowed' : '' %>"
+                  onclick="window.location.href='/my-report/claimer/<%= report.id_laporan %>'"
                 >
                   See Claimer
                 </button>

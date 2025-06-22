@@ -169,7 +169,9 @@ select {
                 Lokasi: <%= report.lokasi %>
               </p>
               <p class="text-sm text-gray-600 mb-1">
-                Tanggal: <%= report.tanggal_kejadian %>
+                Tanggal Kejadian: <%= new Date(report.tanggal_kejadian).toLocaleDateString('id-ID', {
+            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+            || '-' %>
               </p>
 
               <span

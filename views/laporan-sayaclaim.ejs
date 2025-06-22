@@ -14,28 +14,66 @@
 
       /* Make sidebar fixed */
       .sidebar {
-        height: 100vh;
-        position: fixed;
-        width: 250px; /* Adjust the sidebar width if needed */
+        position: fixed; /* Ensure the sidebar stays fixed */
+        width: 250px; /* Sidebar width */
+        height: 100vh; /* Full height of the viewport */
+        top: 0;
+        left: 0;
+        z-index: 10; /* Keep the sidebar on top */
       }
 
       /* Make the main content area take the rest of the screen */
       .main-content {
-        margin-left: 250px; /* Adjust according to sidebar width */
-        height: 100vh;
-        overflow: hidden; /* Hide overflow on the main content */
-        padding-top: 1.5rem; /* Top padding for the content */
+        margin-left: 250px; /* Adjust according to the sidebar width */
+        padding-top: 1.5rem; /* Adjust as needed */
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        overflow-x: hidden;
+        overflow-y: auto;
       }
 
       /* Set the card grid to be scrollable with fixed max height */
       .card-grid {
-        height: calc(
-          100vh - 160px
-        ); /* Subtract top bar height (adjust as needed) */
-        overflow-y: auto;
+        display: grid;
+        grid-template-columns: repeat(
+          auto-fill,
+          minmax(250px, 1fr)
+        ); /* Adjust columns based on screen size */
+        gap: 1rem;
+        justify-items: center; /* Centers the grid items horizontally */
+      }
+
+      /* Button and search bar alignment */
+      .flex {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      /* Ensure the search bar and filter buttons stay aligned */
+      form {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      input[type="text"] {
+        flex: 1; /* Ensures the input takes up remaining space */
+        min-width: 200px; /* Set a minimum width to avoid it getting too small */
+        padding: 0.5rem 1rem; /* Adjust padding for the input */
+        border: 1px solid #ccc;
+        border-radius: 25px;
+      }
+
+      button,
+      select {
+        flex-shrink: 0; /* Prevent shrinking of buttons */
       }
     </style>
   </head>
+
   <body class="bg-gray-100 text-gray-800">
     <div class="flex">
       <!-- Sidebar -->
@@ -44,9 +82,7 @@
       <!-- Main Content -->
       <main class="main-content p-6">
         <!-- Card Grid -->
-        <div
-          class="card-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-        >
+        <div class="card-grid">
           <% if (reports && reports.length > 0) { %> <%
           reports.forEach(function(report) { %>
           <div
@@ -75,12 +111,10 @@
                 Lokasi: <%= report.lokasi %>
               </p>
               <p class="text-sm text-gray-600 mb-1">
-                Tanggal: <%= report.tanggal_kejadian %>
-              </p>
-              <p
-                class="text-sm text-gray-700 overflow-hidden overflow-ellipsis whitespace-normal break-words"
-              >
-                Deskripsi: <%= report.deskripsi %>
+                Tanggal Kejadian: <%= new
+                Date(report.tanggal_kejadian).toLocaleDateString('id-ID', {
+                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+                }) || '-' %>
               </p>
 
               <span

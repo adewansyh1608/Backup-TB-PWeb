@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Kontak Pengklaim</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.3/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-50 text-gray-900 font-sans antialiased">
+    <div class="min-h-screen flex items-center justify-center">
+      <div class="w-full max-w-2xl p-8 bg-white shadow-xl rounded-lg">
+        <!-- Heading -->
+        <div class="text-center mb-8">
+          <h1 class="text-4xl font-extrabold text-blue-600 mb-2">
+            Kontak Pengklaim
+          </h1>
+          <p class="text-lg text-gray-500">
+            Berikut adalah informasi kontak dari pengguna yang mengklaim laporan
+            ini.
+          </p>
+        </div>
+
+        <!-- Claimer Information Card -->
+        <div class="bg-white p-8 rounded-lg shadow-md">
+          <div class="space-y-4">
+            <div>
+              <h2 class="text-2xl font-semibold text-blue-600">Nama</h2>
+              <p class="text-xl text-gray-700"><%= claimer.nama %></p>
+            </div>
+
+            <div>
+              <h2 class="text-2xl font-semibold text-blue-600">Email</h2>
+              <p class="text-xl text-gray-700"><%= claimer.email %></p>
+            </div>
+
+            <div>
+              <h2 class="text-2xl font-semibold text-blue-600">
+                Nomor Telepon
+              </h2>
+              <p class="text-xl text-gray-700"><%= claimer.no_telepon %></p>
+            </div>
+
+            <div>
+              <h2 class="text-2xl font-semibold text-blue-600">Alamat</h2>
+              <p class="text-xl text-gray-700"><%= claimer.alamat %></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Back to Reports -->
+        <div class="mt-6 text-center">
+          <a
+            href="/my-report"
+            class="inline-block px-8 py-3 text-white bg-blue-600 rounded-full font-semibold text-lg hover:bg-blue-700 transition duration-300"
+          >
+            Kembali ke Laporan Saya
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

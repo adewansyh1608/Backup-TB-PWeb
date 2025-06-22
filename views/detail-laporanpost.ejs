@@ -5,87 +5,79 @@
     <title>Detail Laporan</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
-  <body class="bg-gray-50 text-gray-900 font-sans antialiased">
-    <div
-      class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
-    >
-      <div class="max-w-4xl w-full bg-white shadow-2xl rounded-lg p-8">
-        <!-- Heading -->
-        <div class="text-center mb-8">
-          <h1 class="text-5xl font-extrabold text-indigo-600 mb-4">
-            Detail Laporan
-          </h1>
-          <p class="text-xl text-gray-600">
-            Berikut adalah informasi lengkap tentang laporan Anda.
+  <body class="bg-gray-100 text-gray-800">
+    <main class="min-h-screen flex items-center justify-center p-6">
+      <div
+        class="bg-white rounded-xl shadow-lg p-8 w-full max-w-6xl mx-auto my-8"
+      >
+        <h3 class="text-2xl font-bold text-center text-gray-800 mb-6">
+          Detail Laporan
+        </h3>
+
+        <!-- Foto Barang Section -->
+        <div class="mb-6 flex justify-center">
+          <div class="w-64 h-64 bg-gray-200 rounded-lg overflow-hidden">
+            <img
+              src="/<%= report.foto_barang %>"
+              alt="Foto Barang"
+              class="object-cover w-full h-full"
+            />
+          </div>
+        </div>
+
+        <!-- Nama Barang Section -->
+        <div class="mb-6">
+          <p class="text-2xl font-semibold text-center text-gray-900">
+            <%= report.nama_barang || '-' %>
           </p>
         </div>
 
-        <!-- Detail Laporan Card -->
-        <div class="bg-white p-8 rounded-lg shadow-lg">
-          <div class="space-y-6">
-            <!-- Foto Barang - Centered -->
-            <div class="text-center">
-              <img
-                src="/<%= report.foto_barang %>"
-                alt="foto barang"
-                class="w-64 h-64 object-cover rounded-lg mx-auto"
-              />
-            </div>
+        <!-- Jenis Laporan Section -->
+        <div class="mb-6">
+          <p class="font-bold text-lg text-gray-700">Jenis Laporan:</p>
+          <p><%= report.jenis_laporan || '-' %></p>
+        </div>
 
-            <!-- Nama Barang -->
-            <div>
-              <h2 class="text-3xl font-semibold text-indigo-600">
-                Nama Barang
-              </h2>
-              <p class="text-xl text-gray-700"><%= report.nama_barang %></p>
-            </div>
+        <!-- Status Section -->
+        <div class="mb-6">
+          <p class="font-bold text-lg text-gray-700">Status:</p>
+          <p><%= report.status || '-' %></p>
+        </div>
 
-            <!-- Jenis Laporan -->
-            <div>
-              <h2 class="text-3xl font-semibold text-indigo-600">
-                Jenis Laporan
-              </h2>
-              <p class="text-xl text-gray-700"><%= report.jenis_laporan %></p>
-            </div>
+        <!-- Tanggal Kejadian Section -->
+        <div class="mb-6">
+          <p class="font-bold text-lg text-gray-700">Tanggal Kejadian:</p>
+          <p>
+            <%= new Date(report.tanggal_kejadian).toLocaleDateString('id-ID', {
+            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+            || '-' %>
+          </p>
+        </div>
 
-            <!-- Status -->
-            <div>
-              <h2 class="text-3xl font-semibold text-indigo-600">Status</h2>
-              <p class="text-xl text-gray-700"><%= report.status %></p>
-            </div>
+        <!-- Lokasi Section -->
+        <div class="mb-6">
+          <p class="font-bold text-lg text-gray-700">Lokasi:</p>
+          <p><%= report.lokasi || '-' %></p>
+        </div>
 
-            <!-- Tanggal Kejadian -->
-            <div>
-              <h2 class="text-3xl font-semibold text-indigo-600">
-                Tanggal Kejadian
-              </h2>
-              <p id="tanggal-kejadian" class="text-xl text-gray-700"></p>
-            </div>
+        <!-- Tanggal Laporan Section -->
+        <div class="mb-6">
+          <p class="font-bold text-lg text-gray-700">Tanggal Laporan:</p>
+          <p>
+            <%= new Date(report.tanggal_laporan).toLocaleDateString('id-ID', {
+            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+            || '-' %>
+          </p>
+        </div>
 
-            <!-- Lokasi -->
-            <div>
-              <h2 class="text-3xl font-semibold text-indigo-600">Lokasi</h2>
-              <p class="text-xl text-gray-700"><%= report.lokasi %></p>
-            </div>
-
-            <!-- Tanggal Laporan -->
-            <div>
-              <h2 class="text-3xl font-semibold text-indigo-600">
-                Tanggal Laporan
-              </h2>
-              <p id="tanggal-laporan" class="text-xl text-gray-700"></p>
-            </div>
-
-            <!-- Deskripsi -->
-            <div>
-              <h2 class="text-3xl font-semibold text-indigo-600">Deskripsi</h2>
-              <p
-                class="text-xl text-gray-700 overflow-hidden overflow-ellipsis whitespace-normal break-words"
-              >
-                <%= report.deskripsi %>
-              </p>
-            </div>
-          </div>
+        <!-- Deskripsi Section -->
+        <div class="mb-6">
+          <p class="font-bold text-lg text-gray-700">Deskripsi:</p>
+          <p
+            class="text-xl text-gray-700 overflow-hidden overflow-ellipsis whitespace-normal break-words"
+          >
+            <%= report.deskripsi || '-' %>
+          </p>
         </div>
 
         <!-- Button Back to Dashboard and Claim Button -->
@@ -126,20 +118,6 @@
           </div>
         </div>
       </div>
-    </div>
-
-    <script>
-      // Format the date to "Fri Jun 20 2025" for Tanggal Kejadian
-      const tanggalKejadian = new Date("<%= report.tanggal_kejadian %>");
-      const formattedTanggalKejadian = tanggalKejadian.toDateString(); // This returns the date in "Fri Jun 20 2025" format
-      document.getElementById("tanggal-kejadian").textContent =
-        formattedTanggalKejadian;
-
-      // Format the date to "Fri Jun 20 2025" for Tanggal Laporan
-      const tanggalLaporan = new Date("<%= report.tanggal_laporan %>");
-      const formattedTanggalLaporan = tanggalLaporan.toDateString(); // This returns the date in "Fri Jun 20 2025" format
-      document.getElementById("tanggal-laporan").textContent =
-        formattedTanggalLaporan;
-    </script>
+    </main>
   </body>
 </html>

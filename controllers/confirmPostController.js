@@ -24,7 +24,6 @@ const getUserPost = (req, res) => {
     );
     let combined = [];
 
-
     if (dropdownFilter === "lost") {
       combined = results.filter((r) => r.jenis_laporan === "Kehilangan");
     } else if (dropdownFilter === "found") {

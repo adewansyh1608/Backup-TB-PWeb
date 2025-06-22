@@ -103,7 +103,10 @@
           <h3 class="text-lg font-semibold mb-1"><%= report.nama_barang %></h3>
           <p class="text-sm"><strong><%= report.jenis_laporan %></strong></p>
           <p class="text-sm text-gray-600">Lokasi: <%= report.lokasi %></p>
-          <p class="text-sm text-gray-600">Tanggal: <%= report.tanggal_kejadian %></p>
+          <p class="text-sm text-gray-600">Tanggal Kejadian: <%= new Date(report.tanggal_kejadian).toLocaleDateString('id-ID', {
+            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+            || '-' %>
+              </p></p>
           <p class="text-sm text-gray-600 mb-2">Deskripsi: <%= report.deskripsi %></p>
 
           <% if (report.status === 'Waiting for upload verification') { %>

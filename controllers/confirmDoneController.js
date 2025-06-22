@@ -6,9 +6,10 @@ const getUserPost = (req, res) => {
   const searchQuery = req.query.search ? req.query.search.toLowerCase() : null;
 
   const query = `
-    SELECT * FROM laporan 
-    WHERE status IN ('On progress', 'Waiting for upload verification', 'Upload verification rejected')
-  `;
+  SELECT * FROM laporan 
+  WHERE status IN ('Waiting for End Verification', 'Done', 'Rejected')
+`;
+
 
   db.query(query, (err, results) => {
     if (err) {
@@ -16,8 +17,8 @@ const getUserPost = (req, res) => {
       return res.status(500).send("Error fetching reports.");
     }
 
-    let laporanBaru = results.filter(r => r.status === 'Waiting for upload verification');
-    let laporanLama = results.filter(r => r.status !== 'Waiting for upload verification');
+    let laporanBaru = results.filter(r => r.status === 'Waiting for End Verification');
+    let laporanLama = results.filter(r => r.status !== 'Waiting for End verification');
     let combined = [];
 
     // 🔍 FILTER BERDASARKAN DROPDOWN
@@ -50,7 +51,7 @@ const getUserPost = (req, res) => {
       laporanGabungan: combined,
       laporanBaru: statusFilter === "all" && !dropdownFilter ? laporanBaru : [],
       laporanLama: statusFilter === "all" && !dropdownFilter ? laporanLama : [],
-      activeMenu: "confirm-donde",
+      activeMenu: "confirm-done",
       activeFilter: statusFilter,
       currentDropdown: dropdownFilter,
       searchQuery: req.query.search || ""
@@ -61,7 +62,7 @@ const getUserPost = (req, res) => {
 const getUnverified = (req, res) => {
   const query = `
     SELECT * FROM laporan 
-    WHERE status = 'Waiting for upload verification'
+    WHERE status = 'Waiting for End verification'
   `;
 
   db.query(query, (err, results) => {
@@ -89,7 +90,7 @@ const approve = (req, res) => {
 
   const sql = `
     UPDATE laporan 
-    SET status = 'On progress', verifikasi_action = 'approved' 
+    SET status = 'Done', verifikasi_action = 'approved' 
     WHERE id_laporan = ?
   `;
 
@@ -110,7 +111,7 @@ const denied = (req, res) => {
 
   const sql = `
     UPDATE laporan 
-    SET status = 'Upload verification rejected', verifikasi_action = 'denied' 
+    SET status = 'Rejected', verifikasi_action = 'denied' 
     WHERE id_laporan = ?
   `;
 

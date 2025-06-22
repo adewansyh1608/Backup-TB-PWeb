@@ -43,7 +43,7 @@ app.use("/", laporanRoutes);
 app.use("/", dashboardRoutes);
 app.use("/", myReportRoutes);
 app.use("/", confirmPostRoutes);
-app.use("/", confirmDoneRoutes);
+app.use('/confirm-done', confirmDoneRoutes);
 app.use(editFormRoutes);
 app.use(deleteRoutes);
 app.use("/laporan", require("./routes/laporan"));

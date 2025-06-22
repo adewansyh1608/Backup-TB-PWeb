@@ -14,7 +14,13 @@
       <h1 class="text-2xl font-semibold mb-6">Saran</h1>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <% saranList.forEach(saran => { %>
+        <% if (saranList.length === 0) { %>
+        <h1
+          class="text-gray-500 font-semibold text-lg col-span-full text-center"
+        >
+          Tidak ada saran.
+        </h1>
+          <% } else { %> <% saranList.forEach(saran => { %>
         <div class="bg-white rounded-lg shadow-md p-4 h-full overflow-hidden">
           <h2 class="font-bold"><%= saran.nama %></h2>
           <p class="text-sm text-gray-600 mb-2">
@@ -30,7 +36,7 @@
             See Detail
           </button>
         </div>
-        <% }) %>
+        <% }) %> <% } %>
       </div>
     </div>
 

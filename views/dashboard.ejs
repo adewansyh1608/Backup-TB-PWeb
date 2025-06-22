@@ -209,33 +209,33 @@ select {
                 </a>
 
                 <!-- Button Claim -->
-                <% if (report.status !== 'Claimed') { %>
-                <form
-                  action="/claim"
-                  method="POST"
-                  id="claim-form-<%= report.id_laporan %>"
-                >
-                  <input
-                    type="hidden"
-                    name="id_laporan"
-                    value="<%= report.id_laporan %>"
-                  />
-                  <button
-                    type="submit"
-                    id="claim-btn-<%= report.id_laporan %>"
-                    class="bg-green-600 text-white py-2 px-6 rounded-full hover:bg-green-700 transition"
-                  >
-                    Claim
-                  </button>
-                </form>
-                <% } else { %>
-                <button
-                  class="bg-green-300 text-white py-2 px-6 rounded-full cursor-not-allowed"
-                  disabled
-                >
-                  Claimed
-                </button>
-                <% } %>
+<% if (report.status !== 'Claimed' && report.status !== 'Done') { %>
+  <form
+    action="/claim"
+    method="POST"
+    id="claim-form-<%= report.id_laporan %>"
+  >
+    <input
+      type="hidden"
+      name="id_laporan"
+      value="<%= report.id_laporan %>"
+    />
+    <button
+      type="submit"
+      id="claim-btn-<%= report.id_laporan %>"
+      class="bg-green-600 text-white py-2 px-6 rounded-full hover:bg-green-700 transition"
+    >
+      Claim
+    </button>
+  </form>
+<% } else { %>
+  <button
+    class="bg-green-300 text-white py-2 px-6 rounded-full cursor-not-allowed"
+    disabled
+  >
+    <%= report.status === 'Claimed' ? 'Claimed' : 'Done' %>
+  </button>
+<% } %>
               </div>
 
               <script>

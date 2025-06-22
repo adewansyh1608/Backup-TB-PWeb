@@ -1,4 +1,4 @@
-// controllers/confirmDoneController.js
+
 const db = require("../config/db");
 
 const getUserPost = (req, res) => {
@@ -8,7 +8,7 @@ const getUserPost = (req, res) => {
 
   const query = `
     SELECT * FROM laporan 
-    WHERE status IN ('Waiting for End Verification', 'Done', 'End Verification Rejected')
+    WHERE status IN ('Waiting for end verification', 'Done', 'End verification rejected')
   `;
 
   db.query(query, (err, results) => {
@@ -19,7 +19,7 @@ const getUserPost = (req, res) => {
 
     let combined = results;
 
-    // 🔍 FILTER DROPDOWN
+  
     if (dropdownFilter === "lost") {
       combined = results.filter((r) => r.jenis_laporan === "Kehilangan");
     } else if (dropdownFilter === "found") {
@@ -30,10 +30,10 @@ const getUserPost = (req, res) => {
       combined = results.filter((r) => r.verifikasi_action === "denied");
     }
 
-    // 🔍 Filter search nama barang
+   
     if (searchQuery) {
       combined = combined.filter((r) =>
-        r.nama_barang.toLowerCase().includes(searchQuery)
+        r.nama_penyerah.toLowerCase().includes(searchQuery)
       );
     }
 
@@ -54,7 +54,8 @@ const approve = (req, res) => {
 
   const sql = `
     UPDATE laporan 
-    SET status = 'Done', verifikasi_action = 'approved' 
+    SET status = 'Done',
+        verifikasi_action = 'approved'
     WHERE id_laporan = ?
   `;
 
@@ -73,7 +74,8 @@ const denied = (req, res) => {
 
   const sql = `
     UPDATE laporan 
-    SET status = 'End Verification Rejected', verifikasi_action = 'denied' 
+    SET status = 'End verification rejected',
+        verifikasi_action = 'denied'
     WHERE id_laporan = ?
   `;
 

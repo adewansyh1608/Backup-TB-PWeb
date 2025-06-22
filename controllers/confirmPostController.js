@@ -1,4 +1,4 @@
-const db = require("../config/db"); // Pastikan pengimporan db benar
+const db = require("../config/db");
 
 const getUserPost = (req, res) => {
   const statusFilter = req.params.filter || "all";
@@ -24,7 +24,7 @@ const getUserPost = (req, res) => {
     );
     let combined = [];
 
-    // 🔍 FILTER BERDASARKAN DROPDOWN
+
     if (dropdownFilter === "lost") {
       combined = results.filter((r) => r.jenis_laporan === "Kehilangan");
     } else if (dropdownFilter === "found") {

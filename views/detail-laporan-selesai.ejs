@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Detail Laporan Selesai</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-100 text-gray-800">
+    <main class="min-h-screen flex items-center justify-center p-6">
+      <div
+        class="bg-white rounded-xl shadow-lg p-8 w-full max-w-3xl mx-auto my-8"
+      >
+        <h3 class="text-2xl font-bold text-center text-gray-800 mb-6">
+          Detail Penyerahan Barang
+        </h3>
+
+        <!-- Foto Bukti -->
+        <div class="mb-6 flex justify-center">
+          <div class="w-64 h-64 bg-gray-200 rounded-lg overflow-hidden">
+            <% if (report.foto_bukti) { %>
+            <img
+              src="/uploads/<%= report.foto_bukti %>"
+              alt="Bukti Penyerahan"
+              class="object-cover w-full h-full"
+            />
+            <% } else { %>
+            <p class="text-center text-gray-500 mt-24">Tidak ada bukti foto</p>
+            <% } %>
+          </div>
+        </div>
+
+        <!-- Informasi Penyerahan -->
+        <div class="space-y-4">
+          <div>
+            <p class="font-bold text-lg">Nama Penyerah:</p>
+            <p><%= report.nama_penemu_penerima || '-' %></p>
+          </div>
+          <div>
+            <p class="font-bold text-lg">Nomor HP Penyerah:</p>
+            <p><%= report.nohp_penemu_penerima || '-' %></p>
+          </div>
+          <div>
+            <p class="font-bold text-lg">Tanggal Penyerahan:</p>
+            <p>
+              <%= report.tanggal_penyerahan ? new
+              Date(report.tanggal_penyerahan).toLocaleDateString('id-ID', {
+              weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+              : '-' %>
+            </p>
+          </div>
+          <div>
+            <p class="font-bold text-lg">Lokasi Penyerahan:</p>
+            <p><%= report.lokasi_penyerahan || '-' %></p>
+          </div>
+        </div>
+
+        <!-- Tombol Kembali -->
+        <div class="mt-8 text-center">
+          <a
+            href="/confirm-done"
+            class="px-6 py-3 bg-gray-300 text-gray-800 rounded-full font-semibold hover:bg-gray-400 transition"
+          >
+            Kembali
+          </a>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

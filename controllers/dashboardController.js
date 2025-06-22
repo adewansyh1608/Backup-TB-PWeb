@@ -74,8 +74,27 @@ const claimReport = (req, res) => {
         return res.status(500).send("Error processing claim.");
       }
 
-      // Redirect ke halaman kontak pelapor
-      res.redirect(`/kontak-pelapor/${id_laporan}`);
+      // ✅ 3. Tambahkan riwayat aktivitas
+      const insertRiwayatQuery = `
+        INSERT INTO riwayat (email, deskripsi_aktivitas, tanggal_aktivitas)
+        VALUES (?, ?, ?)
+      `;
+
+      const deskripsi_aktivitas = `Mengklaim laporan dengan ID ${id_laporan}`;
+      const tanggal_aktivitas = new Date(); // waktu saat ini
+
+      db.query(
+        insertRiwayatQuery,
+        [email, deskripsi_aktivitas, tanggal_aktivitas],
+        (err2, result2) => {
+          if (err2) {
+            console.error("Gagal menyimpan riwayat:", err2);
+            // Tidak perlu menghentikan proses meskipun gagal menyimpan riwayat
+          }
+          // Redirect ke halaman kontak pelapor
+          res.redirect(`/kontak-pelapor/${id_laporan}`);
+        }
+      );
     });
   });
 };

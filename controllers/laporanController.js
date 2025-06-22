@@ -43,7 +43,27 @@ const saveLaporan = (req, res) => {
         console.error("Error during report submission:", err);
         return res.send("Error submitting report.");
       }
-      res.redirect("/dashboard"); // Redirect ke halaman dashboard setelah laporan berhasil disimpan
+
+      // ✅ Tambahkan riwayat aktivitas
+      const insertRiwayat = `
+        INSERT INTO riwayat (email, deskripsi_aktivitas, tanggal_aktivitas)
+        VALUES (?, ?, ?)
+      `;
+      const deskripsi_aktivitas = `Membuat laporan (${jenis_laporan} - ${nama_barang})`;
+      const tanggal_aktivitas = new Date();
+
+      db.query(
+        insertRiwayat,
+        [userEmail, deskripsi_aktivitas, tanggal_aktivitas],
+        (err2, result2) => {
+          if (err2) {
+            console.error("Gagal menyimpan riwayat:", err2);
+            // UX: Tetap redirect meskipun gagal simpan riwayat
+          }
+
+          res.redirect("/dashboard"); // Redirect ke halaman dashboard setelah laporan berhasil disimpan
+        }
+      );
     }
   );
 };

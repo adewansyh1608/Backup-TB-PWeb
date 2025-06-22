@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Riwayat Saya</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+      .sidebar {
+        height: 100vh;
+        position: fixed;
+        width: 250px;
+        z-index: 10;
+      }
+      .main-content {
+        margin-left: 250px;
+        height: 100vh;
+        overflow-y: auto;
+        padding-bottom: 3rem;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 text-gray-800">
+    <div class="flex">
+      <%- include('partials/sidebar') %>
+
+      <div class="main-content p-6 md:p-8 w-full">
+        <div class="max-w-7xl mx-auto">
+          <h1 class="text-4xl font-extrabold text-center text-[#007A33] mb-10">
+            Riwayat Aktivitas
+          </h1>
+
+          <% if (riwayat.length === 0) { %>
+          <div class="text-center py-16">
+            <p class="text-gray-500 text-lg">Belum ada riwayat aktivitas yang tercatat.</p>
+          </div>
+          <% } else { %>
+
+          <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+            <% riwayat.forEach(item => { 
+              let iconColor = 'bg-gray-100 text-gray-600';
+              if (item.deskripsi_aktivitas.includes('Membuat laporan')) {
+                iconColor = 'bg-blue-100 text-blue-600';
+              } else if (item.deskripsi_aktivitas.includes('Mengklaim')) {
+                iconColor = 'bg-yellow-100 text-yellow-600';
+              } else if (item.deskripsi_aktivitas.includes('Membuat laporan selesai')) {
+                iconColor = 'bg-green-100 text-green-600';
+              } else if (item.deskripsi_aktivitas.includes('Membatalkan klaim')) {
+                iconColor = 'bg-red-100 text-red-600';
+              }
+            %>
+            <div class="bg-white shadow-sm hover:shadow-md transition rounded-2xl p-5 border border-gray-200">
+              <div class="flex items-start space-x-4">
+                <div class="w-12 h-12 rounded-xl flex items-center justify-center <%= iconColor %>">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                    <% if (item.deskripsi_aktivitas.includes('Membuat laporan')) { %>
+                    <path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    <% } else if (item.deskripsi_aktivitas.includes('Mengklaim')) { %>
+                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <% } else if (item.deskripsi_aktivitas.includes('Membuat laporan selesai')) { %>
+                    <path d="M5 13l4 4L19 7" />
+                    <% } else if (item.deskripsi_aktivitas.includes('Membatalkan klaim')) { %>
+                    <path d="M6 18L18 6M6 6l12 12" />
+                    <% } else { %>
+                    <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <% } %>
+                  </svg>
+                </div>
+                <div class="flex-1">
+                  <h3 class="text-lg font-semibold text-gray-900 mb-1">
+                    <%= item.deskripsi_aktivitas %>
+                  </h3>
+                  <p class="text-sm text-gray-500">
+                    <%= new Date(item.tanggal_aktivitas).toLocaleDateString('id-ID', {
+                      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+                    }) %>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <% }); %>
+          </div>
+
+          <div class="mt-12 text-right">
+            <button
+              onclick="printRiwayat()"
+              class="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg text-base font-semibold shadow transition"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round"
+                viewBox="0 0 24 24">
+                <path d="M12 20h9" />
+                <path d="M16 4H8v4H5v12h14V8h-3V4z" />
+              </svg>
+              Download PDF
+            </button>
+          </div>
+
+          <table id="riwayatTable" class="hidden">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Deskripsi</th>
+                <th>Tanggal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% riwayat.forEach(item => { %>
+              <tr>
+                <td><%= item.id_riwayat %></td>
+                <td><%= item.email %></td>
+                <td><%= item.deskripsi_aktivitas %></td>
+                <td><%= new Date(item.tanggal_aktivitas).toLocaleDateString('id-ID', {
+                      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+                    }) %></td>
+              </tr>
+              <% }); %>
+            </tbody>
+          </table>
+          <% } %>
+        </div>
+      </div>
+    </div>
+
+    <!-- jsPDF & AutoTable CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <script>
+      async function printRiwayat() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        const table = document.getElementById("riwayatTable");
+        const rows = Array.from(table.querySelectorAll("tbody tr")).map((r) =>
+          Array.from(r.querySelectorAll("td")).map((c) => c.innerText)
+        );
+        doc.autoTable({
+          head: [["ID", "Email", "Deskripsi", "Tanggal"]],
+          body: rows,
+          styles: { fontSize: 10 },
+          headStyles: { fillColor: [220, 53, 69] },
+          margin: { top: 20 },
+        });
+        doc.save("riwayat_saya.pdf");
+      }
+    </script>
+  </body>
+</html>

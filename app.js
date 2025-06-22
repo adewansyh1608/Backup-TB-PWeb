@@ -17,9 +17,13 @@ const statistikRoutes = require("./routes/statistik");
 const kontakPelaporRoute = require("./routes/kontak-pelapor");
 const laporanSayaclaimRoutes = require("./routes/laporan-sayaclaim"); // Import rute laporan-sayaclaim
 const arsipLaporanRoute = require("./routes/arsipLaporan");
-const tambahAkunRoutes = require('./routes/tambahAkun');
-const manajemenUserRoutes = require('./routes/manajemenUser');
+const tambahAkunRoutes = require("./routes/tambahAkun");
+const manajemenUserRoutes = require("./routes/manajemenUser");
 const saranRoutes = require("./routes/saran");
+const selesaiRoutes = require("./routes/selesai");
+const simpanRoutes = require("./routes/simpan");
+const riwayatRoutes = require("./routes/riwayat");
+const confirmDoneRoutes = require("./routes/confirmDone");
 
 const upload = multer({ dest: "uploads/" }); // pastikan destinasi upload benar
 
@@ -31,6 +35,7 @@ app.set("view engine", "ejs");
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true })); // Parsing data dari form
+app.use(express.json());
 
 app.use(
   session({
@@ -39,6 +44,11 @@ app.use(
     saveUninitialized: false,
   })
 );
+
+app.use((req, res, next) => {
+  res.locals.user = req.session.user;
+  next();
+});
 
 app.use("/", authRoutes);
 app.use("/", profileRoutes);
@@ -54,10 +64,13 @@ app.use("/kontak-pelapor", kontakPelaporRoute);
 app.use("/", statistikRoutes);
 app.use("/", laporanSayaclaimRoutes); // Menambahkan rute laporan-sayaclaim ke dalam aplikasi
 app.use("/", arsipLaporanRoute);
-app.use('/tambah-akun', tambahAkunRoutes);
-app.use('/', manajemenUserRoutes);
+app.use("/tambah-akun", tambahAkunRoutes);
+app.use("/", manajemenUserRoutes);
 app.use(saranRoutes);
-
+app.use("/", selesaiRoutes);
+app.use("/", simpanRoutes);
+app.use("/", riwayatRoutes);
+app.use("/confirm-done", confirmDoneRoutes);
 
 // Menangani POST request untuk mengedit laporan
 app.post(

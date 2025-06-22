@@ -39,10 +39,11 @@
             >Tambah Akun</a
           >
           <a
-            href="/manajemen-user/cetak"
-            class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-md text-lg"
-            >Print PDF</a
+            onclick="downloadPDF()"
+            class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-md text-lg cursor-pointer"
           >
+            Print PDF
+          </a>
         </div>
 
         <!-- Modal Konfirmasi Hapus -->
@@ -130,6 +131,59 @@
       function tutupModalHapus() {
         document.getElementById("modalHapus").classList.add("hidden");
       }
+
+      function downloadPDF() {
+        const element = document.getElementById("pdf-content");
+
+        // Tampilkan elemen
+        element.style.display = "block";
+
+        const opt = {
+          margin: 1,
+          filename: "daftar_pengguna.pdf",
+          image: { type: "jpeg", quality: 0.98 },
+          html2canvas: { scale: 2 },
+          jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+        };
+
+        html2pdf()
+          .set(opt)
+          .from(element)
+          .save()
+          .then(() => {
+            // Sembunyikan kembali setelah selesai
+            element.style.display = "none";
+          });
+      }
     </script>
+
+    <!-- Konten PDF Tersembunyi -->
+    <div id="pdf-content" style="display: none">
+      <h2 class="text-xl font-semibold mb-4">Daftar Pengguna</h2>
+      <table
+        class="min-w-full table-auto border border-collapse border-gray-400"
+      >
+        <thead class="bg-gray-300">
+          <tr>
+            <th class="border px-4 py-2">Email</th>
+            <th class="border px-4 py-2">Nama</th>
+            <th class="border px-4 py-2">No Telepon</th>
+            <th class="border px-4 py-2">Role</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% users.forEach(user => { %>
+          <tr>
+            <td class="border px-4 py-2"><%= user.email %></td>
+            <td class="border px-4 py-2"><%= user.nama %></td>
+            <td class="border px-4 py-2"><%= user.no_telepon %></td>
+            <td class="border px-4 py-2"><%= user.role %></td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   </body>
 </html>

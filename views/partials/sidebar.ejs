@@ -37,8 +37,18 @@
     >
       Statistik Laporan Saya
     </a>
-    <a href="#" class="block py-2 px-4 rounded hover:bg-gray-700">
+    <a
+      href="/riwayat-saya"
+      class="block py-2 px-4 rounded hover:bg-gray-700 <%= activeMenu === 'riwayat-saya' ? 'bg-green-600' : '' %>"
+    >
       Riwayat Saya
+    </a>
+
+    <a
+      href="/bookmark"
+      class="block py-2 px-4 rounded hover:bg-gray-700 <%= activeMenu === 'bookmark' ? 'bg-green-600' : '' %>"
+    >
+      Laporan Disimpan
     </a>
 
     <a
@@ -66,7 +76,10 @@
         >
           Verifikasi Upload Laporan
         </a>
-        <a href="#" class="block py-2 px-4 hover:bg-gray-600">
+        <a
+          href="/confirm-done"
+          class="block py-2 px-4 hover:bg-gray-600 <%= activeMenu === 'confirm-done' ? 'bg-green-600' : '' %>"
+        >
           Verifikasi Laporan Selesai
         </a>
       </div>
@@ -84,7 +97,6 @@
     >
       Manajemen Laporan
     </a>
-    <% } %>
 
     <a
       href="/manajemen-user"
@@ -92,6 +104,8 @@
     >
       Management User
     </a>
+
+    <% } %>
   </nav>
 </aside>
 

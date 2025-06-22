@@ -273,7 +273,8 @@
               <div class="button-row mt-4">
                 <button
                   class="bg-green-600 text-white py-2 px-4 rounded-full hover:bg-green-700 transition <%= report.status !== 'Claimed' ? 'opacity-50 cursor-not-allowed' : '' %>"
-                >
+                  onclick="window.location.href='/selesai-form/<%= report.id_laporan %>'"
+                  >
                   Done
                 </button>
                 <button

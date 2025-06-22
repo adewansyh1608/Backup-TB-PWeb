@@ -81,8 +81,28 @@ const batalClaim = (req, res) => {
           return res.status(500).send("Error deleting claim.");
         }
 
-        // Setelah berhasil mengupdate status dan menghapus klaim, arahkan kembali ke halaman laporan saya claim
-        res.redirect("/laporan-sayaclaim");
+        // Tambahkan riwayat
+        const insertRiwayatQuery = `
+        INSERT INTO riwayat (email, deskripsi_aktivitas, tanggal_aktivitas)
+        VALUES (?, ?, ?)
+      `;
+
+        const deskripsi_aktivitas = `Membatalkan klaim pada laporan dengan ID ${id_laporan}`;
+        const tanggal_aktivitas = new Date();
+
+        db.query(
+          insertRiwayatQuery,
+          [userEmail, deskripsi_aktivitas, tanggal_aktivitas],
+          (err2, result2) => {
+            if (err2) {
+              console.error("Gagal menyimpan riwayat:", err2);
+              // Tidak perlu return error, tetap lanjut
+            }
+
+            // Setelah berhasil mengupdate status dan menghapus klaim, arahkan kembali ke halaman laporan saya claim
+            res.redirect("/laporan-sayaclaim");
+          }
+        );
       }
     );
   });

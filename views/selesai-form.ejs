@@ -9,7 +9,7 @@
     <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl">
       <h1 class="text-2xl font-bold text-green-600 mb-6">Form Laporan Selesai</h1>
 
-      <form action="/laporan-selesai" method="POST" enctype="multipart/form-data">
+      <form action="/laporan/selesai/<%= reportId %>" method="POST">
         <!-- Nama Penemu/Penerima -->
         <div class="mb-4">
           <label for="nama_penyerah" class="block text-gray-700 font-semibold mb-2">
@@ -89,12 +89,14 @@
           <a href="/dashboard" class="text-gray-600 font-medium hover:underline">
             Back
           </a>
-          <button
+          <form action="/laporan/selesai/<%= laporan.id_laporan %>" method="POST">
+            <button
             type="submit"
             class="bg-green-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-green-700 transition"
-          >
-            Kirim Laporan Selesai
-          </button>
+            >
+              Kirim Laporan Selesai
+            </button>
+          </form>
         </div>
       </form>
     </div>

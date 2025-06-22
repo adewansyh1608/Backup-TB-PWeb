@@ -31,6 +31,35 @@ const getRiwayatSaya = (req, res) => {
   });
 };
 
+// Menampilkan halaman Print Riwayat
+const printRiwayatPDF = (req, res) => {
+  if (!req.session.user) {
+    return res.status(401).send("Unauthorized: Silakan login terlebih dahulu.");
+  }
+
+  const userEmail = req.session.user.email;
+
+  const query = `
+    SELECT id_riwayat, email, deskripsi_aktivitas, tanggal_aktivitas 
+    FROM riwayat 
+    WHERE email = ? 
+    ORDER BY tanggal_aktivitas DESC
+  `;
+
+  db.query(query, [userEmail], (err, results) => {
+    if (err) {
+      console.error(' Error fetching riwayat for print:', err);
+      return res.status(500).send('Terjadi kesalahan saat memuat halaman cetak');
+    }
+
+    res.render('print-riwayat', {
+      riwayat: results,
+      user: req.session.user,
+      title: 'Cetak Riwayat Aktivitas'
+    });
+  });
+};
+
 // Function untuk menambah riwayat (dipanggil dari controller lain)
 const tambahRiwayat = (email, deskripsiAktivitas) => {
   const query = `
@@ -48,5 +77,7 @@ const tambahRiwayat = (email, deskripsiAktivitas) => {
 
 module.exports = {
   getRiwayatSaya,
+
+  printRiwayatPDF,
   tambahRiwayat
 };

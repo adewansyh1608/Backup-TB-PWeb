@@ -40,7 +40,7 @@ const toggleBookmark = (req, res) => {
   });
 };
 
-// 📄 Ambil semua laporan yang disimpan user
+// Ambil semua laporan yang disimpan user
 const getBookmarks = (req, res) => {
   const email = req.session.user?.email;
   const user = req.session.user;
@@ -73,7 +73,7 @@ const getBookmarks = (req, res) => {
   });
 };
 
-// 💾 Simpan manual laporan ke bookmark (opsional jika dipakai di tempat lain)
+//  Simpan manual laporan ke bookmark 
 const saveBookmark = (req, res) => {
   const email = req.session.user?.email;
   const { id_laporan } = req.body;
@@ -92,7 +92,7 @@ const saveBookmark = (req, res) => {
   });
 };
 
-// ❌ Hapus manual bookmark (opsional jika butuh route terpisah)
+// Hapus manual bookmark 
 const removeBookmark = (req, res) => {
   const { id_laporan } = req.body;
   const email = req.session.user?.email;

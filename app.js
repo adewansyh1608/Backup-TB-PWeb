@@ -13,10 +13,12 @@ const editFormRoutes = require("./routes/edit-form");
 const deleteRoutes = require("./routes/delete");
 const confirmPostRoutes = require("./routes/confirmPost");
 const editController = require("./controllers/editController"); // Pastikan path ini benar
-const claimRoutes = require("./routes/claim");
-const riwayatRoutes = require("./routes/riwayat");
+const statistikRoutes = require("./routes/statistik");
+const kontakPelaporRoute = require("./routes/kontak-pelapor");
+const laporanSayaclaimRoutes = require("./routes/laporan-sayaclaim"); // Import rute laporan-sayaclaim
 const selesaiRoutes = require("./routes/selesai");
 const simpanRoutes = require("./routes/simpan");
+const riwayatRoutes = require("./routes/riwayat");
 
 const upload = multer({ dest: "uploads/" }); // pastikan destinasi upload benar
 
@@ -38,6 +40,11 @@ app.use(
   })
 );
 
+app.use((req, res, next) => {
+  res.locals.user = req.session.user;
+  next();
+});
+
 app.use("/", authRoutes);
 app.use("/", profileRoutes);
 app.use("/", laporanRoutes);
@@ -46,10 +53,14 @@ app.use("/", myReportRoutes);
 app.use("/", confirmPostRoutes);
 app.use(editFormRoutes);
 app.use(deleteRoutes);
-app.use("/", claimRoutes);
-app.use("/", riwayatRoutes);
+app.use("/laporan", require("./routes/laporan"));
+app.use("/", require("./routes/statistik"));
+app.use("/kontak-pelapor", kontakPelaporRoute);
+app.use("/", statistikRoutes);
+app.use("/", laporanSayaclaimRoutes); // Menambahkan rute laporan-sayaclaim ke dalam aplikasi
 app.use("/", selesaiRoutes);
 app.use("/", simpanRoutes);
+app.use("/", riwayatRoutes);
 
 // Menangani POST request untuk mengedit laporan
 app.post(

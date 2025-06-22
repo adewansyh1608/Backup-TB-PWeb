@@ -178,13 +178,14 @@ select {
             <!-- Buttons -->
 
 <!-- Baris: Status + Bookmark -->
-<div class="status-bookmark-row flex justify-between items-center">
-    <span
+<div class="flex justify-between items-center gap-x-4 px-6 mb-4">
+  <span
     class="inline-block px-4 py-2 text-sm rounded-full 
            bg-green-200 text-green-800 font-semibold 
            <%= report.status.toLowerCase().replace(/\s+/g, '-') %>">
     <%= report.status %>
-    </span>
+  </span>
+
   <form class="bookmark-form" data-id="<%= report.id_laporan %>">
     <button type="submit"
       class="bookmark-btn p-1 rounded-full hover:bg-gray-200 transition"

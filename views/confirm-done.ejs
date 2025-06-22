@@ -3,41 +3,68 @@
   <head>
     <meta charset="UTF-8" />
     <title>Verifikasi Laporan Selesai</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link
-      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
-      rel="stylesheet"
-    />
-  </head>
-  <body class="bg-gray-50">
-    <div class="flex min-h-screen">
-      <%- include('partials/sidebar') %>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
 
-      <main class="flex-1 p-6">
+      .sidebar {
+        position: fixed;
+        width: 250px;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        z-index: 10;
+        border-right: 1px solid #e5e7eb;
+        overflow-y: auto;
+      }
+
+      .main-content {
+        margin-left: 250px;
+        padding: 1.5rem;
+        flex-grow: 1;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 text-gray-800">
+    <div class="flex">
+      <!-- Sidebar -->
+      <div class="sidebar"><%- include('partials/sidebar') %></div>
+
+      <!-- Main Content -->
+      <main class="main-content">
         <h1 class="text-2xl font-bold mb-6">Verifikasi Laporan Selesai</h1>
 
         <!-- Form Search -->
-        <form method="GET" action="/confirm-done" class="mb-4">
+        <form method="GET" action="/confirm-done" class="flex gap-4 mb-6">
           <input
             type="text"
             name="search"
             placeholder="Cari nama barang..."
             value="<%= searchQuery || '' %>"
-            class="px-4 py-2 border border-gray-300 rounded w-64"
+            class="flex-1 px-4 py-2 border border-gray-300 rounded-full"
           />
           <button
             type="submit"
-            class="px-4 py-2 ml-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            class="px-6 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition"
           >
             Cari
           </button>
         </form>
 
         <!-- Filter Dropdown -->
-        <div class="flex gap-2 mb-4">
+        <div class="flex flex-wrap gap-2 mb-6">
           <a href="/confirm-done">
             <button
-              class="px-4 py-2 border border-gray-300 rounded hover:bg-gray-100 bg-black text-white"
+              class="px-4 py-2 rounded-full <%= !currentDropdown ? 'bg-gray-400 text-white' : 'bg-gray-200 text-gray-800 hover:bg-gray-300' %>"
             >
               All
             </button>
@@ -46,7 +73,7 @@
           <div class="relative ml-auto">
             <button
               id="dropdownButton"
-              class="px-4 py-2 border border-gray-300 rounded hover:bg-gray-100"
+              class="px-4 py-2 border border-gray-300 rounded-full bg-gray-200 hover:bg-gray-300"
             >
               Filter ⌄
             </button>
@@ -54,34 +81,34 @@
               id="dropdownMenu"
               class="hidden absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded shadow z-10"
             >
-              <a href="/confirm-done?dropdown=lost"
-                ><button
+              <a href="/confirm-done?dropdown=lost">
+                <button
                   class="block w-full text-left px-4 py-2 hover:bg-gray-100 <%= currentDropdown === 'lost' ? 'bg-gray-200' : '' %>"
                 >
                   Laporan Kehilangan
-                </button></a
-              >
-              <a href="/confirm-done?dropdown=found"
-                ><button
+                </button>
+              </a>
+              <a href="/confirm-done?dropdown=found">
+                <button
                   class="block w-full text-left px-4 py-2 hover:bg-gray-100 <%= currentDropdown === 'found' ? 'bg-gray-200' : '' %>"
                 >
                   Laporan Penemuan
-                </button></a
-              >
-              <a href="/confirm-done?dropdown=approved"
-                ><button
+                </button>
+              </a>
+              <a href="/confirm-done?dropdown=approved">
+                <button
                   class="block w-full text-left px-4 py-2 hover:bg-gray-100 <%= currentDropdown === 'approved' ? 'bg-gray-200' : '' %>"
                 >
                   Approved
-                </button></a
-              >
-              <a href="/confirm-done?dropdown=denied"
-                ><button
+                </button>
+              </a>
+              <a href="/confirm-done?dropdown=denied">
+                <button
                   class="block w-full text-left px-4 py-2 hover:bg-gray-100 <%= currentDropdown === 'denied' ? 'bg-gray-200' : '' %>"
                 >
                   Denied
-                </button></a
-              >
+                </button>
+              </a>
             </div>
           </div>
         </div>

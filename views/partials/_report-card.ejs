@@ -10,7 +10,6 @@
       <p class="text-sm text-gray-600">Tanggal Kejadian: <%= report.tanggal_kejadian %></p>
       <p class="text-sm text-gray-600 mb-2">Deskripsi: <%= report.deskripsi %></p>
 
-      <!-- Tampilkan Status -->
       <% const status = report.status.toLowerCase(); %>
       <% if (status === 'waiting for end verification') { %>
         <span class="inline-block text-xs px-2 py-1 bg-yellow-400 text-white rounded-full">Waiting for End Verification</span>
@@ -19,48 +18,46 @@
       <% } else if (status === 'done') { %>
         <span class="inline-block text-xs px-2 py-1 bg-green-500 text-white rounded-full">Done</span>
       <% } %>
-
-      <!-- Tambahkan label action jika ada -->
-      <% if (report.verifikasi_action === 'approved') { %>
-        <span class="ml-2 inline-block text-xs px-2 py-1 bg-green-200 text-green-800 rounded-full">Approved</span>
-      <% } else if (report.verifikasi_action === 'denied') { %>
-        <span class="ml-2 inline-block text-xs px-2 py-1 bg-red-200 text-red-800 rounded-full">Denied</span>
-      <% } %>
     </div>
   </div>
 
-  <div class="flex flex-col gap-2 mt-4 md:mt-0 md:items-end">
-    <div class="flex gap-2">
+  <!-- Tombol kanan bawah -->
+  <div class="flex flex-col items-end justify-end mt-4 md:mt-0 md:ml-4">
+    <div class="flex gap-2 mb-2">
       <!-- Approve -->
-      <form action="/confirm-done/approve-report/<%= report.id_laporan %>" method="POST" class="inline">
+      <form action="/confirm-done/approve-report/<%= report.id_laporan %>" method="POST">
         <input type="hidden" name="filter" value="<%= activeFilter %>">
         <input type="hidden" name="dropdown" value="<%= currentDropdown %>">
         <input type="hidden" name="search" value="<%= searchQuery %>">
         <input type="hidden" name="redirect" value="/confirm-done<%= currentDropdown ? '?dropdown=' + currentDropdown : '' %><%= searchQuery ? (currentDropdown ? '&' : '?') + 'search=' + searchQuery : '' %>">
         <button
-          class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 <%= report.verifikasi_action === 'approved' ? 'opacity-50 cursor-not-allowed' : '' %>"
-          <%= report.verifikasi_action === 'approved' ? 'disabled' : '' %>>
+          class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 
+          <%= (report.verifikasi_action === 'approved' || !(status === 'waiting for end verification' || status === 'end verification rejected')) ? 'opacity-50 cursor-not-allowed' : '' %>"
+          <%= (report.verifikasi_action === 'approved' || !(status === 'waiting for end verification' || status === 'end verification rejected')) ? 'disabled' : '' %>>
           Approve
         </button>
       </form>
 
       <!-- Denied -->
-      <form action="/confirm-done/denied-report/<%= report.id_laporan %>" method="POST" class="inline">
+      <form action="/confirm-done/denied-report/<%= report.id_laporan %>" method="POST">
         <input type="hidden" name="filter" value="<%= activeFilter %>">
         <input type="hidden" name="dropdown" value="<%= currentDropdown %>">
         <input type="hidden" name="search" value="<%= searchQuery %>">
         <input type="hidden" name="redirect" value="/confirm-done<%= currentDropdown ? '?dropdown=' + currentDropdown : '' %><%= searchQuery ? (currentDropdown ? '&' : '?') + 'search=' + searchQuery : '' %>">
         <button
-          class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 <%= report.verifikasi_action === 'denied' ? 'opacity-50 cursor-not-allowed' : '' %>"
-          <%= report.verifikasi_action === 'denied' ? 'disabled' : '' %>>
+          class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 
+          <%= (report.verifikasi_action === 'denied' || !(status === 'waiting for end verification' || status === 'done')) ? 'opacity-50 cursor-not-allowed' : '' %>"
+          <%= (report.verifikasi_action === 'denied' || !(status === 'waiting for end verification' || status === 'done')) ? 'disabled' : '' %>>
           Denied
         </button>
       </form>
     </div>
 
     <!-- See Details -->
-    <a href="/laporan/detail/<%= report.id_laporan %>">
-      <button class="mt-2 px-3 py-1 border border-gray-400 rounded hover:bg-gray-100">See Details</button>
+    <a href="/laporan/detail/<%= report.id_laporan %>" class="w-full">
+      <button class="w-full px-4 py-2 border border-gray-400 rounded hover:bg-gray-100 text-sm">
+        See Details
+      </button>
     </a>
   </div>
 </div>

@@ -1,17 +1,22 @@
 <aside class="sidebar w-64 bg-gray-800 text-white p-6 h-screen">
-  <div class="user-info flex items-center mb-6">
+  <!-- User Info -->
+  <div class="user-info flex flex-col items-center mb-8 text-center">
     <img
       src="<%= user.foto_profile ? '/' + user.foto_profile : '/images/user_icon.png' %>"
       alt="User Icon"
-      class="w-12 h-12 rounded-full object-cover mr-4"
+      class="w-16 h-16 rounded-full object-cover mb-2"
     />
-    <p>
-      <a href="/profile" class="text-lg font-semibold hover:text-gray-300">
+    <div class="leading-tight">
+      <a
+        href="/profile"
+        class="text-base font-semibold hover:text-gray-300 block truncate max-w-[160px]"
+      >
         Hi, <%= user.nama %>
       </a>
-    </p>
+    </div>
   </div>
 
+  <!-- Navigation Menu -->
   <nav class="menu space-y-4">
     <a
       href="/dashboard"
@@ -19,24 +24,28 @@
     >
       Beranda
     </a>
+
     <a
       href="/my-report"
       class="block py-2 px-4 rounded hover:bg-gray-700 <%= activeMenu === 'my-report' ? 'bg-green-600' : '' %>"
     >
       Laporan Saya
     </a>
+
     <a
       href="/laporan-sayaclaim"
       class="block py-2 px-4 rounded hover:bg-gray-700 <%= activeMenu === 'laporan-sayaclaim' ? 'bg-green-600' : '' %>"
     >
       Laporan Saya Claim
     </a>
+
     <a
       href="/statistik-laporan"
       class="block py-2 px-4 rounded hover:bg-gray-700 <%= activeMenu === 'statistik-laporan' ? 'bg-green-600' : '' %>"
     >
       Statistik Laporan Saya
     </a>
+
     <a
       href="/riwayat-saya"
       class="block py-2 px-4 rounded hover:bg-gray-700 <%= activeMenu === 'riwayat-saya' ? 'bg-green-600' : '' %>"
@@ -54,11 +63,13 @@
     <a
       href="/saran"
       class="block py-2 px-4 rounded hover:bg-gray-700 <%= activeMenu === 'saran' ? 'bg-green-600' : '' %>"
-      >Saran
+    >
+      Saran
     </a>
 
     <% if (user.role === 'admin') { %>
     <div class="menu-separator my-4 border-t border-gray-600"></div>
+
     <div class="dropdown relative">
       <a
         href="#"
@@ -84,6 +95,7 @@
         </a>
       </div>
     </div>
+
     <a
       href="/statistik-laporanadmin"
       class="block py-2 px-4 rounded hover:bg-gray-700 <%= activeMenu === 'statistik-laporanadmin' ? 'bg-green-600' : '' %>"
@@ -104,7 +116,6 @@
     >
       Management User
     </a>
-
     <% } %>
   </nav>
 </aside>

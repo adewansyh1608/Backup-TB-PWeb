@@ -269,21 +269,29 @@
                 
               </div>
 
-             <!-- Done & See Claimer buttons in a row (text buttons) -->
-              <div class="button-row mt-4">
-                <button
-                  class="bg-green-600 text-white py-2 px-4 rounded-full hover:bg-green-700 transition <%= report.status !== 'Claimed' ? 'opacity-50 cursor-not-allowed' : '' %>"
-                  onclick="window.location.href='/selesai-form/<%= report.id_laporan %>'"
-                  >
-                  Done
-                </button>
-                <button
-                  class="bg-blue-600 text-white py-2 px-4 rounded-full hover:bg-blue-700 transition <%= report.status !== 'Claimed' ? 'opacity-50 cursor-not-allowed' : '' %>"
-                  onclick="window.location.href='/my-report/claimer/<%= report.id_laporan %>'"
-                >
-                  See Claimer
-                </button>
-              </div>
+             <!-- Done & See Claimer buttons neatly aligned -->
+<div class="flex justify-center items-center gap-9 mt-4">
+  <% const status = report.status.toLowerCase(); %>
+<button
+  class="bg-blue-600 text-white py-2 px-6 rounded-full hover:bg-blue-700 transition text-sm 
+    <%= (status !== 'claimed' && status !== 'done') ? 'opacity-50 cursor-not-allowed' : '' %>"
+  <%= (status !== 'claimed' && status !== 'done') ? 'disabled' : '' %>
+  onclick="window.location.href='/my-report/claimer/<%= report.id_laporan %>'"
+>
+  See Claimer
+</button>
+  
+  <button
+    class="bg-green-600 text-white py-2 px-6 rounded-full hover:bg-green-700 transition text-sm <%= report.status !== 'Claimed' ? 'opacity-50 cursor-not-allowed' : '' %>"
+    <%= report.status !== 'Claimed' ? 'disabled' : '' %>
+    onclick="window.location.href='/selesai-form/<%= report.id_laporan %>'"
+  >
+    Done
+  </button>
+
+  
+</div>
+
             </div>
           </div>
           <% }) %> <% } else { %>

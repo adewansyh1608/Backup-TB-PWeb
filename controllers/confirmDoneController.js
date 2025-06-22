@@ -63,7 +63,7 @@ const approve = (req, res) => {
       console.error("Error approving report:", err);
       return res.status(500).send("Gagal menyetujui laporan.");
     }
-    res.redirect(redirectUrl);
+    return res.redirect(redirectUrl);
   });
 };
 
@@ -82,9 +82,8 @@ const denied = (req, res) => {
       console.error("Error denying report:", err);
       return res.status(500).send("Gagal menolak laporan.");
     }
-    res.redirect(redirectUrl);
+    return res.redirect(redirectUrl);
   });
-  s;
 };
 
 module.exports = { getUserPost, approve, denied };
